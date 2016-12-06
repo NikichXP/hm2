@@ -10,7 +10,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class UserDAO {
 
-	private static final String users = CollectionNames.users.toString();
+	private static final String users = CollectionNames.user.toString();
 	private static Gson gson = new Gson();
 
 	public static void createUser(User u) {
