@@ -1,0 +1,1 @@
+web: java -jar -Dserver.port=8080 target/helloworld-1.0-SNAPSHOT.jar
