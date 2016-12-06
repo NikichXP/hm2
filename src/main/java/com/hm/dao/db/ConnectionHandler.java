@@ -18,7 +18,7 @@ public class ConnectionHandler {
 			client = new MongoClient();
 		}
 
-		db = client.getDatabase("heroku_n7tnwh09");
+		db = client.getDatabase("heroku_6hlqqwnw");
 	}
 
 	public static MongoDatabase db() {
