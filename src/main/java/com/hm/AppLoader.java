@@ -7,11 +7,11 @@ import org.springframework.context.ApplicationContext;
 import static com.hm.manualdb.ConnectionHandler.db;
 
 @SpringBootApplication
-public class MyAppLoader {
+public class AppLoader {
 
 	public static void main(String[] args) {
 		db();
-		ApplicationContext ctx = SpringApplication.run(MyAppLoader.class, args);
+		ApplicationContext ctx = SpringApplication.run(AppLoader.class, args);
 		System.out.println("Seems like all running normal");
 	}
 

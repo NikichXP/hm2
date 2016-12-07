@@ -2,6 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.repo.AuthRepository;
+import com.hm.repo.ProductRepository;
 import com.hm.repo.UserRepository;
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
@@ -28,6 +29,8 @@ public class TestAPI {
 	private UserRepository userRepo;
 	@Autowired
 	private AuthRepository authRepo;
+	@Autowired
+	private ProductRepository prodRepo;
 	@Autowired
 	private UserAPI userApi;
 	@Autowired
@@ -59,6 +62,8 @@ public class TestAPI {
 		});
 
 		authapi.register("newuser@mail.com", "12345");
+
+
 
 		return getAll();
 	}
