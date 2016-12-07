@@ -1,15 +1,22 @@
 package com.hm.api;
 
 import com.google.gson.Gson;
-import com.hm.dao.CollectionNames;
+import com.hm.repo.AuthRepository;
+import com.hm.repo.UserRepository;
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.web.bind.annotation.*;
-import java.util.Arrays;
-import static com.hm.dao.db.ConnectionHandler.db;
-import static com.mongodb.client.model.Filters.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.hm.manualdb.ConnectionHandler.db;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.lt;
 
 @RestController
 @RequestMapping("/test")
@@ -17,6 +24,12 @@ public class TestAPI {
 
 	@Autowired
 	private AuthAPI authapi;
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired
+	private AuthRepository authRepo;
+	@Autowired
+	private UserAPI userApi;
 	@Autowired
 	private Gson gson;
 
@@ -26,11 +39,10 @@ public class TestAPI {
 	}
 
 	@RequestMapping("/rebuild/db")
-	public String rebuildDB () {
+	public ResponseEntity rebuildDB () {
 
-		Arrays.asList(CollectionNames.values()).forEach(e -> {
-			db().getCollection(e.toString()).deleteMany(new Document());
-		});
+		userRepo.deleteAll();
+		authRepo.deleteAll();
 
 		authapi.register("admin@corp.com", "pass");
 		authapi.register("anna@hm.com", "12345");
@@ -38,21 +50,25 @@ public class TestAPI {
 		authapi.register("dave@doe.com", "12345");
 		authapi.register("moderator@corp.com", "12345");
 
-		db().getCollection("users").updateMany(new Document(),
-				new Document("$set", new Document("accessLevel", 100)));
+//		db().getCollection("user").updateOne(new Document(),
+//				new Document("$set", new Document("_class", "com.hm.entity.Employee"))
+//						.append("$set", new Document("accessLevel", 100)));
+		
+		userRepo.findAll().forEach(user -> {
+			userApi.promoteToEmployee(user.getMail());
+		});
 
 		authapi.register("newuser@mail.com", "12345");
 
-		return "hehe";
+		return getAll();
 	}
 
 	@RequestMapping("getAll")
-	public String getAll () {
-		StringBuilder ret = new StringBuilder();
-		for (Object o : CollectionNames.values()) {
-			db().getCollection(o.toString()).find().forEach((Block<? super Document>) el -> ret.append(el.toJson() + "<br>"));
-		}
-		return ret.toString();
+	public ResponseEntity getAll () {
+		List<String> list = new ArrayList<>();
+		userRepo.findAll().forEach(e -> list.add(e.toString()));
+		authRepo.findAll().forEach(e -> list.add(e.toString()));
+		return ResponseEntity.ok(list);
 	}
 
 

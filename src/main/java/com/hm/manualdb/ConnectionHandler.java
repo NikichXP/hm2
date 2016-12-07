@@ -1,4 +1,4 @@
-package com.hm.dao.db;
+package com.hm.manualdb;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -8,16 +8,11 @@ public class ConnectionHandler {
 
 	private static MongoClient client = null;
 	private static MongoDatabase db;
+
 	static {
 		MongoClientURI mongoClientURI;
-
-		try {
-			mongoClientURI = new MongoClientURI(System.getenv("MONGODB_URI"));
-			client = new MongoClient(mongoClientURI);
-		} catch (Exception e) { //in case if system runs on local machine
-			client = new MongoClient();
-		}
-
+		mongoClientURI = new MongoClientURI("mongodb://heroku_6hlqqwnw:amm1faupj3i2th3edirt0lpl8k@ds119568.mlab.com:19568/heroku_6hlqqwnw");
+		client = new MongoClient(mongoClientURI);
 		db = client.getDatabase("heroku_6hlqqwnw");
 	}
 

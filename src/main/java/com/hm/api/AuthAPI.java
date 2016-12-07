@@ -1,19 +1,15 @@
 package com.hm.api;
 
 import com.google.gson.Gson;
-import com.hm.dao.UserDAO;
 import com.hm.entity.AuthToken;
 import com.hm.entity.User;
-import com.hm.repo.UserRepository;
-import org.bson.Document;
+import com.hm.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
-
-import static com.hm.dao.db.ConnectionHandler.db;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,7 +17,8 @@ public class AuthAPI {
 
 	@Autowired
 	Gson gson;
-
+	@Autowired
+	private AuthRepository authRepo;
 	@Autowired
 	UserRepository userRepo;
 
@@ -38,17 +35,30 @@ public class AuthAPI {
 	}
 
 	@RequestMapping ("/auth")
-	public AuthToken auth (@RequestParam("login") @NotNull String login, @RequestParam("pass") @NotNull String pass) {
-		User user = UserDAO.getUser(login, pass);
+	public ResponseEntity auth (@RequestParam("login") @NotNull String login, @RequestParam("pass") @NotNull String pass) {
+		User user = userRepo.findByMailAndPass(login, pass);
+		if (user == null) {
+			ResponseEntity.status(403).body("Wrong credentials");
+		}
 		AuthToken token = new AuthToken(user);
+		authRepo.save(token);
 
-		db().getCollection("auth").insertOne(Document.parse(gson.toJson(token)));
-
-		return token;
+		return ResponseEntity.ok(token);
 	}
 
-
-
+	@RequestMapping("/clean")
+	public ResponseEntity cleanup() {
+		List<AuthToken> list = new ArrayList<>();
+		authRepo.findByTimeoutLessThan(System.currentTimeMillis()).forEach(e -> {
+			authRepo.delete(e.getSessionID());
+			list.add(e);
+		});
+		if (list.isEmpty()) {
+			return ResponseEntity.ok("None deleted");
+		} else {
+			return ResponseEntity.ok(list);
+		}
+	}
 
 	@RequestMapping("/test")
 	public String test () {
