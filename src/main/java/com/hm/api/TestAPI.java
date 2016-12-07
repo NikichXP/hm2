@@ -51,7 +51,7 @@ public class TestAPI {
 		authapi.register("moderator@corp.com", "12345");
 
 //		db().getCollection("user").updateOne(new Document(),
-//				new Document("$set", new Document("_class", "com.hm.entity.Employee"))
+//				new Document("$set", new Document("_class", "com.hm.entity.Moderator"))
 //						.append("$set", new Document("accessLevel", 100)));
 
 		userRepo.findAll().forEach(user -> {

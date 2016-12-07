@@ -14,6 +14,7 @@ public class User {
 	private String id;
 	private String mail;
 	private String pass; //this is encrypted
+	private Class entityclass;
 
 	public User (String mail, String pass) {
 		this.id = UUID.randomUUID().toString();

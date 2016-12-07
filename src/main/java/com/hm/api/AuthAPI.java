@@ -2,6 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.entity.AuthToken;
+import com.hm.entity.Moderator;
 import com.hm.entity.User;
 import com.hm.repo.AuthRepository;
 import com.hm.repo.UserRepository;
@@ -50,9 +51,8 @@ public class AuthAPI {
 			ResponseEntity.status(403).body("Wrong credentials");
 		}
 		AuthToken token = new AuthToken(user);
-		authRepo.save(token);
 
-		cachedTokens.put(token.getSessionID(), token);
+		add(token);
 
 		return ResponseEntity.ok(token);
 	}
@@ -61,11 +61,8 @@ public class AuthAPI {
 	public ResponseEntity cleanup() {
 		List<AuthToken> list = new ArrayList<>();
 		authRepo.findByTimeoutLessThan(System.currentTimeMillis()).forEach(e -> {
-			authRepo.delete(e.getSessionID());
+			delete(e.getSessionID());
 			list.add(e);
-			if (cachedTokens.containsKey(e.getSessionID())) {
-				cachedTokens.remove(e.getSessionID());
-			}
 		});
 		if (list.isEmpty()) {
 			return ResponseEntity.ok("None deleted");
@@ -76,38 +73,50 @@ public class AuthAPI {
 
 	@RequestMapping("/check/{token}")
 	public ResponseEntity testToken (@PathVariable("token") @NotNull String token) {
-		if (cachedTokens.containsKey(token)) {
-			if (cachedTokens.get(token).getTimeout() < System.currentTimeMillis()) {
-				cleanup();
-				return ResponseEntity.status(403).body("Session timed out");
-			} else {
-				return ResponseEntity.ok(cachedTokens.get(token));
-			}
-		}
-		AuthToken au = authRepo.findOne(token);
+
+		AuthToken au = get(token);
+
 		if (au == null) {
-			return ResponseEntity.status(403).body("Session not found");
+			return ResponseEntity.status(401).body("Session not found");
 		}
-		if (au.getTimeout() > System.currentTimeMillis()) {
-			cachedTokens.put(au.getSessionID(), au);
-			return ResponseEntity.ok(au);
-		} else {
+
+		if (au.getTimeout() < System.currentTimeMillis()) {
+			delete(token);
 			cleanup();
 			return ResponseEntity.status(403).body("Session timed out");
 		}
+
+		return ResponseEntity.ok(au);
 	}
 
-	@RequestMapping("/getuser/{token}")
-	public ResponseEntity getUser (@PathVariable("token") @NotNull String token) {
-		return ResponseEntity.status(470).body("Not yet implemented");
+	private User getUser(@NotNull String token) {
+		AuthToken au = get(token);
+		if (au.getTimeout() > System.currentTimeMillis()) {
+			return au.getUser();
+		} else {
+			cleanup();
+			return null;
+		}
 	}
 
-	@RequestMapping("/getemp/{token}")
+	@RequestMapping(value = {"/getUser/{token}", "/getuser/{token}"})
+	public ResponseEntity getUserWeb (@PathVariable("token") @NotNull String token) {
+		User u = getUser(token);
+		System.out.println(u.toString());
+		System.out.println((Moderator)(u));
+		if (u == null) {
+			return ResponseEntity.status(403).body("Session not found");
+		} else {
+			return ResponseEntity.ok(u);
+		}
+	}
+
+	@RequestMapping(value = {"/getEmp/{token}", "/getemp/{token}"})
 	public ResponseEntity getEmployee (@PathVariable("token") @NotNull String token) {
 		return ResponseEntity.status(470).body("Not yet implemented");
 	}
 
-	@RequestMapping("/getClient/{token}")
+	@RequestMapping(value = {"/getClient/{token}", "/getclient/{token}"})
 	public ResponseEntity getClient (@PathVariable("token") @NotNull String token) {
 		return ResponseEntity.status(470).body("Not yet implemented");
 	}
@@ -117,6 +126,23 @@ public class AuthAPI {
 		return "Hi!";
 	}
 
+	private AuthToken get (@NotNull String token) {
+		AuthToken ret = cachedTokens.get(token);
+		if (ret != null) {
+			return ret;
+		}
+		ret = authRepo.findOne(token);
+		return ret; //can be null!
+	}
 
+	private void add (AuthToken token) {
+		authRepo.save(token);
+		cachedTokens.put(token.getSessionID(), token);
+	}
+
+	private void delete (String token) {
+		cachedTokens.remove(token);
+		authRepo.delete(token);
+	}
 
 }

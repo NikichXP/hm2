@@ -5,7 +5,9 @@ import lombok.*;
 import java.util.ArrayList;
 
 @Data
+@NoArgsConstructor
 public class ServiceExecutor extends User {
+
 
 	private String id;
 	private String title;

@@ -9,7 +9,7 @@ public class Booking {
 
 	private Client client;
 	private Product product;
-	private Employee curator;
+	private Moderator curator;
 
 	private LocalDateTime time;
 	private double price;

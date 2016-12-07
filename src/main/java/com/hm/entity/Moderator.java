@@ -7,11 +7,11 @@ import java.util.Arrays;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Employee extends User {
+public class Moderator extends User {
 
 	private int accessLevel;
 
-	public Employee(User user) {
+	public Moderator(User user) {
 		System.out.println(user.toString());
 		Arrays.asList(user.getClass().getMethods()).stream()
 				.filter(method -> method.getName().startsWith("get"))
