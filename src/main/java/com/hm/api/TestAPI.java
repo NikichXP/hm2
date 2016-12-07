@@ -53,7 +53,7 @@ public class TestAPI {
 //		db().getCollection("user").updateOne(new Document(),
 //				new Document("$set", new Document("_class", "com.hm.entity.Employee"))
 //						.append("$set", new Document("accessLevel", 100)));
-		
+
 		userRepo.findAll().forEach(user -> {
 			userApi.promoteToEmployee(user.getMail());
 		});
