@@ -18,7 +18,7 @@ public class AuthToken {
 	public AuthToken(User user) {
 		this.sessionID = UUID.randomUUID().toString();
 		this.user = user;
-		this.timeout = System.currentTimeMillis() + 3_600; //1h/1000
+		this.timeout = System.currentTimeMillis() + 3_600_000; //1h
 	}
 
 }
