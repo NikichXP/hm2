@@ -45,12 +45,12 @@ public class Product {
 		this.genre = genre;
 		this.genreId = genre.getId();
 		this.genreName = genre.getName();
-		this.group = genre.getGroup();
+		this.group = genre.groupEntity();
 		this.groupId = group.getId();
-		this.groupName = genre.getGroup().getName();
-		this.category = group.getCategory();
+		this.groupName = genre.groupEntity().getName();
+		this.category = group.categoryEntity();
 		this.categoryId = category.getId();
-		this.categoryName = genre.getCategory().getName();
+		this.categoryName = this.genre.groupEntity().categoryEntity().getName();
 		this.city = "Kiev";
 	}
 

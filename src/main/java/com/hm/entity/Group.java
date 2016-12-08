@@ -1,7 +1,10 @@
 package com.hm.entity;
 
+import com.hm.AppLoader;
+import com.hm.repo.GenresHolder;
 import com.hm.util.Generator;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
@@ -20,14 +23,17 @@ public class Group { //like "photographers"
 	private String categoryName;
 
 	@Transient
-	private Category category;
+	private static GenresHolder holder = (GenresHolder) AppLoader.ctx.getBean("genresHolder");
 
 	public Group(String name, Category category) {
 		this.id = Generator.genSmallId();
 		this.name = name;
-		this.category = category;
 		this.categoryId = category.getId();
 		this.categoryName = category.getName();
 		this.genres = new ArrayList<>();
+	}
+
+	public Category categoryEntity() {
+		return holder.getCategory(categoryId);
 	}
 }

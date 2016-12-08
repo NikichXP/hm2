@@ -66,24 +66,24 @@ public class GenresHolder {
 	public void addGroup (Group group) {
 		groupRepo.save(group);
 		groups.put(group.getName(), group);
-		if (!categories.containsValue(group.getCategory())) {
-			group.getCategory().getGroups().add(group);
-			addCategory(group.getCategory());
+		if (!categories.containsValue(group.categoryEntity())) {
+			group.categoryEntity().getGroups().add(group);
+			addCategory(group.categoryEntity());
 		} else {
-			group.getCategory().getGroups().add(group);
-			categoryRepo.save(group.getCategory());
+			group.categoryEntity().getGroups().add(group);
+			categoryRepo.save(group.categoryEntity());
 		}
 	}
 
 	public void addGenre (Genre genre) {
 		genreRepo.save(genre);
 		genres.put(genre.getName(), genre);
-		if (!groups.containsValue(genre.getGroup())) {
-			genre.getGroup().getGenres().add(genre);
-			addGroup(genre.getGroup());
+		if (!groups.containsValue(genre.groupEntity())) {
+			genre.groupEntity().getGenres().add(genre);
+			addGroup(genre.groupEntity());
 		} else {
-			genre.getGroup().getGenres().add(genre);
-			groupRepo.save(genre.getGroup());
+			genre.groupEntity().getGenres().add(genre);
+			groupRepo.save(genre.groupEntity());
 		}
 	}
 
@@ -91,13 +91,16 @@ public class GenresHolder {
 		Category category;
 		if (categories.get(categoryName) == null) {
 			category = new Category(categoryName);
+			categories.put(categoryName, category);
 			addCategory(category);
+
 		} else {
 			category = categories.get(categoryName);
 		}
 		Group group;
 		if (groups.get(groupName) == null) {
 			group = new Group(groupName, category);
+			groups.put(groupName, group);
 			addGroup(group);
 		} else {
 			group = groups.get(groupName);
@@ -105,11 +108,24 @@ public class GenresHolder {
 		Genre genre;
 		if (genres.get(genreName) == null) {
 			genre = new Genre(genreName, group);
+			genres.put(genreName, genre);
 			addGenre(genre);
 		} else {
 			genre = genres.get(genreName);
 		}
 		return genre;
+	}
+
+	public Group getGroup(String groupId) {
+		return groups.values().stream().filter(e -> e.getId().equals(groupId)).findFirst().orElse(null);
+	}
+
+	public Genre getGenre(String genreId) {
+		return genres.values().stream().filter(e -> e.getId().equals(genreId)).findFirst().orElse(null);
+	}
+
+	public Category getCategory(String categoryId) {
+		return categories.values().stream().filter(e -> e.getId().equals(categoryId)).findFirst().orElse(null);
 	}
 
 	//TODO Add more methods
