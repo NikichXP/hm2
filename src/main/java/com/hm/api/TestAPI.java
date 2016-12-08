@@ -2,6 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.repo.AuthRepository;
+import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
 import com.hm.repo.UserRepository;
 import com.mongodb.Block;
@@ -36,13 +37,16 @@ public class TestAPI {
 	@Autowired
 	private Gson gson;
 
+	@Autowired
+	GenresHolder gh;
+
 	@RequestMapping("/user")
-	public String testUser () {
+	public String testUser() {
 		return db().getCollection("users").find(eq("mail", "test1@gg.gg")).first().toJson();
 	}
 
 	@RequestMapping("/rebuild/db")
-	public ResponseEntity rebuildDB () {
+	public ResponseEntity rebuildDB() {
 
 		userRepo.deleteAll();
 		authRepo.deleteAll();
@@ -63,19 +67,34 @@ public class TestAPI {
 
 		authapi.register("newuser@mail.com", "12345");
 
-
+		gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные");
+		gh.createGenre("Фотосессия", "Фотограф", "Популярные");
+		gh.createGenre("Мастер-шеф", "Кулинар", "Популярные");
+		gh.createGenre("Свадебный торт", "Кулинар", "Популярные");
+		gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда");
 
 		return getAll();
 	}
 
 	@RequestMapping("getAll")
-	public ResponseEntity getAll () {
+	public ResponseEntity getAll() {
 		List<String> list = new ArrayList<>();
 		userRepo.findAll().forEach(e -> list.add(e.toString()));
 		authRepo.findAll().forEach(e -> list.add(e.toString()));
+		gh.getCategories().values().forEach(e -> {
+			System.out.println(e);
+			list.add(e.toString());
+		});
+		gh.getGroups().values().forEach(e -> {
+			System.out.println(e);
+			list.add(e.toString());
+		});
+		gh.getGenres().values().forEach(e -> {
+			System.out.println(e);
+			list.add(e.toString());
+		});
 		return ResponseEntity.ok(list);
 	}
-
 
 
 	//SHIT BELOW
@@ -91,7 +110,7 @@ public class TestAPI {
 	}
 
 	@RequestMapping("/env")
-	public String sysEnv () {
+	public String sysEnv() {
 		return System.getenv("MONGODB_URI");
 	}
 

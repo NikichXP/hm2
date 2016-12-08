@@ -1,5 +1,6 @@
 package com.hm.entity;
 
+import com.hm.util.Generator;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -25,6 +26,15 @@ public class Genre {
 	@Transient
 	private Group group;
 
-
+	public Genre (String name, Group parent) {
+		this.id = Generator.genId();
+		this.name = name;
+		this.group = parent;
+		this.groupId = parent.getId();
+		this.groupName = parent.getName();
+		this.category = group.getCategory();
+		this.categoryId = group.getCategoryId();
+		this.categoryName = group.getCategoryName();
+	}
 
 }
