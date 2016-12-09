@@ -14,14 +14,8 @@ import java.util.HashMap;
 public class GenresHolder {
 
 	@Autowired
-	public GenreRepository genreRepo;
-	@Autowired
-	public GroupRepository groupRepo;
-	@Autowired
 	public CategoryRepository categoryRepo;
 
-	private HashMap<String, Genre> genres;
-	private HashMap<String, Group> groups;
 	private HashMap<String, Category> categories;
 
 	public GenresHolder() {
@@ -30,18 +24,6 @@ public class GenresHolder {
 			while (flag) {
 				try {
 					Thread.sleep(100);
-					if (genres == null) {
-						genres = new HashMap<>();
-						genreRepo.findAll().forEach(el -> {
-							genres.put(el.getName(), el);
-						});
-					}
-					if (groups == null) {
-						groups = new HashMap<>();
-						groupRepo.findAll().forEach(el -> {
-							groups.put(el.getName(), el);
-						});
-					}
 					if (categories == null) {
 						categories = new HashMap<>();
 						categoryRepo.findAll().forEach(el -> {
@@ -50,12 +32,16 @@ public class GenresHolder {
 					}
 					flag = false;
 				} catch (Exception e) {
-					genres = null;
-					groups = null;
 					categories = null;
 				}
 			}
 		}).start();
+	}
+
+	public void save() {
+		categories.values().forEach(e -> {
+			categoryRepo.save(e);
+		});
 	}
 
 	public void addCategory (Category category) {
@@ -64,9 +50,7 @@ public class GenresHolder {
 	}
 
 	public void addGroup (Group group) {
-		groupRepo.save(group);
-		groups.put(group.getName(), group);
-		if (!categories.containsValue(group.categoryEntity())) {
+		if (categories.get(group.getCategoryName()) == null) {
 			group.categoryEntity().getGroups().add(group);
 			addCategory(group.categoryEntity());
 		} else {
@@ -76,18 +60,31 @@ public class GenresHolder {
 	}
 
 	public void addGenre (Genre genre) {
-		genreRepo.save(genre);
-		genres.put(genre.getName(), genre);
-		if (!groups.containsValue(genre.groupEntity())) {
-			genre.groupEntity().getGenres().add(genre);
-			addGroup(genre.groupEntity());
+		Category category;
+		if (categories.get(genre.getCategoryName()) == null) {
+			category = createCategory(genre.getCategoryName());
 		} else {
-			genre.groupEntity().getGenres().add(genre);
-			groupRepo.save(genre.groupEntity());
+			category = getCategory(genre.getCategoryName());
 		}
+
+		if (getGroup(genre.getGroupName()) == null) {
+			createGroup(genre.getGroupName(), category);
+		}
+		categories.get(genre.getCategoryName()).getGroups().stream()
+				.filter(grp -> grp.getName().equals(genre.getGroupName()))
+				.findFirst().ifPresent(tar -> tar.getGenres().add(genre));
 	}
 
-	public Genre createGenre (String genreName, String groupName, String categoryName) {
+	private Group createGroup(String groupName, Category category) {
+		return category.getGroups().stream().filter(group -> group.getName().equals(groupName)).findFirst().orElseGet(() -> {
+			Group ret = new Group(groupName, category);
+			category.getGroups().add(ret);
+			save();
+			return ret;
+		});
+	}
+
+	private Category createCategory(String categoryName) {
 		Category category;
 		if (categories.get(categoryName) == null) {
 			category = new Category(categoryName);
@@ -97,37 +94,33 @@ public class GenresHolder {
 		} else {
 			category = categories.get(categoryName);
 		}
-		Group group;
-		if (groups.get(groupName) == null) {
-			group = new Group(groupName, category);
-			groups.put(groupName, group);
-			addGroup(group);
-		} else {
-			group = groups.get(groupName);
-		}
-		Genre genre;
-		if (genres.get(genreName) == null) {
-			genre = new Genre(genreName, group);
-			genres.put(genreName, genre);
-			addGenre(genre);
-		} else {
-			genre = genres.get(genreName);
-		}
-		return genre;
+		return category;
 	}
 
-	public Group getGroup(String groupId) {
-		return groups.values().stream().filter(e -> e.getId().equals(groupId)).findFirst().orElse(null);
+	public Genre createGenre (String genreName, String groupName, String categoryName) {
+		Category category = createCategory(categoryName);
+		Group group = createGroup(groupName, category);
+		return group.getGenres().stream().filter(g -> g.getName().equals(genreName)).findFirst().orElseGet(() -> {
+			Genre genre = new Genre(genreName, group);
+			group.getGenres().add(genre);
+			save();
+			return genre;
+		});
 	}
 
-	public Genre getGenre(String genreId) {
-		return genres.values().stream().filter(e -> e.getId().equals(genreId)).findFirst().orElse(null);
+	public Group getGroup(String groupName) {
+		return categories.values().parallelStream().flatMap(cat -> cat.getGroups()
+				.parallelStream()).filter(group -> group.getName().equals(groupName)).findFirst().orElse(null);
+	}
+
+	public Genre getGenre(String genreName) {
+		return categories.values().parallelStream()
+				.flatMap(category -> category.getGroups().parallelStream())
+				.flatMap(group -> group.getGenres().parallelStream())
+				.filter(genre -> genre.getName().equals(genreName)).findFirst().orElse(null);
 	}
 
 	public Category getCategory(String categoryId) {
 		return categories.values().stream().filter(e -> e.getId().equals(categoryId)).findFirst().orElse(null);
 	}
-
-	//TODO Add more methods
-
 }

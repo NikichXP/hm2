@@ -15,6 +15,7 @@ public class AppLoader {
 		db();
 		ctx = SpringApplication.run(AppLoader.class, args);
 		System.out.println("Seems like all running normal");
+
 	}
 
 }

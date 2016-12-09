@@ -85,14 +85,7 @@ public class TestAPI {
 			System.out.println(e);
 			list.add(e.toString());
 		});
-		gh.getGroups().values().forEach(e -> {
-			System.out.println(e);
-			list.add(e.toString());
-		});
-		gh.getGenres().values().forEach(e -> {
-			System.out.println(e);
-			list.add(e.toString());
-		});
+
 		return ResponseEntity.ok(list);
 	}
 
