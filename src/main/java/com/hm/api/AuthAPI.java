@@ -1,11 +1,8 @@
 package com.hm.api;
 
 import com.google.gson.Gson;
-import com.hm.entity.AuthToken;
-import com.hm.entity.Moderator;
-import com.hm.entity.User;
-import com.hm.repo.AuthRepository;
-import com.hm.repo.UserRepository;
+import com.hm.entity.*;
+import com.hm.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,18 +26,43 @@ public class AuthAPI {
 	private AuthRepository authRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	ModeratorRepository moderatorRepo;
+	@Autowired
+	WorkerRepository workerRepo;
+	@Autowired
+	ClientRepository clientRepo;
 
 	private static Map<String, AuthToken> cachedTokens = new HashMap<>();
 
-	@RequestMapping("/register")
-	public User register (@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass) {
+	@RequestMapping("/register/{type}")
+	public User register (@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type) {
 
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {
 			return null;
 		}
 
+		type = type.toLowerCase();
+
 		User u = new User(mail, pass);
-		u = userRepo.save(u);
+
+		switch (type) {
+			case "moderator":
+				Moderator m = new Moderator(u);
+				moderatorRepo.save(m);
+				break;
+			case "client":
+				Client c = new Client(u);
+				clientRepo.save(c);
+				break;
+			case "worker":
+				Worker w = new Worker(u);
+				workerRepo.save(w);
+				break;
+			default:
+				u = userRepo.save(u);
+				break;
+		}
 		return u;
 	}
 

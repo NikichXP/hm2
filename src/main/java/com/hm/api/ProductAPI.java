@@ -27,4 +27,10 @@ public class ProductAPI {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
 	}
 
+	@RequestMapping("/create")
+	public ResponseEntity createProduct (@RequestParam("title") String title, @RequestParam("genre") String genre,
+	                                     @RequestParam("cookie") String cookie) {
+		return ResponseEntity.ok().build();
+	}
+
 }

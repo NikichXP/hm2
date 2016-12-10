@@ -2,16 +2,24 @@ package com.hm.entity;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Data
 @NoArgsConstructor
-@ToString(callSuper = true)
-public class Moderator extends User {
+public class Worker extends User {
 
-	private int accessLevel;
 
-	public Moderator(User user) {
+	private String id;
+	private String title;
+
+	private double minPrice; //on link "starts from 200 UAH"
+	private User author; //link to author's profile
+
+	private ArrayList<Product> product;
+
+
+	public Worker(User user) {
 		System.out.println(user.toString());
 		Arrays.asList(user.getClass().getMethods()).stream()
 				.filter(method -> method.getName().startsWith("get"))
@@ -29,8 +37,7 @@ public class Moderator extends User {
 								}
 							});
 				});
-		this.accessLevel = 0;
-		this.setEntityClassName("Moderator");
-		user.setEntityClassName("Moderator");
+		this.setEntityClassName("Worker");
+		user.setEntityClassName("Worker");
 	}
 }

@@ -1,13 +1,10 @@
 package com.hm.api;
 
-import com.hm.entity.Moderator;
-import com.hm.entity.User;
-import com.hm.repo.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hm.entity.*;
+import com.hm.repo.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -15,15 +12,28 @@ public class UserAPI {
 
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	WorkerRepository workRepo;
+	@Autowired
+	ModeratorRepository moderatorRepo;
 
-	@RequestMapping("/promote")
+	@RequestMapping("/setEmployee")
 	public ResponseEntity promoteToEmployee(@RequestParam("mail") String s) {
 		User user = userRepo.findByMail(s);
 		Moderator emp = new Moderator(user);
 		emp.setAccessLevel(100);
 		userRepo.delete(user);
-		userRepo.insert(emp);
+		moderatorRepo.insert(emp);
 		return ResponseEntity.ok(emp);
+	}
+
+	@RequestMapping("/setWorker/{userId}")
+	public ResponseEntity promoteToWorker (@PathVariable("userId") String userId) {
+		User user = userRepo.findOne(userId);
+		Worker worker = new Worker(user);
+		userRepo.delete(user);
+		workRepo.save(worker);
+		return ResponseEntity.ok(worker);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.hm.entity;
 
+import com.hm.AppLoader;
+import com.hm.repo.WorkerRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -19,6 +21,8 @@ public class Product {
 	private String description;
 	private String city;
 
+	private String workerId;
+
 	private String genreId;
 	private String genreName;
 	private String categoryId;
@@ -26,45 +30,40 @@ public class Product {
 	private String groupId;
 	private String groupName;
 
-	@Transient
-	private Genre genre;
-	@Transient
-	private Category category;
-	@Transient
-	private Group group;
-
-
-
 	private double price;
-	private boolean hasPrice;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 
-	public Product (String title, Genre genre) {
+	private boolean offeredPrice;
+	private double discountedPrice;
+	private double finalPrice;
+
+	@Transient
+	private static WorkerRepository workers = (WorkerRepository) AppLoader.ctx.getBean("workerRepository");
+
+	public Product (String title, Genre genre, Worker worker) {
 		this.id = UUID.randomUUID().toString();
 		this.title = title;
-		this.genre = genre;
 		this.genreId = genre.getId();
 		this.genreName = genre.getName();
-		this.group = genre.groupEntity();
-		this.groupId = group.getId();
+		this.groupId = genre.groupEntity().getId();
 		this.groupName = genre.groupEntity().getName();
-		this.category = group.categoryEntity();
-		this.categoryId = category.getId();
-		this.categoryName = this.genre.groupEntity().categoryEntity().getName();
+		this.categoryId = genre.groupEntity().categoryEntity().getId();
+		this.categoryName = genre.groupEntity().categoryEntity().getName();
 		this.city = "Kiev";
+		this.workerId = worker.getId();
 	}
 
-	public Product (String title, Genre genre, double price) {
-		this(title, genre);
+	public Product (String title, Genre genre, double price, Worker worker) {
+		this(title, genre, worker);
 		this.price = price;
 	}
 
-	public Product (String title, Genre genre, double price, String city) {
-		this (title, genre, price);
+	public Product (String title, Genre genre, double price, Worker worker, String city) {
+		this (title, genre, price, worker);
 		this.city = city;
 	}
 
-//	public Genre getGenre () {
-//
-//	}
+	public Worker getWorkerEntity() {
+		return workers.findOne(workerId);
+	}
 }
