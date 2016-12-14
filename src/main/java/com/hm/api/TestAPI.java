@@ -60,6 +60,7 @@ public class TestAPI {
 
 	@RequestMapping("/rebuild/db")
 	public ResponseEntity rebuildDB() {
+		System.out.print("Wiping prev DB... ");
 		db().listCollections().forEach((Block<? super Document>) col -> {
 			col.entrySet().forEach(ent -> {
 				try {
@@ -68,6 +69,9 @@ public class TestAPI {
 				}
 			});
 		});
+
+		System.out.println("done.");
+		System.out.print("Generating users... ");
 
 		authapi.register("admin@corp.com", "pass", "Moderator");
 		authapi.register("anna@hm.com", "12345", "Moderator");
@@ -89,6 +93,9 @@ public class TestAPI {
 
 		authapi.register("newuser@mail.com", "12345", "Client");
 
+		System.out.println("done.");
+		System.out.print("Generating products... ");
+
 		Genre genr[] = {gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
 				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
 				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
@@ -105,6 +112,7 @@ public class TestAPI {
 			p.createProduct("work"+worker.getPass(), genr[(int) (Math.random()*5)].getName(), authToken.getSessionID());
 		});
 
+		System.out.println("done.");
 
 		return getAll();
 	}

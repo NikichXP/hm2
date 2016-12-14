@@ -126,7 +126,6 @@ public class AuthController {
 		}
 		try {
 			Object o = repo.findOne(id);
-			System.out.println("After findOne" + o);
 			return (T) o;
 		} catch (Exception e) {
 			return null;
