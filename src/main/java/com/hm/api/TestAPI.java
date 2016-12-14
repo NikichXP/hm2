@@ -1,11 +1,11 @@
 package com.hm.api;
 
 import com.google.gson.Gson;
-import com.hm.entity.Genre;
-import com.hm.entity.Worker;
+import com.hm.AppLoader;
+import com.hm.entity.*;
+import com.hm.model.AuthController;
 import com.hm.repo.*;
 import com.mongodb.Block;
-import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,6 @@ import java.util.stream.IntStream;
 
 import static com.hm.manualdb.ConnectionHandler.db;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.lt;
 
 @RestController
 @RequestMapping("/test")
@@ -41,7 +40,7 @@ public class TestAPI {
 	@Autowired
 	private ProductRepository prodRepo;
 	@Autowired
-	private UserAPI userApi;
+	private AuthController authController;
 	@Autowired
 	private Gson gson;
 
@@ -80,10 +79,12 @@ public class TestAPI {
 //				new Document("$set", new Document("_class", "com.hm.entity.Moderator"))
 //						.append("$set", new Document("accessLevel", 100)));
 
+		Set<User> users = new HashSet<>();
+
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 20).forEach(i -> {
-			workers.add((Worker) authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker"));
+			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker"));
 		});
 
 		authapi.register("newuser@mail.com", "12345", "Client");
@@ -94,8 +95,14 @@ public class TestAPI {
 				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
 				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда")};
 
-		workers.forEach(user -> {
+		users.forEach(user -> {
+			workers.add(authController.getEntity(user.getId(), Worker.class));
+		});
 
+		workers.forEach(worker -> {
+			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
+			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
+			p.createProduct("work"+worker.getPass(), genr[(int) (Math.random()*5)].getName(), authToken.getSessionID());
 		});
 
 
@@ -123,43 +130,18 @@ public class TestAPI {
 	//SHIT BELOW
 
 
-	@RequestMapping("/db3")
-	public String testdb3() {
-		StringBuilder ret = new StringBuilder();
-		db().getCollection("restaurants").find(
-				lt("address.zipcode", 10000)
-		).forEach((Block<? super Document>) el -> ret.append(el));
-		return ret.toString();
-	}
-
 	@RequestMapping("/env")
 	public String sysEnv() {
 		return System.getenv("MONGODB_URI");
 	}
 
-	@RequestMapping("/db")
-	public String testdb() {
-		StringBuilder ret = new StringBuilder();
-
-		db().getCollection("restaurants").insertOne(
-				new Document("address",
-						new Document()
-								.append("street", "2 Avenue")
-								.append("zipcode", "10075")
-								.append("building", "1480")
-								.append("borough", "Manhattan")
-								.append("cuisine", "Italian")
-								.append("name", "Vella")
-								.append("restaurant_id", "41704620")));
-
-		FindIterable<Document> iterable = db().getCollection("restaurants").find();
-
-		iterable.forEach((Block<? super Document>) i -> {
-			System.out.println(i);
-			ret.append(i + " <br>");
-		});
-
-		return ret.toString();
+	@RequestMapping("/test")
+	public ResponseEntity testdb() {
+		AuthController a = (AuthController)AppLoader.ctx.getBean("authController");
+		AuthToken token = a.auth("admin@corp.com", "pass");
+		System.out.println(token.toString());
+		((AuthController)AppLoader.ctx.getBean("authController")).getEntity("", Moderator.class);
+		return ResponseEntity.ok().body("ok");
 	}
 
 }

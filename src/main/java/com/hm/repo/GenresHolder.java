@@ -109,8 +109,8 @@ public class GenresHolder {
 	}
 
 	public Group getGroup(String groupName) {
-		return categories.values().parallelStream().flatMap(cat -> cat.getGroups()
-				.parallelStream()).filter(group -> group.getName().equals(groupName)).findFirst().orElse(null);
+		return categories.values().stream().flatMap(cat -> cat.getGroups()
+				.stream()).filter(group -> group.getName().equals(groupName) || group.getId().equals(groupName)).findFirst().orElse(null);
 	}
 
 	public Genre getGenre(String genreName) {

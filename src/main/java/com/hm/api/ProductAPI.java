@@ -1,5 +1,8 @@
 package com.hm.api;
 
+import com.hm.entity.Product;
+import com.hm.entity.Worker;
+import com.hm.model.AuthController;
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ public class ProductAPI {
 	private ProductRepository prodRepo;
 	@Autowired
 	private GenresHolder gh;
+	@Autowired
+	private AuthController authController;
 
 	@RequestMapping("/categories")
 	public ResponseEntity getHat () {
@@ -30,7 +35,9 @@ public class ProductAPI {
 	@RequestMapping("/create")
 	public ResponseEntity createProduct (@RequestParam("title") String title, @RequestParam("genre") String genre,
 	                                     @RequestParam("cookie") String cookie) {
-		return ResponseEntity.ok().build();
+		Product product = new Product(title, gh.getGenre(genre), authController.getLoggedToken(cookie, Worker.class));
+		prodRepo.save(product);
+		return ResponseEntity.ok().body(product);
 	}
 
 }

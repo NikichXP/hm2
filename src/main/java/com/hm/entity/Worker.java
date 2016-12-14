@@ -20,7 +20,6 @@ public class Worker extends User {
 
 
 	public Worker(User user) {
-		System.out.println(user.toString());
 		Arrays.asList(user.getClass().getMethods()).stream()
 				.filter(method -> method.getName().startsWith("get"))
 				.forEach(usermeth -> {
