@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.Arrays;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)

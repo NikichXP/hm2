@@ -5,6 +5,7 @@ import com.hm.entity.Worker;
 import com.hm.model.AuthController;
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
+import com.hm.repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,17 @@ public class ProductAPI {
 	private GenresHolder gh;
 	@Autowired
 	private AuthController authController;
+	@Autowired
+	private WorkerRepository workerRepo;
 
 	@RequestMapping("/categories")
 	public ResponseEntity getHat () {
 		return ResponseEntity.ok(gh.getCategories());
+	}
+
+	@RequestMapping("/offer/{city}")
+	public ResponseEntity listOffers (@PathVariable("city") @NotNull String city) {
+		return ResponseEntity.ok(prodRepo.listWithOffer(true));
 	}
 
 	@RequestMapping("/list/{group}/{city}")
@@ -32,10 +40,14 @@ public class ProductAPI {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
 	}
 
+
+
 	@RequestMapping("/create")
 	public ResponseEntity createProduct (@RequestParam("title") String title, @RequestParam("genre") String genre,
-	                                     @RequestParam("cookie") String cookie) {
-		Product product = new Product(title, gh.getGenre(genre), authController.getLoggedToken(cookie, Worker.class));
+	                                     @RequestParam("cookie") String cookie, @RequestParam("price") double price) {
+		Worker worker = authController.getLoggedToken(cookie, Worker.class);
+		Product product = new Product(title, gh.getGenre(genre), price, worker);
+		worker.addProduct(product);
 		prodRepo.save(product);
 		return ResponseEntity.ok().body(product);
 	}

@@ -106,10 +106,17 @@ public class TestAPI {
 			workers.add(authController.getEntity(user.getId(), Worker.class));
 		});
 
+		Set<Product> products = new HashSet<>();
+
 		workers.forEach(worker -> {
 			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
-			p.createProduct("work"+worker.getPass(), genr[(int) (Math.random()*5)].getName(), authToken.getSessionID());
+			products.add((Product) p.createProduct("work"+worker.getPass(), genr[(int) (Math.random()*5)].getName(), authToken.getSessionID(), 1000).getBody());
+		});
+
+		products.stream().filter(e -> Math.random()>0.5).forEach(product -> {
+			product.setDiscount(0.4);
+			prodRepo.save(product);
 		});
 
 		System.out.println("done.");

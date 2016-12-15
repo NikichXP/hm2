@@ -1,22 +1,26 @@
 package com.hm.entity;
 
+import com.hm.AppLoader;
+import com.hm.repo.ProductRepository;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Worker extends User {
 
+	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
 
 	private String id;
 	private String title;
 
 	private double minPrice; //on link "starts from 200 UAH"
-	private User author; //link to author's profile
-
-	private ArrayList<Product> product;
+	private ArrayList<String> products;
 
 
 	public Worker(User user) {
@@ -27,8 +31,8 @@ public class Worker extends User {
 					Arrays.asList(this.getClass().getMethods()).stream()
 							.filter(meth -> meth.getName().startsWith("set"))
 							.filter(el -> el.getName().substring(3).equals(name))
-							.findAny().
-							ifPresent(e -> {
+							.findAny()
+							.ifPresent(e -> {
 								try {
 									e.invoke(this, usermeth.invoke(user));
 								} catch (Exception ex) {
@@ -38,5 +42,15 @@ public class Worker extends User {
 				});
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
+		products = new ArrayList<>();
+	}
+
+	public void addProduct(Product product) {
+		this.products.add(product.getId());
+		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
+	}
+
+	public List<Product> listProducts () {
+		return prodRepo.listByWorkerId(this.id);
 	}
 }

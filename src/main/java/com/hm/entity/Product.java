@@ -35,7 +35,7 @@ public class Product {
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 
 	private boolean offeredPrice;
-	private double discountedPrice;
+	private double discount;
 	private double finalPrice;
 
 	@Transient
@@ -57,11 +57,26 @@ public class Product {
 	public Product (String title, Genre genre, double price, Worker worker) {
 		this(title, genre, worker);
 		this.price = price;
+		this.finalPrice = price;
 	}
 
 	public Product (String title, Genre genre, double price, Worker worker, String city) {
 		this (title, genre, price, worker);
 		this.city = city;
+	}
+
+	public void setDiscount(double discount) {
+		if (discount == 0) {
+			offeredPrice = false;
+			finalPrice = price;
+			this.discount = discount;
+			return;
+		} else if (discount > 1) {
+			return;
+		}
+		this.offeredPrice = true;
+		this.discount = discount;
+		this.finalPrice = price * (1 - discount);
 	}
 
 	public Worker getWorkerEntity() {
