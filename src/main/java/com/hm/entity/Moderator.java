@@ -13,7 +13,7 @@ public class Moderator extends User {
 	private int accessLevel;
 
 	public Moderator(User user) {
-		Arrays.asList(user.getClass().getMethods()).stream()
+		Arrays.stream(user.getClass().getMethods())
 				.filter(method -> method.getName().startsWith("get"))
 				.forEach(usermeth -> {
 					String name = usermeth.getName().substring(3);
