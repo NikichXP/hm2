@@ -51,44 +51,7 @@ public class FileAPI {
 
 		outputStream.close();
 
-		/*
-		 * TODO Below only 1-day code, delete after completing labs
-		 */
-
-		StringBuilder ret = new StringBuilder();
-		if (fileName.endsWith(".java")) {
-//			ret.append(runProcess("cmd /c start cmd.exe /K \"cd C:\\Test && javac AppLoader.java && java AppLoader\""));
-			ret.append(runProcess("javac " + fileName));
-			ret.append(runProcess("java " + fileName.substring(fileName.length() - 5)));
-		} else if (fileName.endsWith(".class")){
-			ret = runProcess("java " + fileName.substring(fileName.length() - 6));
-		}
-		f.delete();
-		return ResponseEntity.ok().body(ret);
+		return ResponseEntity.ok().body("It's saved... somewhere");
 	}
 
-	private static void printLines(InputStream ins, StringBuilder ret) throws Exception {
-		String line = null;
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(ins));
-		while ((line = in.readLine()) != null) {
-			System.out.println(line);
-			ret.append(line + "\n");
-		}
-	}
-
-	private static StringBuilder runProcess(String command) throws Exception {
-		StringBuilder out = new StringBuilder();
-		Process pro = Runtime.getRuntime().exec(command);
-		pro.waitFor();
-		printLines(pro.getInputStream(), out);
-		printLines(pro.getErrorStream(), out);
-//		out.append(command + " exitValue() " + pro.exitValue());
-		return out;
-	}
-
-	@RequestMapping("/*")
-	public ResponseEntity test () {
-		return ResponseEntity.ok().body("ok!");
-	}
 }
