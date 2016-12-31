@@ -1,51 +1,42 @@
 package com.hm.repo;
 
+import com.google.gson.Gson;
 import com.hm.entity.Category;
 import com.hm.entity.Genre;
 import com.hm.entity.Group;
 import lombok.Data;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+
+import static com.hm.manualdb.ConnectionHandler.db;
 
 @Data
 @Repository
 public class GenresHolder {
 
 	@Autowired
-	public CategoryRepository categoryRepo;
-
+	Gson gson;
 	private HashMap<String, Category> categories;
 
 	public GenresHolder() {
-		new Thread(() -> {
-			boolean flag = true;
-			while (flag) {
-				try {
-					Thread.sleep(100);
-					if (categories == null) {
-						categories = new HashMap<>();
-						categoryRepo.findAll().forEach(el -> {
-							categories.put(el.getName(), el);
-						});
-					}
-					flag = false;
-				} catch (Exception e) {
-					categories = null;
-				}
-			}
-		}).start();
+		categories = new HashMap<>();
+//		db().getCollection("category").find().forEach((Block<? super Document>) doc -> {
+//			Category category = gson.fromJson(doc.toJson(), Category.class);
+//			categories.put(category.getName(), category);
+//		});
 	}
 
 	public void save() {
 		categories.values().forEach(e -> {
-			categoryRepo.save(e);
+			db().getCollection("category").insertOne(Document.parse(gson.toJson(e)));
 		});
 	}
 
 	public void addCategory (Category category) {
-		categoryRepo.save(category);
+		db().getCollection("category").insertOne(Document.parse(gson.toJson(category)));
 		categories.put(category.getName(), category);
 	}
 
@@ -55,7 +46,7 @@ public class GenresHolder {
 			addCategory(group.categoryEntity());
 		} else {
 			group.categoryEntity().getGroups().add(group);
-			categoryRepo.save(group.categoryEntity());
+			db().getCollection("category").insertOne(Document.parse(gson.toJson(group.categoryEntity())));
 		}
 	}
 
