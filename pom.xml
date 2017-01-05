@@ -20,10 +20,10 @@
 
         <!-- Experiment -->
 
-        <dependency>
-            <groupId>com.cloudinary</groupId>
-            <artifactId>cloudinary-http44</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.cloudinary</groupId>-->
+            <!--<artifactId>cloudinary-http44</artifactId>-->
+        <!--</dependency>-->
 
         <!-- End Experiment -->
 
