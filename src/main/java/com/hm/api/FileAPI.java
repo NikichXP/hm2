@@ -1,10 +1,7 @@
 package com.hm.api;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +49,15 @@ public class FileAPI {
 		outputStream.close();
 
 		return ResponseEntity.ok().body("It's saved... somewhere");
+	}
+
+	@RequestMapping("/dir")
+	public ResponseEntity dir (@RequestParam(value = "dir", required = false) String dir) {
+		if (dir == null) {
+			return ResponseEntity.ok().body(File.listRoots());
+		} else {
+			return ResponseEntity.ok().body(new File(dir).list());
+		}
 	}
 
 }

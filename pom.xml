@@ -18,6 +18,16 @@
 
     <dependencies>
 
+        <!-- Experiment -->
+
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+        </dependency>
+
+        <!-- End Experiment -->
+
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
