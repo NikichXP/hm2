@@ -24,10 +24,22 @@ public class FileAPI {
 	@Autowired
 	AuthController auth;
 
-	@RequestMapping("/get/{userId}/{fileId}")
+	@RequestMapping("/get/{userId}")
 	public void getFile(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
-	                     @PathVariable("fileId") String fileId) throws Exception {
-		File file = new File("/" + userId + "/" + fileId);
+	                     @RequestParam("fileId") String fileId) throws Exception {
+
+		File file;
+		file = new File("/usr/local/" + userId + "/" + fileId);
+		if (!file.exists()) {
+			file = new File("D:/usr/local/" + userId + "/" + fileId);
+		}
+
+		if (!file.exists()) {
+			response.getWriter().write("File not found");
+			return;
+		}
+
+
 		ServletContext sc = request.getSession().getServletContext();
 		response.reset();
 		response.setContentType(sc.getMimeType(file.getName()));
@@ -59,7 +71,7 @@ public class FileAPI {
 			dir = new File ("D:/Work/hm2-files/" + userId + "/");
 			dir.mkdirs();
 		}
-		File f = new File(dir.getAbsolutePath() + fileName);
+		File f = new File(dir.getAbsolutePath() + "/" + fileName);
 		f.createNewFile();
 
 		FileOutputStream outputStream =	new FileOutputStream(f);
