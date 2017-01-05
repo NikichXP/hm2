@@ -1,5 +1,8 @@
 package com.hm.api;
 
+import com.hm.entity.User;
+import com.hm.model.AuthController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,12 +10,19 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/file")
 public class FileAPI {
+
+	@Autowired
+	AuthController auth;
 
 	@RequestMapping("/get/{userId}/{fileId}")
 	public void getFile(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
@@ -29,12 +39,27 @@ public class FileAPI {
 	@PostMapping("/upload")
 	public ResponseEntity upload(HttpServletResponse response, HttpServletRequest request) throws Exception {
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
-		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
+		String fileExt = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+		fileExt = fileExt.substring(fileExt.lastIndexOf("."));
+		String fileName = UUID.randomUUID().toString() + fileExt;
 		InputStream inputStream = filePart.getInputStream();
 
-//		File dir = new File ("D:/TEST/" + UUID.randomUUID());
-//		dir.mkdirs();
-		File f = new File("D:/Clients/hm2/" + fileName); //TODO This is for 1 day only: change path
+		User u = auth.getUser(request.getParameter("token"));
+		if (u == null) {
+			return ResponseEntity.status(403).body("Need authorization");
+		}
+		String userId = u.getId();
+
+
+		File dir;
+		try {
+			dir = new File("/usr/local/" + userId + "/");
+			dir.mkdirs();
+		} catch (Exception e) {
+			dir = new File ("D:/Work/hm2-files/" + userId + "/");
+			dir.mkdirs();
+		}
+		File f = new File(dir.getAbsolutePath() + fileName);
 		f.createNewFile();
 
 		FileOutputStream outputStream =	new FileOutputStream(f);
@@ -48,7 +73,7 @@ public class FileAPI {
 
 		outputStream.close();
 
-		return ResponseEntity.ok().body("It's saved... somewhere");
+		return ResponseEntity.ok().body("Save success: " + f.getAbsolutePath());
 	}
 
 	@RequestMapping("/dir")
