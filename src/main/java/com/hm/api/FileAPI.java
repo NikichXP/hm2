@@ -72,6 +72,7 @@ public class FileAPI {
 			dir.mkdirs();
 		}
 		File f = new File(dir.getAbsolutePath() + "/" + fileName);
+		System.out.println(f.getAbsolutePath());
 		f.createNewFile();
 
 		FileOutputStream outputStream =	new FileOutputStream(f);
