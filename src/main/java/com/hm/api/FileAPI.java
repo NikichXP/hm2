@@ -28,16 +28,12 @@ public class FileAPI {
 	public void getFile(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
 	                     @RequestParam("fileId") String fileId) throws Exception {
 
-		File file = new File(System.getProperty("user.dir") + "/" + userId + "/" + fileId);
-		if (!file.exists()) {
-			file = new File("D:/usr/local/" + userId + "/" + fileId);
-		}
+		File file = new File(System.getProperty("user.dir") + "/src/main/resources/files/" + userId + "/" + fileId);
 
 		if (!file.exists()) {
 			response.getWriter().write("File not found");
 			return;
 		}
-
 
 		ServletContext sc = request.getSession().getServletContext();
 		response.reset();
@@ -60,7 +56,7 @@ public class FileAPI {
 			return ResponseEntity.status(403).body("Need authorization");
 		}
 		String userId = u.getId();
-		String path = System.getProperty("user.dir") + "/" + userId + "/";
+		String path = System.getProperty("user.dir") + "/src/main/resources/files/" + userId + "/";
 		File dir = new File(path);
 		dir.mkdirs();
 		File f = new File(path + fileName);
