@@ -97,4 +97,9 @@ public class FileAPI {
 		}
 	}
 
+	@RequestMapping("/local")
+	public ResponseEntity local () {
+		return ResponseEntity.ok().body(System.getProperty("user.dir"));
+	}
+
 }
