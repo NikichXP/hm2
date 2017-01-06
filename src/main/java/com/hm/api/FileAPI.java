@@ -28,8 +28,7 @@ public class FileAPI {
 	public void getFile(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
 	                     @RequestParam("fileId") String fileId) throws Exception {
 
-		File file;
-		file = new File("/usr/local/" + userId + "/" + fileId);
+		File file = new File(System.getProperty("user.dir") + "/" + userId + "/" + fileId);
 		if (!file.exists()) {
 			file = new File("D:/usr/local/" + userId + "/" + fileId);
 		}
