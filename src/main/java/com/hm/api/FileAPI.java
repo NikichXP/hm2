@@ -61,19 +61,18 @@ public class FileAPI {
 			return ResponseEntity.status(403).body("Need authorization");
 		}
 		String userId = u.getId();
-
-
-		File dir;
-		try {
-			dir = new File("/usr/local/" + userId + "/");
-			dir.mkdirs();
-		} catch (Exception e) {
-			dir = new File ("D:/Work/hm2-files/" + userId + "/");
-			dir.mkdirs();
-		}
-		File f = new File(dir.getAbsolutePath() + "/" + fileName);
+		String path = System.getProperty("user.dir") + "/" + userId + "/";
+		File dir = new File(path);
+		dir.mkdirs();
+		File f = new File(path + fileName);
 		System.out.println(f.getAbsolutePath());
-		f.createNewFile();
+		try {
+			f.createNewFile();
+		} catch (Exception e) {
+			System.out.println("Error creating " + f.getAbsolutePath() );
+			f.getParentFile().mkdirs();
+			f.createNewFile();
+		}
 
 		FileOutputStream outputStream =	new FileOutputStream(f);
 
