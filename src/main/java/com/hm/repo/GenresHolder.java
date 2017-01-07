@@ -4,11 +4,12 @@ import com.google.gson.Gson;
 import com.hm.entity.Category;
 import com.hm.entity.Genre;
 import com.hm.entity.Group;
+import com.mongodb.Block;
 import lombok.Data;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import static com.hm.manualdb.ConnectionHandler.db;
@@ -17,19 +18,42 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @Repository
 public class GenresHolder {
 
-	@Autowired
-	Gson gson;
-	private HashMap<String, Category> categories;
+	private static final Gson gson = new Gson();
+	private static HashMap<String, Category> categories = null;
 
 	public GenresHolder() {
-		categories = new HashMap<>();
-//		db().getCollection("category").find().forEach((Block<? super Document>) doc -> {
-//			Category category = gson.fromJson(doc.toJson(), Category.class);
-//			categories.put(category.getName(), category);
-//		});
+		new Thread ( () -> {
+			boolean flag = true;
+			while (flag) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				try {
+					if (categories == null) {
+						categories = new HashMap<>();
+						db().getCollection("category").find().forEach((Block<? super Document>) e -> {
+							Category c = gson.fromJson(e.toJson(), Category.class);
+							categories.put(c.getName(), c);
+						});
+					}
+					flag = false;
+					System.out.println("GenresHolder init success.");
+				} catch (Exception e) {
+					System.out.println("Restarting init of GenresHolder...");
+					flag = true;
+				}
+			}
+		}).start();
+	}
+
+	public Collection<Category> getCategories() {
+		return categories.values();
 	}
 
 	public void save() {
+		db().getCollection("category").deleteOne(Document.parse("{}"));
 		categories.values().forEach(e -> {
 			db().getCollection("category").insertOne(Document.parse(gson.toJson(e)));
 		});
@@ -41,11 +65,10 @@ public class GenresHolder {
 	}
 
 	public void addGroup (Group group) {
+		group.categoryEntity().getGroups().add(group);
 		if (categories.get(group.getCategoryName()) == null) {
-			group.categoryEntity().getGroups().add(group);
 			addCategory(group.categoryEntity());
 		} else {
-			group.categoryEntity().getGroups().add(group);
 			db().getCollection("category").insertOne(Document.parse(gson.toJson(group.categoryEntity())));
 		}
 	}
@@ -61,6 +84,7 @@ public class GenresHolder {
 		if (getGroup(genre.getGroupName()) == null) {
 			createGroup(genre.getGroupName(), category);
 		}
+
 		categories.get(genre.getCategoryName()).getGroups().stream()
 				.filter(grp -> grp.getName().equals(genre.getGroupName()))
 				.findFirst().ifPresent(tar -> tar.getGenres().add(genre));

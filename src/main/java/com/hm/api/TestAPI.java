@@ -133,10 +133,9 @@ public class TestAPI {
 		workerRepo.findAll().forEach(e -> list.add(e.toString()));
 		authRepo.findAll().forEach(e -> list.add(e.toString()));
 		prodRepo.findAll().forEach(e -> list.add(e.toString()));
-//		gh.getCategories().values().forEach(e -> {
-//			System.out.println(e);
-//			list.add(e.toString());
-//		});
+		gh.getCategories().forEach(e -> {
+			list.add(e.toString());
+		});
 
 		return ResponseEntity.ok(list);
 	}

@@ -6,8 +6,8 @@ import com.mongodb.client.MongoDatabase;
 
 public class ConnectionHandler {
 
-	private static MongoClient client = null;
-	private static MongoDatabase db;
+	private static final MongoClient client;
+	private static final MongoDatabase db;
 
 	static {
 		MongoClientURI mongoClientURI = new MongoClientURI("mongodb://heroku_6hlqqwnw:amm1faupj3i2th3edirt0lpl8k@ds119568.mlab.com:19568/heroku_6hlqqwnw");
