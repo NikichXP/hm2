@@ -20,6 +20,7 @@ public class Product {
 	private String title;
 	private String description;
 	private String city;
+	private String image;
 
 	private String workerId;
 

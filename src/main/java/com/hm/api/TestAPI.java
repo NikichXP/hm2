@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static com.hm.manualdb.ConnectionHandler.db;
@@ -65,7 +62,7 @@ public class TestAPI {
 			col.entrySet().forEach(ent -> {
 				try {
 					db().getCollection(ent.getValue().toString()).deleteMany(new Document());
-				}catch (Exception e) {
+				} catch (Exception e) {
 				}
 			});
 		});
@@ -73,11 +70,12 @@ public class TestAPI {
 		System.out.println("done.");
 		System.out.print("Generating users... ");
 
-		authapi.register("admin@corp.com", "pass", "Moderator");
-		authapi.register("anna@hm.com", "12345", "Moderator");
-		authapi.register("john@doe.com", "12345", "Moderator");
-		authapi.register("dave@doe.com", "12345", "Moderator");
-		authapi.register("moderator@corp.com", "12345", "Moderator");
+
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
 
 //		db().getCollection("user").updateOne(new Document(),
 //				new Document("$set", new Document("_class", "com.hm.entity.Moderator"))
@@ -88,10 +86,10 @@ public class TestAPI {
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 20).forEach(i -> {
-			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker"));
+			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(8) + ".jpg"));
 		});
 
-		authapi.register("newuser@mail.com", "12345", "Client");
+		authapi.register("newuser@mail.com", "12345", "Client", "common/auth" + new Random().nextInt(8) + ".jpg");
 
 		System.out.println("done.");
 		System.out.print("Generating products... ");
@@ -111,13 +109,14 @@ public class TestAPI {
 		workers.forEach(worker -> {
 			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
-			products.add((Product) p.createProduct("work"+worker.getPass(), genr[(int) (Math.random()*5)].getName(), authToken.getSessionID(), 1000).getBody());
+			products.add((Product) p.createProduct("work" + worker.getPass(), genr[(int) (Math.random() * 5)].getName(), authToken.getSessionID(), 1000, "common/auth" + new Random().nextInt(8) + ".jpg").getBody());
 		});
 
-		products.stream().filter(e -> Math.random()>0.5).forEach(product -> {
+		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
 			product.setDiscount(0.4);
 			prodRepo.save(product);
 		});
+
 
 		System.out.println("done.");
 
@@ -151,10 +150,10 @@ public class TestAPI {
 
 	@RequestMapping("/test")
 	public ResponseEntity testdb() {
-		AuthController a = (AuthController)AppLoader.ctx.getBean("authController");
+		AuthController a = (AuthController) AppLoader.ctx.getBean("authController");
 		AuthToken token = a.auth("admin@corp.com", "pass");
 		System.out.println(token.toString());
-		((AuthController)AppLoader.ctx.getBean("authController")).getEntity("", Moderator.class);
+		((AuthController) AppLoader.ctx.getBean("authController")).getEntity("", Moderator.class);
 		return ResponseEntity.ok().body("ok");
 	}
 

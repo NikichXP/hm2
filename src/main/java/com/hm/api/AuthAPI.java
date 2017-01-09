@@ -30,12 +30,15 @@ public class AuthAPI {
 
 
 	@RequestMapping("/register/{type}")
-	public User register (@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type) {
+	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img) {
 
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {
 			return null;
 		}
 		User u = new User(mail, pass);
+		if (img != null) {
+			u.setUserImg(img);
+		}
 		switch (type.toLowerCase()) {
 			case "moderator":
 				Moderator m = new Moderator(u);
@@ -59,8 +62,8 @@ public class AuthAPI {
 		return u;
 	}
 
-	@RequestMapping ("/auth")
-	public ResponseEntity auth (@RequestParam("login") @NotNull String login, @RequestParam("pass") @NotNull String pass) {
+	@RequestMapping("/auth")
+	public ResponseEntity auth(@RequestParam("login") @NotNull String login, @RequestParam("pass") @NotNull String pass) {
 		AuthToken token = authController.auth(login, pass);
 		if (token == null) {
 			ResponseEntity.status(403).body("Wrong credentials");
@@ -81,7 +84,7 @@ public class AuthAPI {
 	}
 
 	@RequestMapping("/check/{token}")
-	public ResponseEntity testToken (@PathVariable("token") @NotNull String token) {
+	public ResponseEntity testToken(@PathVariable("token") @NotNull String token) {
 		AuthToken au = authController.get(token);
 		if (au == null) {
 			return ResponseEntity.status(401).body("Session not found");
@@ -95,9 +98,8 @@ public class AuthAPI {
 	}
 
 
-
 	@RequestMapping(value = {"/getUser/{token}", "/getuser/{token}"})
-	public ResponseEntity getUser (@PathVariable("token") @NotNull String token) {
+	public ResponseEntity getUser(@PathVariable("token") @NotNull String token) {
 		User u = authController.getUser(token);
 		if (u == null) {
 			return ResponseEntity.status(403).body("Session not found");
@@ -107,20 +109,18 @@ public class AuthAPI {
 	}
 
 	@RequestMapping(value = {"/getEmp/{token}", "/getemp/{token}"})
-	public ResponseEntity getEmployee (@PathVariable("token") @NotNull String token) {
+	public ResponseEntity getEmployee(@PathVariable("token") @NotNull String token) {
 		return ResponseEntity.status(470).body("Not yet implemented");
 	}
 
 	@RequestMapping(value = {"/getClient/{token}", "/getclient/{token}"})
-	public ResponseEntity getClient (@PathVariable("token") @NotNull String token) {
+	public ResponseEntity getClient(@PathVariable("token") @NotNull String token) {
 		return ResponseEntity.status(470).body("Not yet implemented");
 	}
 
 	@RequestMapping("/test")
-	public String test () {
+	public String test() {
 		return "Hi!";
 	}
-
-
 
 }

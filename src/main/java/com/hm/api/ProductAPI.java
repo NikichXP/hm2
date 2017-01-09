@@ -44,12 +44,14 @@ public class ProductAPI {
 
 	@RequestMapping("/create")
 	public ResponseEntity createProduct (@RequestParam("title") String title, @RequestParam("genre") String genre,
-	                                     @RequestParam("cookie") String cookie, @RequestParam("price") double price) {
+	                                     @RequestParam("cookie") String cookie, @RequestParam("price") double price, @RequestParam(value = "img", required = false) String img) {
 		Worker worker = authController.getLoggedToken(cookie, Worker.class);
 		Product product = new Product(title, gh.getGenre(genre), price, worker);
+		if (img != null) {
+			product.setImage(img);
+		}
 		worker.addProduct(product);
 		prodRepo.save(product);
 		return ResponseEntity.ok().body(product);
 	}
-
 }
