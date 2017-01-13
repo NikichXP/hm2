@@ -9,6 +9,10 @@ body {
     font-family: 'B20 Sans', sans-serif;
 }
 
+.container-img {
+    margin-top: 0px;
+}
+
 .hero-spacer {
     margin-top: 50px;
 }
@@ -37,13 +41,9 @@ footer {
     min-height: 73px;
     background: #272a33;
     border-top: 4px solid #90b651;
-/*    margin-bottom: 0;*/
+    margin-bottom: 0;
     position: relative;
     margin-top: 0;
-}
-
-.container-fluid {
-    margin-top: 40px;
 }
 
 .navbar-brand {
@@ -517,16 +517,25 @@ footer {
 }
 
 
+@media (min-width: 1920px) {
 
-@media (min-width: 1300px) {
-    #main-img {
-        height: 518px;
+    .container-img {
+        width: 1920px;
     }
 
 }
 
 
+@media (min-width: 1300px) {
+    #main-img {
+        height: 518px;
+    }
+}
+
+
 @media (max-width: 1200px) {
+
+    
     #main-img {
         height: 312px;
     }

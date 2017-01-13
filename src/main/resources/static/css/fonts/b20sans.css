@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'B20 Sans';
+    src: local('B20 Sans'), url('b20sans.woff2') format('woff2'), url('b20sans.woff') format('woff'), url('b20sans.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
