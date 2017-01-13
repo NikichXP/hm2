@@ -29,7 +29,7 @@ public class BasicWebPageDispatcher {
 		return ResponseEntity.ok(authapi.getClass().getMethods());
 	}
 
-	public static void main(String[] args) {
+	public static void test() {
 		AuthAPI au = new AuthAPI();
 		Arrays.stream(au.getClass().getMethods()).forEach(e -> System.out.println(e.getName() + "\t"
 				+ Arrays.stream(e.getDeclaredAnnotations()).map(x -> x.toString()).reduce((s1, s2) -> s1 + ", " + s2)));
