@@ -198,7 +198,7 @@ footer {
     font-size: 16px;
     font-family: B20 Sans, sans-serif;
     float: right;
-    padding-top: 4px;
+    padding-top: 3px;
 }
 
 #auth-button_search {
@@ -631,7 +631,7 @@ footer {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     
     .navbar-header {
         height: 60px;
