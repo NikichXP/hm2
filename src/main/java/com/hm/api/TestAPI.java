@@ -9,29 +9,36 @@ import com.mongodb.Block;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static com.hm.manualdb.ConnectionHandler.db;
 import static com.mongodb.client.model.Filters.eq;
+import static java.util.Arrays.stream;
 
 @RestController
 @RequestMapping("/test")
 public class TestAPI {
 
 	@Autowired
-	private AuthAPI authapi;
-	@Autowired
-	private UserRepository userRepo;
-	@Autowired
 	ModeratorRepository moderatorRepo;
 	@Autowired
 	WorkerRepository workerRepo;
 	@Autowired
 	ClientRepository clientRepo;
+	@Autowired
+	GenresHolder gh;
+	@Autowired
+	private AuthAPI authapi;
+	@Autowired
+	private UserRepository userRepo;
 	@Autowired
 	private AuthRepository authRepo;
 	@Autowired
@@ -40,9 +47,6 @@ public class TestAPI {
 	private AuthController authController;
 	@Autowired
 	private Gson gson;
-
-	@Autowired
-	GenresHolder gh;
 
 	@RequestMapping("/user")
 	public String testUser() {
@@ -137,6 +141,43 @@ public class TestAPI {
 		});
 
 		return ResponseEntity.ok(list);
+	}
+
+	@RequestMapping("/getMappings")
+	public ResponseEntity getMappings() {
+		return ResponseEntity.ok(
+				Stream.of(AuthAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
+						.flatMap(clz -> stream(clz.getMethods()))
+						.filter(e -> e.getAnnotations().length > 0)
+						.filter(e -> stream(e.getAnnotations())
+								.map(x -> x.annotationType().getSimpleName())
+								.filter(x -> x.equals("RequestMapping") || x.equals("GetMapping"))
+								.findAny().isPresent())
+						.map(meth -> stream(meth.getDeclaringClass().getAnnotations())
+								.filter(x -> x.annotationType().getSimpleName().equals("RequestMapping"))
+								.map(x -> (RequestMapping) x)
+								.map(RequestMapping::value)
+								.map(Arrays::toString)
+								.findAny()
+								.orElse("WHAT?")
+								+ "/"
+								+ meth.getName()
+								+ " :: "
+								+ stream(meth.getParameterAnnotations())
+								.flatMap(Arrays::stream)
+								.filter(x -> x.annotationType().getSimpleName().equals("RequestParam"))
+								.map(x -> (RequestParam) x)
+								.map(RequestParam::value)
+								.reduce((s1, s2) -> s1 + ", " + s2)
+								.orElseGet(() -> stream(meth.getParameterAnnotations())
+										.flatMap(Arrays::stream)
+										.filter(x -> x.annotationType().getSimpleName().equals("PathVariable"))
+										.map(x -> (PathVariable) x)
+										.map(PathVariable::value)
+										.reduce((s1, s2) -> s1 + "/" + s2)
+										.orElse("Noargs")
+								))
+						.collect(Collectors.toList()));
 	}
 
 
