@@ -173,8 +173,8 @@ public class TestAPI {
 										.flatMap(Arrays::stream)
 										.filter(x -> x.annotationType().getSimpleName().equals("PathVariable"))
 										.map(x -> (PathVariable) x)
-										.map(PathVariable::value)
-										.reduce((s1, s2) -> s1 + "/" + s2)
+										.map(x -> "/" + x.value())
+										.reduce((s1, s2) -> s1 + s2)
 										.orElse("Noargs")
 								))
 						.collect(Collectors.toList()));
