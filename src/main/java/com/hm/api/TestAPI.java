@@ -159,7 +159,7 @@ public class TestAPI {
 								.map(RequestMapping::value)
 								.map(Arrays::toString)
 								.findAny()
-								.orElse("WHAT?")
+								.orElse("!@#$%^&*()")
 								+ "/"
 								+ meth.getName()
 								+ " :: "
@@ -175,7 +175,7 @@ public class TestAPI {
 										.map(x -> (PathVariable) x)
 										.map(x -> "/" + x.value())
 										.reduce((s1, s2) -> s1 + s2)
-										.orElse("Noargs")
+										.orElse("-----")
 								))
 						.collect(Collectors.toList()));
 	}
