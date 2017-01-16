@@ -157,10 +157,10 @@ public class TestAPI {
 								.filter(x -> x.annotationType().getSimpleName().equals("RequestMapping"))
 								.map(x -> (RequestMapping) x)
 								.map(RequestMapping::value)
-								.map(Arrays::toString)
+								.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
 								.findAny()
 								.orElse("!@#$%^&*()")
-								+ Arrays.toString(meth.getAnnotation(RequestMapping.class).value())
+								+ ((meth.getAnnotation(RequestMapping.class).value().length == 1) ? meth.getAnnotation(RequestMapping.class).value()[0] : Arrays.toString(meth.getAnnotation(RequestMapping.class).value()))
 								+ " :: "
 								+ stream(meth.getParameterAnnotations())
 								.flatMap(Arrays::stream)
