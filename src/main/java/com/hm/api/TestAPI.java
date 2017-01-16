@@ -9,11 +9,11 @@ import com.mongodb.Block;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -149,19 +149,18 @@ public class TestAPI {
 				Stream.of(AuthAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
-						.filter(e -> stream(e.getAnnotations())
+						.filter((Method e) -> stream(e.getAnnotations())
 								.map(x -> x.annotationType().getSimpleName())
 								.filter(x -> x.equals("RequestMapping") || x.equals("GetMapping"))
 								.findAny().isPresent())
-						.map(meth -> stream(meth.getDeclaringClass().getAnnotations())
+						.map((Method meth) -> stream(meth.getDeclaringClass().getAnnotations())
 								.filter(x -> x.annotationType().getSimpleName().equals("RequestMapping"))
 								.map(x -> (RequestMapping) x)
 								.map(RequestMapping::value)
 								.map(Arrays::toString)
 								.findAny()
 								.orElse("!@#$%^&*()")
-								+ "/"
-								+ meth.getName()
+								+ Arrays.toString(meth.getAnnotation(RequestMapping.class).value())
 								+ " :: "
 								+ stream(meth.getParameterAnnotations())
 								.flatMap(Arrays::stream)
@@ -169,14 +168,7 @@ public class TestAPI {
 								.map(x -> (RequestParam) x)
 								.map(RequestParam::value)
 								.reduce((s1, s2) -> s1 + ", " + s2)
-								.orElseGet(() -> stream(meth.getParameterAnnotations())
-										.flatMap(Arrays::stream)
-										.filter(x -> x.annotationType().getSimpleName().equals("PathVariable"))
-										.map(x -> (PathVariable) x)
-										.map(x -> "/" + x.value())
-										.reduce((s1, s2) -> s1 + s2)
-										.orElse("-----")
-								))
+								.orElse("-----"))
 						.collect(Collectors.toList()));
 	}
 
