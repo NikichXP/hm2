@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("/product")
 public class ProductAPI {
 
 	@Autowired
