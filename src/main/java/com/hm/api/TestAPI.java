@@ -9,6 +9,7 @@ import com.mongodb.Block;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -146,7 +147,7 @@ public class TestAPI {
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
-				Stream.of(AuthAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
+				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())
@@ -159,7 +160,12 @@ public class TestAPI {
 								.map(RequestMapping::value)
 								.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
 								.findAny()
-								.orElse("!@#$%^&*()")
+								.orElseGet(() -> stream(meth.getDeclaringClass().getAnnotations())
+										.filter(x -> x.annotationType().getSimpleName().equals("GetMapping"))
+										.map(x -> (GetMapping) x)
+										.map(GetMapping::value)
+										.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
+										.findAny().orElse("Nothing"))
 								+ ((meth.getAnnotation(RequestMapping.class).value().length == 1) ? meth.getAnnotation(RequestMapping.class).value()[0] : Arrays.toString(meth.getAnnotation(RequestMapping.class).value()))
 								+ " :: "
 								+ stream(meth.getParameterAnnotations())
