@@ -174,7 +174,7 @@ public class TestAPI {
 
 	@RequestMapping("/getJSONMappings")
 	public ResponseEntity getJSONMappings() {
-		return ResponseEntity.ok("{ \"items\": [" +
+		return ResponseEntity.ok("{ \"items\": [{" +
 				Stream.of(AuthAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
@@ -187,10 +187,10 @@ public class TestAPI {
 								.filter(x -> x.annotationType().getSimpleName().equals("RequestMapping"))
 								.map(x -> (RequestMapping) x)
 								.map(RequestMapping::value)
-								.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
-								.map(x -> "{\"" + x)
+								.map(arr -> arr[0])
+								.map(x -> "\"" + x)
 								.findAny()
-								.orElse("{}")
+								.orElse("\"NOVAR")
 								+ ((meth.getAnnotation(RequestMapping.class).value().length == 1)
 								? meth.getAnnotation(RequestMapping.class).value()[0].replace('{', '$').replace('}', '$')
 								: Arrays.toString(meth.getAnnotation(RequestMapping.class).value()).replace('{', '$').replace('}', '$').replace('[', '#').replace(']', '#'))
@@ -202,10 +202,10 @@ public class TestAPI {
 								.map(RequestParam::value)
 								.reduce((s1, s2) -> s1 + ", " + s2)
 								.orElse("0")
-								+ "\"}"
+								+ "\""
 						).reduce((x1, x2) -> x1 + "," + x2)
 						.orElse("{}")
-				+ "]}");
+				+ "}]}");
 	}
 
 
