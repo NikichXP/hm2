@@ -8,9 +8,14 @@ import com.hm.repo.ProductRepository;
 import com.hm.repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -31,8 +36,12 @@ public class ProductAPI {
 	}
 
 	@RequestMapping("/offer/{city}")
-	public ResponseEntity listOffers (@PathVariable("city") @NotNull String city) {
-		return ResponseEntity.ok(prodRepo.listWithOffer(true));
+	public ResponseEntity listOffers (@PathVariable("city") @NotNull String city, @RequestParam(value = "limit", required = false) Integer limit) {
+		List<Product> ret = prodRepo.listWithOffer(true);
+		if (limit != null && limit != 0) {
+			ret = ret.stream().limit(limit).collect(Collectors.toList());
+		}
+		return ResponseEntity.ok(ret);
 	}
 
 	@RequestMapping("/list/{group}/{city}")
