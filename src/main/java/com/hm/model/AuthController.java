@@ -4,6 +4,7 @@ import com.hm.AppLoader;
 import com.hm.entity.AuthToken;
 import com.hm.entity.User;
 import com.hm.repo.*;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -39,7 +40,7 @@ public class AuthController {
 		if (user == null) {
 			return null;
 		}
-		AuthToken ret = new AuthToken(user);
+		val ret = new AuthToken(user);
 		cachedTokens.put(ret.getSessionID(), ret);
 		Thread entityLookup = null;
 		switch (user.getEntityClassName().toLowerCase()) {

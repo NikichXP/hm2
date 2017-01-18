@@ -20,8 +20,8 @@ public class Moderator extends User {
 					Arrays.asList(this.getClass().getMethods()).stream()
 							.filter(meth -> meth.getName().startsWith("set"))
 							.filter(el -> el.getName().substring(3).equals(name))
-							.findAny().
-							ifPresent(e -> {
+							.findAny()
+							.ifPresent(e -> {
 								try {
 									e.invoke(this, usermeth.invoke(user));
 								} catch (Exception ex) {

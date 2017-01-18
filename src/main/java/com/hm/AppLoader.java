@@ -7,10 +7,10 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class AppLoader {
 
-	public static ApplicationContext ctx;
+	public static final ApplicationContext ctx = SpringApplication.run(AppLoader.class, new String[] {});
 
 	public static void main(String[] args) {
-		ctx = SpringApplication.run(AppLoader.class, args);
+		while (ctx == null) {}
 		System.out.println("Seems like all running normal");
 	}
 

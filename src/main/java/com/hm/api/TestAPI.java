@@ -90,7 +90,7 @@ public class TestAPI {
 
 		Set<Worker> workers = new HashSet<>();
 
-		IntStream.range(0, 20).forEach(i -> {
+		IntStream.range(0, 20).parallel().forEach(i -> {
 			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(8) + ".jpg"));
 		});
 
@@ -111,7 +111,7 @@ public class TestAPI {
 
 		Set<Product> products = new HashSet<>();
 
-		workers.forEach(worker -> {
+		workers.parallelStream().forEach(worker -> {
 			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
 			products.add((Product) p.createProduct("work" + worker.getPass(), genr[(int) (Math.random() * 5)].getName(), authToken.getSessionID(), 1000, "common/auth" + new Random().nextInt(8) + ".jpg").getBody());
@@ -160,13 +160,16 @@ public class TestAPI {
 								.map(RequestMapping::value)
 								.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
 								.findAny()
-								.orElseGet(() -> stream(meth.getDeclaringClass().getAnnotations())
-										.filter(x -> x.annotationType().getSimpleName().equals("GetMapping"))
-										.map(x -> (GetMapping) x)
-										.map(GetMapping::value)
-										.map(arr -> (arr.length == 1) ? arr[0] : Arrays.toString(arr))
-										.findAny().orElse("Nothing"))
-								+ ((meth.getAnnotation(RequestMapping.class).value().length == 1) ? meth.getAnnotation(RequestMapping.class).value()[0] : Arrays.toString(meth.getAnnotation(RequestMapping.class).value()))
+								.orElse("Nothing")
+								+
+								((meth.getAnnotation(RequestMapping.class) != null && meth.getAnnotation(RequestMapping.class).value().length == 1)
+										? meth.getAnnotation(RequestMapping.class).value()[0]
+										: ((meth.getAnnotation(GetMapping.class) != null)
+											? ((meth.getAnnotation(GetMapping.class).value().length == 1)
+												? meth.getAnnotation(GetMapping.class).value()[0]
+												: Arrays.toString(meth.getAnnotation(GetMapping.class).value()))
+										: Arrays.toString(meth.getAnnotation(RequestMapping.class).value()))
+								)
 								+ " :: "
 								+ stream(meth.getParameterAnnotations())
 								.flatMap(Arrays::stream)

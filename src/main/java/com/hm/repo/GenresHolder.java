@@ -1,6 +1,7 @@
 package com.hm.repo;
 
 import com.google.gson.Gson;
+import com.hm.AppLoader;
 import com.hm.entity.Category;
 import com.hm.entity.Genre;
 import com.hm.entity.Group;
@@ -25,11 +26,7 @@ public class GenresHolder {
 		new Thread ( () -> {
 			boolean flag = true;
 			while (flag) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				while (AppLoader.ctx == null) {} //while app loads
 				try {
 					if (categories == null) {
 						categories = new HashMap<>();
@@ -48,7 +45,7 @@ public class GenresHolder {
 		}).start();
 	}
 
-	public Collection<Category> getCategories() {
+	public static Collection<Category> getCategories() {
 		return categories.values();
 	}
 

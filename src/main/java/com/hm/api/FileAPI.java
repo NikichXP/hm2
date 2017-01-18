@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.val;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class FileAPI {
 
 	@RequestMapping("/get")
 	public void getFile(HttpServletResponse response, HttpServletRequest request, @RequestParam("file") String filePath) throws Exception {
-		File file = new File(System.getProperty("user.dir") + "/src/main/resources/files/" + filePath);
+		val file = new File(System.getProperty("user.dir") + "/src/main/resources/files/" + filePath);
 
 		if (!file.exists()) {
 			response.getWriter().write("File not found");
