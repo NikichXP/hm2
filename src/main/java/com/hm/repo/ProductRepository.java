@@ -14,7 +14,22 @@ public interface ProductRepository extends MongoRepository <Product, String> {
 	@Query("{ 'workerId' : ?0 }")
 	public List<Product> listByWorkerId (String workerId);
 
-	@Query("{'offeredPrice' : ?0 }")
-	public List<Product> listWithOffer(boolean offer);
+	@Query("{?0 : ?1}")
+	public List<Product> listCustomQuery(String arg1, Object arg2);
+
+	@Query("{?0 : ?1, ?2 : ?3}")
+	public List<Product> listCustomTwoArgQuery(String key0, Object value0,
+	                                           String key1, Object value1);
+
+	@Query("{?0 : ?1, ?2 : ?3, ?4 : ?5}")
+	public List<Product> listCustomThreeArgQuery(String key0, Object value0,
+	                                             String key1, Object value1,
+	                                             String key2, Object value2);
+
+	@Query("{?0 : ?1, ?2 : ?3, ?4 : ?5, ?6 : ?7}")
+	public List<Product> listCustomFourArgQuery(String key0, Object value0,
+	                                            String key1, Object value1,
+	                                            String key2, Object value2,
+	                                            String key3, Object value3);
 
 }
