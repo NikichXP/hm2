@@ -18,7 +18,11 @@ public class User {
 	private String entityClassName;
 
 	public User (String mail, String pass) {
-		this.id = UUID.randomUUID().toString();
+		if (mail.equals("admin@corp.com")) {
+			this.id = "not-a-real-id";
+		} else {
+			this.id = UUID.randomUUID().toString();
+		}
 		this.mail = mail;
 		this.pass = pass;
 	}

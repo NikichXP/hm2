@@ -82,10 +82,6 @@ public class TestAPI {
 		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
 		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
 
-//		db().getCollection("user").updateOne(new Document(),
-//				new Document("$set", new Document("_class", "com.hm.entity.Moderator"))
-//						.append("$set", new Document("accessLevel", 100)));
-
 		Set<User> users = new HashSet<>();
 
 		Set<Worker> workers = new HashSet<>();
