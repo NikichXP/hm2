@@ -1,9 +1,3 @@
-/*
- * Start Bootstrap - Heroic Features (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
-
 body {
 /*    padding-top: 70px;  Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     font-family: 'B20 Sans', sans-serif;
@@ -19,7 +13,7 @@ body {
 
 .hero-feature {
     margin-bottom: 30px;
-    padding: 0;
+    padding: 0px;
 }
 
 .hero-feature img {
@@ -73,14 +67,26 @@ footer {
     color: #b2b3b7;
     text-transform: uppercase;
     float: left;
-    height: 62px;
-    padding-top: 13px;
+    
+    
 }
 .menu-link-a {
     font-family: PTSansbold, sans-serif;
     font-weight: bold;
-
+    height: 62px;
+    line-height: 40px;
 }
+
+.navbar-nav a.menu-link-a {
+    height: 62px;
+    line-height: 50px;
+} 
+
+#tenders {
+    color: #fff;
+        background-color: #90b651;
+}
+
 
 #propositions {
     color: #90b651;
@@ -199,6 +205,14 @@ footer {
     font-family: B20 Sans, sans-serif;
     float: right;
     padding-top: 3px;
+    
+/*
+    -webkit-transition: all ease-out 0.2s;
+    -moz-transition: all ease-out 0.2s;
+    -o-transition: all ease-out 0.2s;
+    -ms-transition: all ease-out 0.2s;
+    transition: all ease-out 0.2s;
+*/
 }
 
 #auth-button_search {
@@ -516,6 +530,26 @@ footer {
     display: none;
 }
 
+.page-navigation {
+    margin: auto;
+    width: 470px;
+}
+
+
+.page-navigation__list {
+    width: 100%;
+    list-style-type: none;
+    margin: auto;
+    padding: 0;
+}
+
+.page-navigation__list li{
+    display: inline;
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 
 @media (min-width: 1920px) {
 
@@ -684,6 +718,11 @@ footer {
         font-size: 14px;
     }
     
+    .navbar-nav a.menu-link-a {
+        line-height: 14px;
+        height: 30px;
+    } 
+    
     .menu-link-mob {
         display: none;
     }
@@ -763,18 +802,5 @@ footer {
     font-family: B20 Sans;
     src: url(http://webfonts.ru/import/b20sans.css), 
 }  
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
