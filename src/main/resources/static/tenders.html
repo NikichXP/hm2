@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>hm-test</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/s_tenders.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:700&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400i,700i&amp;subset=cyrillic" rel="stylesheet">
+<!--    <link href="http://webfonts.ru/import/b20sans.css" rel="stylesheet">-->
+    <link href="css/fonts/b20sans.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div class='container upper-bar'>
+        <div class='container-lower-menu'>
+            <a href="#" class="upper-bar__link">О проекте</a>
+            <a href="#" class="upper-bar__link">Реклама</a>
+            <div class="container-social"> 
+                <a href="https://twitter.com/HMUkraine" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--tw"></a>   
+                <a href="https://vk.com/happymoments" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--vk"></a> 
+                <a href="https://www.facebook.com/pages/Happy-Moments/347923621985767" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--fb"></a>   
+                <a href="https://www.instagram.com/happymoments.ua/" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--in"></a>
+            </div>
+            
+                    
+
+            <div class='container-auth'>
+                <button type="button" class="button-auth" id='auth-button_reg'>
+                    <span>Регистрация</span>
+                </button>
+                <button type="button" class="button-auth" id='auth-button_auth'>
+                    <span>Вход</span>
+                </button>
+            </div>
+            
+            <button type="button" class="button-auth" id='auth-button_search'>
+                <span>Поиск</span>
+            </button>
+            
+            <div class="container-search">
+                <input type="search" id="search" placeholder="Поиск..." />
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-static-top main-navbar" role="navigation">
+        
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" id='navbar-toggle-button' data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span>MENU</span>
+                </button>
+                <a class="navbar-brand" href="index.html"><img src='img/logo.png' id='logo-pic'></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<!--
+                <div class='container-lower-menu'>
+                    <div class="container-search">
+                        <input type="search" id="search" placeholder="Поиск..." />
+                    </div>
+                    <button type="button" class="button-auth" id='auth-button_search'>
+                            <span>Поиск</span>
+                    </button>
+                    <div class="container-social">          
+                        <a href="https://twitter.com/HMUkraine" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--tw"></a>   
+                        <a href="https://vk.com/happymoments" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--vk"></a> 
+                        <a href="https://www.facebook.com/pages/Happy-Moments/347923621985767" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--fb"></a>   
+                        <a href="https://www.instagram.com/happymoments.ua/" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--in"></a>
+                    </div>
+
+                    <div class='container-auth'>
+                        <button type="button" class="button-auth" id='auth-button_reg'>
+                            <span>Регистрация</span>
+                        </button>
+                        <button type="button" class="button-auth" id='auth-button_auth'>
+                            <span>Вход</span>
+                        </button>
+                    </div>
+                </div>
+-->
+                <ul class="nav navbar-nav" id='navbar-menu-ul'>
+                    <li class='menu-link'>
+                        <a href="#" class='menu-link-a' id='propositions'>Услуги</a>
+                    </li>
+                    <li class='menu-link'>
+                        <a href="#" class='menu-link-a'>Объявления</a>
+                    </li>
+                    <li class='menu-link'>
+                        <a href="tenders.html" class='menu-link-a' id='tenders'>Акции</a>
+                    </li>
+                    <li class='menu-link'>
+                        <a href="#" class='menu-link-a'>Free Photo</a>
+                    </li>
+                    <li class='menu-link'>
+                        <a href="#" class='menu-link-a'>HM Agent</a>
+                    </li>
+                    <li class='menu-link'>
+                        <a href="#" class='menu-link-a'>Новости</a>
+                    </li>
+                    <li class='menu-link' id='city'>
+                        <a href="#" class='menu-link-a'>Выбрать город</a>
+                    </li>
+                    <li class='menu-link-mob menu-link' id='menu-link-a__ad'>
+                        <a href="#" class='menu-link-a'>Реклама</a>
+                    </li>
+                    <li class='menu-link menu-link-mob' id='menu-link-a__s'>
+                        <a href="#" class='menu-link-a'>Поиск</a>
+                    </li>
+                    <li class='menu-link menu-link-mob' id='menu-link-a__log'>
+                        <a href="#" class='menu-link-a'>Вход</a>
+                    </li>
+                    <li class='menu-link menu-link-mob' id='menu-link-a__reg'>
+                        <a href="#" class='menu-link-a'>Регистрация</a>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12 part-label">
+                <h3>Акции участников</h3>
+            </div>
+        </div>
+
+        <!-- Page Features -->
+        <div class="row text-center">
+            <div class="col-md-3 col-sm-6 hero-feature">
+                
+                <img src="img/auth5.jpg" alt="">
+                    <div class="prob-block-bg">   
+                    </div>
+                    <div class="prob-block-desc">   
+                        <h5>г.Киев</h5>
+                        <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h4>
+                    </div>
+                    <div class="prob-block-price"> 
+                        <div class='price-new'>2000 грн</div>
+                        <div class='price-old'>9000 грн</div>
+                        <div class='price-to'>10 дней</div>
+                    </div>
+                    <div class="prob-block-dis">-150%</div>
+<!--
+                <div class="thumbnail prop-block">
+                    
+                </div>
+-->
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature">
+                
+                <img src="img/auth6.jpg" alt="">
+                <div class="prob-block-bg">   
+                </div>
+                <div class="prob-block-desc">   
+                    <h5>г.Киев</h5>
+                    <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h4>
+                </div>
+                <div class="prob-block-price"> 
+                    <div class='price-new'>2000 грн</div>
+                    <div class='price-old'>9000 грн</div>
+                    <div class='price-to'>10 дней</div>
+                </div>
+                <div class="prob-block-dis">-150%</div>
+
+            </div>
+            
+            <div class="col-md-3 col-sm-6 hero-feature">
+
+                    <img src="img/auth7.jpg" alt="">
+                    <div class="prob-block-bg">   
+                    </div>
+                    <div class="prob-block-desc">   
+                        <h5>г.Киев</h5>
+                        <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h4>
+                    </div>
+                    <div class="prob-block-price"> 
+                        <div class='price-new'>2000 грн</div>
+                        <div class='price-old'>9000 грн</div>
+                        <div class='price-to'>10 дней</div>
+                    </div>
+                    <div class="prob-block-dis">-150%</div>
+
+            </div>
+            
+            <div class="col-md-3 col-sm-6 hero-feature">
+
+                    <img src="img/auth8.jpg" alt="">
+                    <div class="prob-block-bg">   
+                    </div>
+                    <div class="prob-block-desc">   
+                        <h5>г.Киев</h5>
+                        <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h4>
+                    </div>
+                    <div class="prob-block-price"> 
+                        <div class='price-new'>2000 грн</div>
+                        <div class='price-old'>9000 грн</div>
+                        <div class='price-to'>10 дней</div>
+                    </div>
+                    <div class="prob-block-dis">-150%</div>
+
+            </div>
+
+        </div>
+        
+        <div class="row">
+            <div class='page-navigation'>
+                <ul class='page-navigation__list'>
+                    <li class='page-navigation__page'>Первая</li>
+                    <li class='page-navigation__page'>Предыдущая</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    
+        
+        <div class="container text-block">
+            <span class='text-block-span'>HappyMoments.ua</span> - это портал быстрого и удобного поиска профессионалов для проведения любого типа мероприятия, а также для удобного поиска фотостудии, банкетного зала, ивент агенства, которые помогут создать праздник, которого Вы достойны. На нашем портале Вы можете найти такие услуги как: аренда автомобилей, развлечения и шоу программы, которые порадуют Вас и Ваших гостей, а так же другие предложения.... В каком бы городе Вы не находились, участники нашего сайта смогут организовать самый незабываемый и яркий праздник для Вас, Вашей семьи, друзей, коллег...
+        
+        </div>    
+
+    </div>
+    <div class="container">
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-4 col-sm-4 footer-block">
+                    <div class="footer-block-soc">
+                        <a href="https://twitter.com/HMUkraine" rel="nofollow" target="_blank" class="footer-social-btns__link footer-social-btns__link--tw"></a>   
+                        <a href="https://vk.com/happymoments" rel="nofollow" target="_blank" class="footer-social-btns__link footer-social-btns__link--vk"></a> 
+                        <a href="https://www.facebook.com/pages/Happy-Moments/347923621985767" rel="nofollow" target="_blank" class="footer-social-btns__link footer-social-btns__link--fb"></a>   
+                        <a href="https://www.instagram.com/happymoments.ua/" rel="nofollow" target="_blank" class="footer-social-btns__link footer-social-btns__link--in"></a>
+                    </div>
+                    ©  2017
+                    <br>
+                    Все работы выложенные на сайте являются собственностью их авторов. По вопросам использования работ связывайтесь с авторами.
+                </div>
+                <div class="col-lg-4 col-sm-4 footer-block">
+                    <h3>Информация</h3>
+                    <a href='#'>О проекте</a>
+                    <a href='#'>Контакты</a>
+                </div>
+                <div class="col-lg-4 col-sm-4 footer-block">
+                    <h3>Помощь</h3>
+                    <a href='#'>Часто задаваемые вопросы</a>
+                    <a href='#'>Пользовательское соглашение</a>
+                    <a href='#'>Политика конфиденциальности</a>          
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/j_tenders.js"></script>
+
+</body>
+
+</html>
