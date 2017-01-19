@@ -32,7 +32,7 @@ public class ProductAPI {
 	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
 	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
 	                                   @RequestParam(value = "genre", required = false) String genre,
-	                                   @RequestParam(value = "limit", required = false) int limit) {
+	                                   @RequestParam(value = "limit", required = false) Integer limit) {
 		Stream<Product> stream;
 		if (city == null && genre == null) {
 			stream = prodRepo.listCustomQuery("offeredPrice", true).stream();
@@ -44,6 +44,13 @@ public class ProductAPI {
 			} else {
 				stream = prodRepo.listCustomTwoArgQuery("offeredPrice", true, "genreName", genre).stream();
 			}
+		}
+
+		if (shuffle == null) {
+			shuffle = false;
+		}
+		if (limit == null) {
+			limit = 0;
 		}
 
 		if (shuffle) {
