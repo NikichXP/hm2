@@ -1,49 +1,49 @@
 $(function(){
     
+    var currentSite = "https://hm2.herokuapp.com";
+    //var currentSite = "https://07962c19.eu.ngrok.io";
     
-    for (var i = 1; i < 10; i++) {
+    var url = window.location;
+    var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
     
-       $('.page-navigation__list').append("<li class='page-navigation__page'>" +
-                        i +
-                        "</li>");	     
+    offerPage = 0 + offerPage;
+    
+    var pageOffset = 0;
+    
+    for (var i = 1; i < offerPage; i++) { 
+        pageOffset += 20;    
     }
     
-    $('.page-navigation__list').append("<li class='page-navigation__page'>" +
-                        "Следующая" +
-                        "</li>");
-    $('.page-navigation__list').append("<li class='page-navigation__page'>" +
-                        "Последняя" +
-                        "</li>");
+
+    var maxPages;  // get number of pages
     
-    
-//    $('#auth-button_search').on('click', function(){			
-//        $.ajax({
-//            type: 'GET',
-//            url: 'https://hm2.herokuapp.com/product/offer',
-//            data: { limit: '20' },
-//            success: function(resData) {
-//                for (var i = 0; i < resData.length; i++)
-//                {
-//                    $('.upper-bar').append("<p>" +
-//                        resData[i] +
-//                        "</p>");	   	
-//                }; 
-//                
-//            },
-//        });
-//
-//    });
     
     $.ajax({
         type: 'GET',
-        url: 'https://hm2.herokuapp.com/product/offer',
-        data: { limit: '20' },
+        url: currentSite + '/product/offer',
+        data: { limit: '20', offset: pageOffset },
         success: function(resData) {
-            $('.offers-container').html("");	
-            for (var i = 0; i < resData.length; i++)
-            {
+            $('.offers-container').html("");
+            
+            maxPages = Math.ceil(resData[0]/20);
+                    
+            for (var i = 1; i < Math.ceil(resData[0]/20) + 1; i++) { 
+                $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
+                                                + i
+                                             + "</li>");	    
+            }
+            
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>" +
+                        "Следующая" +
+                        "</li>");
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>" +
+                        "Последняя" +
+                        "</li>");
+            
+            for (var i = 1; i < resData.length; i++)
+            {          
                 $('.offers-container').append("<div class='col-md-3 col-sm-6 hero-feature'>" 
-                                            + "<img src='../files/" + resData[i].image + "' alt=''>"  
+                                            + "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -55,33 +55,57 @@ $(function(){
                                                 + "<div class='price-old'>" + resData[i].price + " грн</div>"
                                                 + "<div class='price-to'>" + i + " дней</div>"
                                             + "</div>"
-                                            + "<div class='prob-block-dis'>-" + resData[i].discount * 100 + "%</div>"
-                                        + "</div>");	   	
-            }; 
+                                            + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
+                                            + "</div>");  	
+            };                
                 
         },
     });
     
+        
+            
+    $('body').on('click', 'li#page-navigation__page-next', function() {	   
+        
+        if (offerPage < maxPages) {
+            offerPage++;
+            var url = 'offers.html?page=' + offerPage;
+            window.location.replace(url);    
+        }
+
+    });
     
-//            <div class="col-md-3 col-sm-6 hero-feature">
-//                
-//                <img src="img/auth5.jpg" alt="">
-//                    <div class="prob-block-bg">   
-//                    </div>
-//                    <div class="prob-block-desc">   
-//                        <h5>г.Киев</h5>
-//                        <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h4>
-//                    </div>
-//                    <div class="prob-block-price"> 
-//                        <div class='price-new'>2000 грн</div>
-//                        <div class='price-old'>9000 грн</div>
-//                        <div class='price-to'>10 дней</div>
-//                    </div>
-//                    <div class="prob-block-dis">-150%</div>
-//                <div class="thumbnail prop-block">                   
-//                </div>
-//
-//            </div>
+    $('body').on('click', 'li#page-navigation__page-prev', function() {	
+               
+        if (offerPage > 1) {
+            offerPage--;
+            var url = 'offers.html?page=' + offerPage;
+            window.location.replace(url);  
+        }
+
+    });
+    
+    $('body').on('click', 'li#page-navigation__page-last', function() {	
+        var url = 'offers.html?page=' + maxPages;
+        window.location.replace(url);
+
+    });
+    
+    $('body').on('click', 'li#page-navigation__page-first', function() {	
+        var url = 'offers.html?page=' + 1;
+        window.location.replace(url);
+
+    });
+    
+    $('body').on('click', 'li.page-navigation__page-num', function() {	
+        offerPage = $(this).html();
+        var url = 'offers.html?page=' + offerPage;
+        window.location.replace(url);
+
+    });
+    
+    
+    
+
     
     
     

@@ -24,6 +24,7 @@ body {
 
 .hero-feature img {
     width: 100%;
+    height: 317px;
 }
 
 footer {
@@ -588,6 +589,10 @@ footer {
         top: 195px;
 
     }
+    
+    .hero-feature img {
+        height: 263px;
+    }
 
 }
 
@@ -642,6 +647,10 @@ footer {
     .upper-bar__link {
         font-size: 14px;
         margin-right: 10px;
+    }
+    
+    .hero-feature img {
+        height: 407px;
     }
 
 }
@@ -769,6 +778,10 @@ footer {
     
     .upper-bar {
         display: none; !important;
+    }
+    
+    .hero-feature img {
+        height: 326px;
     }
 
 }
