@@ -1,14 +1,28 @@
 package com.hm.api;
 
-import com.hm.entity.*;
+import com.hm.entity.Product;
+import com.hm.entity.Worker;
 import com.hm.model.AuthController;
-import com.hm.repo.*;
+import com.hm.repo.GenresHolder;
+import com.hm.repo.ProductRepository;
+import com.hm.repo.WorkerRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.constraints.NotNull;
-import java.util.stream.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.stream;
 
 @RestController
 @RequestMapping("/product")
@@ -24,55 +38,86 @@ public class ProductAPI {
 	private WorkerRepository workerRepo;
 
 	@RequestMapping("/categories")
-	public ResponseEntity getHat() {
+	public ResponseEntity<java.util.Collection<com.hm.entity.Category>> getHat() {
 		return ResponseEntity.ok(gh.getCategories());
 	}
-
+	
 	@RequestMapping("/offer")
 	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
 	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
 	                                   @RequestParam(value = "genre", required = false) String genre,
-	                                   @RequestParam(value = "limit", required = false) Integer limit) {
-		Stream<Product> stream;
-		if (city == null && genre == null) {
-			stream = prodRepo.listCustomQuery("offeredPrice", true).stream();
-		} else if (city != null && genre != null) {
-			stream = prodRepo.listCustomThreeArgQuery("offeredPrice", true, "city", city, "genreName", genre).stream();
-		} else {
-			if (city != null) {
-				stream = prodRepo.listCustomTwoArgQuery("offeredPrice", true, "city", city).stream();
-			} else {
-				stream = prodRepo.listCustomTwoArgQuery("offeredPrice", true, "genreName", genre).stream();
-			}
-		}
-
+	                                   @RequestParam(value = "group", required = false) String group,
+	                                   @RequestParam(value = "limit", required = false) Integer limit,
+	                                   @RequestParam(value = "date", required = false) Long expiration,
+	                                   @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
 		if (shuffle == null) {
 			shuffle = false;
 		}
 		if (limit == null) {
 			limit = 0;
 		}
+		if (offset == null) {
+			offset = 0;
+		}
+
+		HashMap<String, Object> args = new HashMap<>();
+
+		args.put("offeredPrice", true);
+		if (city != null) {
+			args.put("city", city);
+		}
+		if (group != null) {
+			args.put("groupName", group);
+		} else if (genre != null) {
+			args.put("genreName", genre);
+		}
+		if (expiration != null) {
+			args.put("expirationDate", expiration);
+		}
+
+		Method method = stream(prodRepo.getClass().getDeclaredMethods())
+				.filter(meth -> meth.getName().equals("listCustom" + args.size() + "ArgQuery"))
+				.findFirst()
+				.orElseGet(() -> null);
+
+		Object[] queryArgs = new Object[args.size() * 2];
+		int ptr = 0;
+		for (Object o : args.keySet()) {
+			queryArgs[ptr] = o;
+			queryArgs[ptr+1] = args.get(o);
+			ptr += 2;
+		}
+		Stream<Product> stream = (Stream<Product>) method.invoke(prodRepo, queryArgs);
 
 		if (shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		}
+		if (offset != 0) {
+			stream = stream.skip(offset);
+		}
 		if (limit != 0) {
 			stream = stream.limit(limit);
 		}
-		return ResponseEntity.ok(stream.collect(Collectors.toList()));
+		List<Object> ret = new ArrayList<>();
+		ret.add(0);
+		ret.addAll(stream.collect(Collectors.toList()));
+		ret.set(0, ret.size()-1);
+		return ResponseEntity.ok(ret);
 	}
 
 	@RequestMapping("/list/{group}/{city}")
-	public ResponseEntity listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
+	public ResponseEntity<java.util.List<Product>> listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
 	}
 
 
 	@RequestMapping("/create")
-	public ResponseEntity createProduct(@RequestParam("title") String title, @RequestParam("genre") String genre,
-	                                    @RequestParam("cookie") String cookie, @RequestParam("price") double price, @RequestParam(value = "img", required = false) String img) {
+	public ResponseEntity<Product> createProduct(@RequestParam("title") String title, @RequestParam("genre") String genre,
+	                                             @RequestParam("cookie") String cookie, @RequestParam("price") double price,
+	                                             @RequestParam("city") String city,
+	                                             @RequestParam(value = "img", required = false) String img) {
 		val worker = authController.getLoggedToken(cookie, Worker.class);
-		val product = new Product(title, gh.getGenre(genre), price, worker);
+		val product = new Product(title, gh.getGenre(genre), price, worker, city, img);
 		if (img != null) {
 			product.setImage(img);
 		}

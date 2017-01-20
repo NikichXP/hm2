@@ -16,11 +16,11 @@ public class Product {
 
 	@Id
 	private String id;
-	private ArrayList<String> photos;
 	private String title;
 	private String description;
 	private String city;
 	private String image;
+	private ArrayList<String> photos;
 
 	private String workerId;
 
@@ -35,9 +35,11 @@ public class Product {
 	private double price;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 
+	//offer section
 	private boolean offeredPrice;
 	private double discount;
 	private double finalPrice;
+	private long expirationDate;
 
 	@Transient
 	private static WorkerRepository workers = (WorkerRepository) AppLoader.ctx.getBean("workerRepository");
@@ -66,6 +68,11 @@ public class Product {
 		this.city = city;
 	}
 
+	public Product(String title, Genre genre, double price, Worker worker, String city, String img) {
+		this (title, genre, price, worker, city);
+		this.image = img;
+	}
+
 	public void setDiscount(double discount) {
 		if (discount == 0) {
 			offeredPrice = false;
@@ -78,6 +85,10 @@ public class Product {
 		this.offeredPrice = true;
 		this.discount = discount;
 		this.finalPrice = price * (1 - discount);
+	}
+
+	public String getValidImage () {
+		return image.replace(".", "/");
 	}
 
 	public Worker getWorkerEntity() {

@@ -1,8 +1,5 @@
 package com.hm.api;
 
-import com.hm.AppLoader;
-import com.hm.entity.User;
-import com.hm.model.AuthController;
 import com.hm.repo.BiddableProductRepository;
 import com.hm.repo.BidsRepository;
 import lombok.val;
@@ -32,12 +29,13 @@ public class BidsAPI {
 	@RequestMapping(value = "/create/bid", method = RequestMethod.POST)
 	public ResponseEntity createBid (@RequestParam("args") String[] args) {
 		val data = Arrays.stream(args);
-		User user = AppLoader.ctx.getBean(AuthController.class).getUser(data.filter(arg -> arg.startsWith("token"))
-				.findAny()
-				.orElse(null));
-		if (user == null) {
-//			return ResponseEntity.status(403).body("Need authorize"); TODO Remove test line
-		}
+//		User user = AppLoader.ctx.getBean(AuthController.class)
+//				.getUser(data.filter(arg -> arg.startsWith("token"))
+//				.findAny()
+//				.orElse(null));
+//		if (user == null) {
+////			return ResponseEntity.status(403).body("Need authorize"); TODO Remove test line
+//		}
 
 		return ResponseEntity.ok(args);
 	}

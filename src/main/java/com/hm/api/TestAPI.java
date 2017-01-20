@@ -86,7 +86,7 @@ public class TestAPI {
 
 		Set<Worker> workers = new HashSet<>();
 
-		IntStream.range(0, 20).parallel().forEach(i -> {
+		IntStream.range(0, 100).parallel().forEach(i -> {
 			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(8) + ".jpg"));
 		});
 
@@ -110,11 +110,11 @@ public class TestAPI {
 		workers.parallelStream().forEach(worker -> {
 			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
-			products.add((Product) p.createProduct("work" + worker.getPass(), genr[(int) (Math.random() * 5)].getName(), authToken.getSessionID(), 1000, "common/auth" + new Random().nextInt(8) + ".jpg").getBody());
+			products.add(p.createProduct("work" + worker.getMail(), genr[(int) (Math.random() * 5)].getName(), authToken.getSessionID(), 1000, "Kiev", "common/auth" + new Random().nextInt(8) + ".jpg").getBody());
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
-			product.setDiscount(0.4);
+			product.setDiscount(Math.random());
 			prodRepo.save(product);
 		});
 

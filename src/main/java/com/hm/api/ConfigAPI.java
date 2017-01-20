@@ -26,8 +26,7 @@ public class ConfigAPI {
 	@GetMapping("/list/offer/group")
 	public ResponseEntity listOfferGroups () {
 		return ResponseEntity.ok(AppLoader.ctx.getBean(ProductRepository.class)
-				.listCustomQuery("offeredPrice", true)
-				.stream()
+				.listCustom1ArgQuery("offeredPrice", true)
 				.map(Product::getGroupName)
 				.distinct()
 				.collect(Collectors.toList())
@@ -37,8 +36,7 @@ public class ConfigAPI {
 	@GetMapping("/list/offer/genre/{group}")
 	public ResponseEntity listOfferGenres (@PathVariable("group") String group) {
 		return ResponseEntity.ok(AppLoader.ctx.getBean(ProductRepository.class)
-				.listCustomTwoArgQuery("offeredPrice", true, "groupName", group)
-				.stream()
+				.listCustom2ArgQuery("offeredPrice", true, "groupName", group)
 				.map(Product::getGroupName)
 				.distinct()
 				.collect(Collectors.toList())

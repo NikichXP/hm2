@@ -16,7 +16,11 @@ public class AuthToken {
 	private long timeout;
 
 	public AuthToken(User user) {
-		this.sessionID = UUID.randomUUID().toString();
+		if (user.getId().startsWith("test") || user.getId().startsWith("not-a-real")) { //TODO TEST PURPOSE
+			this.sessionID = user.getId();
+		} else {
+			this.sessionID = UUID.randomUUID().toString();
+		}
 		this.user = user;
 		this.timeout = System.currentTimeMillis() + 3_600_000; //1h
 	}
