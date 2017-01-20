@@ -41,7 +41,7 @@ public class ProductAPI {
 	public ResponseEntity<java.util.Collection<com.hm.entity.Category>> getHat() {
 		return ResponseEntity.ok(gh.getCategories());
 	}
-	
+
 	@RequestMapping("/offer")
 	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
 	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
@@ -50,16 +50,6 @@ public class ProductAPI {
 	                                   @RequestParam(value = "limit", required = false) Integer limit,
 	                                   @RequestParam(value = "date", required = false) Long expiration,
 	                                   @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
-		if (shuffle == null) {
-			shuffle = false;
-		}
-		if (limit == null) {
-			limit = 0;
-		}
-		if (offset == null) {
-			offset = 0;
-		}
-
 		HashMap<String, Object> args = new HashMap<>();
 
 		args.put("offeredPrice", true);
@@ -84,28 +74,28 @@ public class ProductAPI {
 		int ptr = 0;
 		for (Object o : args.keySet()) {
 			queryArgs[ptr] = o;
-			queryArgs[ptr+1] = args.get(o);
+			queryArgs[ptr + 1] = args.get(o);
 			ptr += 2;
 		}
 		Stream<Product> stream = (Stream<Product>) method.invoke(prodRepo, queryArgs);
 
-		if (shuffle) {
+		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		}
 
+		if (offset == null) {
+			offset = 0;
+		}
+
 		List<Object> ret = new ArrayList<>();
+		List<Product> data = stream.collect(Collectors.toList());
 
-		final int[] ctr = {0};
-		stream.peek(x -> ctr[0]++);
-		ret.add(ctr[0]);
+		ret.add(data.size());
+		if (limit == null) {
+			limit = data.size() - offset;
+		}
+		ret.addAll(data.subList(offset, (offset + limit > data.size()) ? data.size() : offset + limit));
 
-		if (offset != 0) {
-			stream = stream.skip(offset);
-		}
-		if (limit != 0) {
-			stream = stream.limit(limit);
-		}
-		ret.addAll(stream.collect(Collectors.toList()));
 		return ResponseEntity.ok(ret);
 	}
 
