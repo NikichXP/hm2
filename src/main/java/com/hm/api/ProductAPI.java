@@ -113,7 +113,7 @@ public class ProductAPI {
 
 	@RequestMapping("/create")
 	public ResponseEntity<Product> createProduct(@RequestParam("title") String title, @RequestParam("genre") String genre,
-	                                             @RequestParam("cookie") String cookie, @RequestParam("price") double price,
+	                                             @RequestParam("cookie") String cookie, @RequestParam("price") int price,
 	                                             @RequestParam("city") String city,
 	                                             @RequestParam(value = "img", required = false) String img) {
 		val worker = authController.getLoggedToken(cookie, Worker.class);

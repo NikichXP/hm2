@@ -114,7 +114,9 @@ public class TestAPI {
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
-			product.setDiscount(Math.random());
+			double disc = Math.random()*90.0 + 5;
+			disc = Math.round(disc);
+			product.setDiscount(disc / 100);
 			prodRepo.save(product);
 		});
 

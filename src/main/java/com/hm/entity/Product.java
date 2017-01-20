@@ -32,13 +32,13 @@ public class Product {
 	private String groupName;
 
 	private boolean isActive;
-	private double price;
+	private int price;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 
 	//offer section
 	private boolean offeredPrice;
 	private double discount;
-	private double finalPrice;
+	private int finalPrice;
 	private long expirationDate;
 
 	@Transient
@@ -57,18 +57,18 @@ public class Product {
 		this.workerId = worker.getId();
 	}
 
-	public Product (String title, Genre genre, double price, Worker worker) {
+	public Product (String title, Genre genre, int price, Worker worker) {
 		this(title, genre, worker);
 		this.price = price;
 		this.finalPrice = price;
 	}
 
-	public Product (String title, Genre genre, double price, Worker worker, String city) {
+	public Product (String title, Genre genre, int price, Worker worker, String city) {
 		this (title, genre, price, worker);
 		this.city = city;
 	}
 
-	public Product(String title, Genre genre, double price, Worker worker, String city, String img) {
+	public Product(String title, Genre genre, int price, Worker worker, String city, String img) {
 		this (title, genre, price, worker, city);
 		this.image = img;
 	}
@@ -84,7 +84,7 @@ public class Product {
 		}
 		this.offeredPrice = true;
 		this.discount = discount;
-		this.finalPrice = price * (1 - discount);
+		this.finalPrice = (int) Math.round(price * (1 - discount));
 	}
 
 	public String getValidImage () {
