@@ -92,16 +92,20 @@ public class ProductAPI {
 		if (shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		}
+
+		List<Object> ret = new ArrayList<>();
+
+		final int[] ctr = {0};
+		stream.peek(x -> ctr[0]++);
+		ret.add(ctr[0]);
+
 		if (offset != 0) {
 			stream = stream.skip(offset);
 		}
 		if (limit != 0) {
 			stream = stream.limit(limit);
 		}
-		List<Object> ret = new ArrayList<>();
-		ret.add(0);
 		ret.addAll(stream.collect(Collectors.toList()));
-		ret.set(0, ret.size()-1);
 		return ResponseEntity.ok(ret);
 	}
 

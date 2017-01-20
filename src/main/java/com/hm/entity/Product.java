@@ -82,9 +82,11 @@ public class Product {
 		} else if (discount > 1) {
 			return;
 		}
+		discount *= 100;
+		discount = Math.round(discount);
 		this.offeredPrice = true;
 		this.discount = discount;
-		this.finalPrice = (int) Math.round(price * (1 - discount));
+		this.finalPrice = (int) Math.round(price * (1 - discount/100.0));
 	}
 
 	public String getValidImage () {
