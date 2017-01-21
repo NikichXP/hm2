@@ -27,7 +27,7 @@ public class GenresHolder {
 	}
 
 	public static int updateCollectionsDB() {
-
+		categories = null;
 		boolean flag = true;
 		while (flag) {
 			while (AppLoader.ctx == null) {
@@ -80,6 +80,7 @@ public class GenresHolder {
 		group.categoryEntity().getGroups().add(group);
 		if (categories.get(group.getCategoryName()) == null) {
 			addCategory(group.categoryEntity());
+			save();
 		} else {
 			db().getCollection("category").insertOne(Document.parse(gson.toJson(group.categoryEntity())));
 		}
@@ -99,11 +100,17 @@ public class GenresHolder {
 
 		categories.get(genre.getCategoryName()).getGroups().stream()
 				.filter(grp -> grp.getName().equals(genre.getGroupName()))
-				.findFirst().ifPresent(tar -> tar.getGenres().add(genre));
+				.findFirst()
+				.ifPresent(tar -> tar.getGenres().add(genre));
+
+		save();
 	}
 
 	private Group createGroup(String groupName, Category category) {
-		return category.getGroups().stream().filter(group -> group.getName().equals(groupName)).findFirst().orElseGet(() -> {
+		return category.getGroups().stream()
+				.filter(group -> group.getName().equals(groupName))
+				.findFirst()
+				.orElseGet(() -> {
 			Group ret = new Group(groupName, category);
 			category.getGroups().add(ret);
 			save();
@@ -117,7 +124,6 @@ public class GenresHolder {
 			category = new Category(categoryName);
 			categories.put(categoryName, category);
 			addCategory(category);
-
 		} else {
 			category = categories.get(categoryName);
 		}
@@ -127,7 +133,10 @@ public class GenresHolder {
 	public Genre createGenre(String genreName, String groupName, String categoryName) {
 		Category category = createCategory(categoryName);
 		Group group = createGroup(groupName, category);
-		return group.getGenres().stream().filter(g -> g.getName().equals(genreName)).findFirst().orElseGet(() -> {
+		return group.getGenres().stream()
+				.filter(g -> g.getName().equals(genreName))
+				.findFirst()
+				.orElseGet(() -> {
 			Genre genre = new Genre(genreName, group);
 			group.getGenres().add(genre);
 			save();
@@ -136,19 +145,30 @@ public class GenresHolder {
 	}
 
 	public Group getGroup(String groupName) {
-		return categories.values().stream().flatMap(cat -> cat.getGroups()
-				.stream()).filter(group -> group.getName().equals(groupName) || group.getId().equals(groupName)).findFirst().orElse(null);
+		return categories.values().stream()
+				.flatMap(cat -> cat.getGroups().stream())
+				.filter(group -> group.getName().equals(groupName) || group.getId().equals(groupName))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public Genre getGenre(String genreName) {
 		return categories.values().parallelStream()
-				.flatMap(category -> category.getGroups().parallelStream())
-				.flatMap(group -> group.getGenres().parallelStream())
-				.filter(genre -> genre.getName().equals(genreName)).findFirst().orElse(null);
+				.flatMap(category -> category.getGroups()
+						.parallelStream())
+				.flatMap(group -> group.getGenres()
+						.parallelStream())
+				.filter(genre -> genre.getName().equals(genreName))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public Category getCategory(String categoryId) {
-		return categories.values().stream().filter(e -> e.getId().equals(categoryId)).findFirst().orElse(null);
+		return categories.values()
+				.stream()
+				.filter(e -> e.getId().equals(categoryId))
+				.findFirst()
+				.orElse(null);
 	}
 
 
