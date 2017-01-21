@@ -85,7 +85,7 @@ public class FileAPI {
 		FileOutputStream outputStream = new FileOutputStream(f);
 
 		int read = 0;
-		byte[] bytes = new byte[1024];
+		byte[] bytes = new byte[4096];
 
 		while ((read = inputStream.read(bytes)) != -1) {
 			outputStream.write(bytes, 0, read);
@@ -95,6 +95,8 @@ public class FileAPI {
 
 		return ResponseEntity.ok().body("Save success: " + f.getAbsolutePath());
 	}
+
+	//TODO Test methods below
 
 	@RequestMapping("/dir")
 	public ResponseEntity dir(@RequestParam(value = "dir", required = false) String dir) {

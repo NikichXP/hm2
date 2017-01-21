@@ -126,6 +126,11 @@ public class TestAPI {
 		return getAll();
 	}
 
+	@RequestMapping("/update/genres")
+	public ResponseEntity updateGenres() {
+		return ResponseEntity.ok(GenresHolder.updateCollectionsDB());
+	}
+
 	@RequestMapping("getAll")
 	public ResponseEntity getAll() {
 		List<String> list = new ArrayList<>();

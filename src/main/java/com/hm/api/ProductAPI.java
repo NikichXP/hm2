@@ -38,8 +38,8 @@ public class ProductAPI {
 	private WorkerRepository workerRepo;
 
 	@RequestMapping("/categories")
-	public ResponseEntity<java.util.Collection<com.hm.entity.Category>> getHat() {
-		return ResponseEntity.ok(gh.getCategories());
+	public ResponseEntity getHat() {
+		return ResponseEntity.ok(GenresHolder.getCategories());
 	}
 
 	@RequestMapping("/offer")

@@ -23,30 +23,45 @@ public class GenresHolder {
 	private static HashMap<String, Category> categories = null;
 
 	public GenresHolder() {
-		new Thread ( () -> {
-			boolean flag = true;
-			while (flag) {
-				while (AppLoader.ctx == null) {} //while app loads
-				try {
-					if (categories == null) {
-						categories = new HashMap<>();
-						db().getCollection("category").find().forEach((Block<? super Document>) e -> {
-							Category c = gson.fromJson(e.toJson(), Category.class);
-							categories.put(c.getName(), c);
-						});
-					}
-					flag = false;
-					System.out.println("GenresHolder init success.");
-				} catch (Exception e) {
-					System.out.println("Restarting init of GenresHolder...");
-					flag = true;
+		new Thread(GenresHolder::updateCollectionsDB).start();
+	}
+
+	public static int updateCollectionsDB() {
+
+		boolean flag = true;
+		while (flag) {
+			while (AppLoader.ctx == null) {
+			} //while app loads
+			try {
+				if (categories == null) {
+					categories = new HashMap<>();
+					db().getCollection("category").find().forEach((Block<? super Document>) e -> {
+						Category c = gson.fromJson(e.toJson(), Category.class);
+						categories.put(c.getName(), c);
+					});
 				}
+				flag = false;
+				System.out.println("GenresHolder init success.");
+			} catch (Exception e) {
+				System.out.println("Restarting init of GenresHolder...");
+				categories = null;
+				flag = true;
 			}
-		}).start();
+		}
+		return categories.size();
 	}
 
 	public static Collection<Category> getCategories() {
 		return categories.values();
+	}
+
+	public static boolean isGenreExists(String s) {
+		return categories.values().stream()
+				.flatMap(cat -> cat.getGroups().stream())
+				.flatMap(group -> group.getGenres().stream())
+				.filter(genre -> genre.getName().equals(s))
+				.findFirst()
+				.orElse(null) != null;
 	}
 
 	public void save() {
@@ -56,12 +71,12 @@ public class GenresHolder {
 		});
 	}
 
-	public void addCategory (Category category) {
+	public void addCategory(Category category) {
 		db().getCollection("category").insertOne(Document.parse(gson.toJson(category)));
 		categories.put(category.getName(), category);
 	}
 
-	public void addGroup (Group group) {
+	public void addGroup(Group group) {
 		group.categoryEntity().getGroups().add(group);
 		if (categories.get(group.getCategoryName()) == null) {
 			addCategory(group.categoryEntity());
@@ -70,7 +85,7 @@ public class GenresHolder {
 		}
 	}
 
-	public void addGenre (Genre genre) {
+	public void addGenre(Genre genre) {
 		Category category;
 		if (categories.get(genre.getCategoryName()) == null) {
 			category = createCategory(genre.getCategoryName());
@@ -109,7 +124,7 @@ public class GenresHolder {
 		return category;
 	}
 
-	public Genre createGenre (String genreName, String groupName, String categoryName) {
+	public Genre createGenre(String genreName, String groupName, String categoryName) {
 		Category category = createCategory(categoryName);
 		Group group = createGroup(groupName, category);
 		return group.getGenres().stream().filter(g -> g.getName().equals(genreName)).findFirst().orElseGet(() -> {
@@ -135,4 +150,6 @@ public class GenresHolder {
 	public Category getCategory(String categoryId) {
 		return categories.values().stream().filter(e -> e.getId().equals(categoryId)).findFirst().orElse(null);
 	}
+
+
 }
