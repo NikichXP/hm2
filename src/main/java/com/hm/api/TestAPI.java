@@ -110,7 +110,7 @@ public class TestAPI {
 			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean(ProductAPI.class);
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
 			products.add(
-					p.createProduct("work" + worker.getMail(),
+					p.createProduct("Test work name, hello world!",
 							genr[(int) (Math.random() * 5)].getName(),
 							authToken.getSessionID(),
 							1000,
