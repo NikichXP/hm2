@@ -108,9 +108,15 @@ public class TestAPI {
 		Set<Product> products = new HashSet<>();
 
 		workers.parallelStream().forEach(worker -> {
-			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean("productAPI");
+			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean(ProductAPI.class);
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
-			products.add(p.createProduct("work" + worker.getMail(), genr[(int) (Math.random() * 5)].getName(), authToken.getSessionID(), 1000, "Kiev", "common/auth" + new Random().nextInt(8) + ".jpg").getBody());
+			products.add(
+					p.createProduct("work" + worker.getMail(),
+							genr[(int) (Math.random() * 5)].getName(),
+							authToken.getSessionID(),
+							1000,
+							"Kiev",
+							"common/auth" + new Random().nextInt(8) + ".jpg").getBody());
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
@@ -128,7 +134,7 @@ public class TestAPI {
 
 	@RequestMapping("/update/genres")
 	public ResponseEntity updateGenres() {
-		return ResponseEntity.ok(GenresHolder.updateCollectionsDB());
+		return ResponseEntity.ok(AppLoader.ctx.getBean(GenresHolder.class).updateCollectionsDB());
 	}
 
 	@RequestMapping("getAll")

@@ -17,6 +17,8 @@ public class Category { //like "popular"
 	private ArrayList<Group> groups;
 
 
+
+
 	public Category(String name) {
 		this.id = Generator.genSmallId();
 		this.name = name;

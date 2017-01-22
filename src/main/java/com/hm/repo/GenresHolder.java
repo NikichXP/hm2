@@ -5,9 +5,9 @@ import com.hm.AppLoader;
 import com.hm.entity.Category;
 import com.hm.entity.Genre;
 import com.hm.entity.Group;
-import com.mongodb.Block;
 import lombok.Data;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -20,13 +20,15 @@ import static com.hm.manualdb.ConnectionHandler.db;
 public class GenresHolder {
 
 	private static final Gson gson = new Gson();
+	@Autowired
+	private CategoryRepository categoryRepo;
 	private static HashMap<String, Category> categories = null;
 
 	public GenresHolder() {
-		new Thread(GenresHolder::updateCollectionsDB).start();
+		new Thread(this::updateCollectionsDB).start();
 	}
 
-	public static int updateCollectionsDB() {
+	public int updateCollectionsDB() {
 		categories = null;
 		boolean flag = true;
 		while (flag) {
@@ -35,10 +37,8 @@ public class GenresHolder {
 			try {
 				if (categories == null) {
 					categories = new HashMap<>();
-					db().getCollection("category").find().forEach((Block<? super Document>) e -> {
-						Category c = gson.fromJson(e.toJson(), Category.class);
-						categories.put(c.getName(), c);
-					});
+					categoryRepo.findAll()
+							.forEach(category -> categories.put(category.getName(), category));
 				}
 				flag = false;
 				System.out.println("GenresHolder init success.");
@@ -65,27 +65,33 @@ public class GenresHolder {
 	}
 
 	public void save() {
-		db().getCollection("category").deleteOne(Document.parse("{}"));
-		categories.values().forEach(e -> {
-			db().getCollection("category").insertOne(Document.parse(gson.toJson(e)));
-		});
+		categoryRepo.deleteAll();
+		categoryRepo.save(categories.values());
 	}
 
 	public void addCategory(Category category) {
-		db().getCollection("category").insertOne(Document.parse(gson.toJson(category)));
+		categoryRepo.save(category);
 		categories.put(category.getName(), category);
 	}
 
+	/**
+	 * FIXME This is unused method, not optimized. Also it is not tested. You are noticed.
+	 */
 	public void addGroup(Group group) {
 		group.categoryEntity().getGroups().add(group);
 		if (categories.get(group.getCategoryName()) == null) {
 			addCategory(group.categoryEntity());
 			save();
 		} else {
-			db().getCollection("category").insertOne(Document.parse(gson.toJson(group.categoryEntity())));
+			db().getCollection("category")
+					.updateOne(Document.parse("{'name' : '" + group.getCategoryName() + "'}"),
+							Document.parse("{$set: {'groups':" + gson.toJson(group) + "}}")); //FIXME test this query
 		}
 	}
 
+	/**
+	 FIXME This is unused method, not optimized. If U trying to use it - refactor and update it first
+	 */
 	public void addGenre(Genre genre) {
 		Category category;
 		if (categories.get(genre.getCategoryName()) == null) {
@@ -111,11 +117,11 @@ public class GenresHolder {
 				.filter(group -> group.getName().equals(groupName))
 				.findFirst()
 				.orElseGet(() -> {
-			Group ret = new Group(groupName, category);
-			category.getGroups().add(ret);
-			save();
-			return ret;
-		});
+					Group ret = new Group(groupName, category);
+					category.getGroups().add(ret);
+					save();
+					return ret;
+				});
 	}
 
 	private Category createCategory(String categoryName) {
@@ -137,11 +143,11 @@ public class GenresHolder {
 				.filter(g -> g.getName().equals(genreName))
 				.findFirst()
 				.orElseGet(() -> {
-			Genre genre = new Genre(genreName, group);
-			group.getGenres().add(genre);
-			save();
-			return genre;
-		});
+					Genre genre = new Genre(genreName, group);
+					group.getGenres().add(genre);
+					save();
+					return genre;
+				});
 	}
 
 	public Group getGroup(String groupName) {

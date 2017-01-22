@@ -33,9 +33,11 @@ public class AuthController {
 	}
 
 	private static Map<String, AuthToken> cachedTokens = new HashMap<>();
+	/** Objects classtype given as default is User, this is queries to finalize type */
 	private static Map<String, Thread> queuedQueries = new HashMap<>();
 
 	public AuthToken auth (String login, String pass) {
+		pass = UserUtils.encryptPass(login, pass);
 		User user = userRepo.findByMailAndPass(login, pass);
 		if (user == null) {
 			return null;
@@ -105,7 +107,7 @@ public class AuthController {
 		return null;
 	}
 
-	public <T extends User> T getEntity (String id, T c) { //TODO delete/make private after tests
+	public <T extends User> T getEntity (String id, T c) { //FIXME Security issue: test-only
 		MongoRepository repo = repos.get(c.getClass());
 		if (repo == null) {
 			repo = (MongoRepository) AppLoader.ctx.getBean(c.getClass().getSimpleName().toLowerCase() + "Repository");
@@ -119,7 +121,7 @@ public class AuthController {
 		}
 	}
 
-	public <T extends User> T getEntity (String id, Class<T> clazz) {
+	public <T extends User> T getEntity (String id, Class<T> clazz) { //FIXME Security issue: test-only
 		MongoRepository repo = repos.get(clazz);
 		if (repo == null) {
 			repo = (MongoRepository) AppLoader.ctx.getBean(clazz.getSimpleName().toLowerCase() + "Repository");

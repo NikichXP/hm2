@@ -20,7 +20,7 @@ public class BiddableProduct {
 	private String title;
 	private String description;
 	private LocalDateTime deadline;
-	private double workingHours;
+	private int workingHours;
 	private int price;
 
 	private Set<Node> bidders = new HashSet<>();
@@ -33,7 +33,7 @@ public class BiddableProduct {
 	public static class Node {
 		private String userId;
 		private String userImg;
-		private String bid;
+		private int bid;
 		private String userName;
 	}
 

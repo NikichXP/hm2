@@ -17,14 +17,17 @@ public class User {
 	private String userImg;
 	private String entityClassName;
 
+	private String name;
+
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
 			this.id = "not-a-real-id";
 		} else {
 			this.id = UUID.randomUUID().toString();
 		}
-		this.mail = mail;
 		this.pass = pass;
+		this.mail = mail;
+		this.name = "defaultName";
 	}
 
 }

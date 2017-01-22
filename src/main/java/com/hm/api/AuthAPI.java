@@ -3,10 +3,17 @@ package com.hm.api;
 import com.google.gson.Gson;
 import com.hm.entity.*;
 import com.hm.model.AuthController;
-import com.hm.repo.*;
+import com.hm.model.UserUtils;
+import com.hm.repo.ClientRepository;
+import com.hm.repo.ModeratorRepository;
+import com.hm.repo.UserRepository;
+import com.hm.repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -31,10 +38,10 @@ public class AuthAPI {
 
 	@RequestMapping("/register/{type}")
 	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img) {
-
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {
 			return null;
 		}
+		pass = UserUtils.encryptPass(mail, pass);
 		User u = new User(mail, pass);
 		if (img != null) {
 			u.setUserImg(img);
