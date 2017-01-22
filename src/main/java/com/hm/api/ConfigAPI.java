@@ -1,6 +1,7 @@
 package com.hm.api;
 
 import com.hm.AppLoader;
+import com.hm.entity.Category;
 import com.hm.entity.Genre;
 import com.hm.entity.Product;
 import com.hm.repo.GenresHolder;
@@ -41,12 +42,11 @@ public class ConfigAPI {
 	public ResponseEntity listOfferGenres(@PathVariable("group") String group) {
 		return ResponseEntity.ok(AppLoader.ctx.getBean(ProductRepository.class)
 				.listCustom2ArgQuery("offeredPrice", true, "groupName", group)
-				.map(prod -> GenresHolder.getCategories())
-				.map(categories -> categories.stream()
-						.flatMap(category -> category.getGroups().stream().flatMap(gup -> gup.getGenres().stream())
-								.map(Genre::getName)
-						)
-				)
+				.flatMap(prod -> GenresHolder.getCategories().stream())
+				.flatMap((Category cat) -> cat.getGroups().stream())
+				.filter(grp -> grp.getName().equals(group))
+				.flatMap(grp -> grp.getGenres().stream())
+				.map((Genre gen) -> gen.getName())
 				.distinct()
 				.collect(Collectors.toList())
 		);
