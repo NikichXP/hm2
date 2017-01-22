@@ -56,7 +56,6 @@ public class TestAPI {
 
 	@RequestMapping("/wipe/db")
 	public ResponseEntity wipeDb() {
-
 		return ResponseEntity.ok().build();
 	}
 
