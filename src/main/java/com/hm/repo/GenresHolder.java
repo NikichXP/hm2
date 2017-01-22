@@ -150,7 +150,7 @@ public class GenresHolder {
 				});
 	}
 
-	public Group getGroup(String groupName) {
+	public static Group getGroup(String groupName) {
 		return categories.values().stream()
 				.flatMap(cat -> cat.getGroups().stream())
 				.filter(group -> group.getName().equals(groupName) || group.getId().equals(groupName))
@@ -158,7 +158,7 @@ public class GenresHolder {
 				.orElse(null);
 	}
 
-	public Genre getGenre(String genreName) {
+	public static Genre getGenre(String genreName) {
 		return categories.values().parallelStream()
 				.flatMap(category -> category.getGroups()
 						.parallelStream())
@@ -169,7 +169,7 @@ public class GenresHolder {
 				.orElse(null);
 	}
 
-	public Category getCategory(String categoryId) {
+	public static Category getCategory(String categoryId) {
 		return categories.values()
 				.stream()
 				.filter(e -> e.getId().equals(categoryId))
