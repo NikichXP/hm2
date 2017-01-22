@@ -35,6 +35,7 @@ public class BidsAPI {
 		val data = Arrays.stream(args);
 		User user = AppLoader.ctx.getBean(AuthController.class)
 				.getUser(data.filter(arg -> arg.startsWith("token"))
+						.map(argpair -> argpair.split("=")[1])
 						.findAny()
 						.orElse(null));
 		if (user == null) {
@@ -66,7 +67,7 @@ public class BidsAPI {
 					}
 				});
 
-		return ResponseEntity.ok(args);
+		return ResponseEntity.ok(product);
 	}
 
 	@RequestMapping("/bid/{id}")

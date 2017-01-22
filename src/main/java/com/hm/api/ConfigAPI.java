@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class ConfigAPI {
 
 	@GetMapping("/list/city")
-	public ResponseEntity listCities() {
-		return ResponseEntity.ok(new String[]{"Киев", "Львов", "Одесса"});
+	public static String[] listCities() {
+		return new String[]{"Киев", "Львов", "Одесса"};
 	}
 
 	@GetMapping("/list/genre")

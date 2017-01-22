@@ -10,10 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class AuthController {
@@ -43,7 +40,8 @@ public class AuthController {
 			return null;
 		}
 		val ret = new AuthToken(user);
-		cachedTokens.put(ret.getSessionID(), ret);
+		add(ret);
+//		cachedTokens.put(ret.getSessionID(), ret);
 		Thread entityLookup = null;
 		switch (user.getEntityClassName().toLowerCase()) {
 			case "moderator":
@@ -149,13 +147,14 @@ public class AuthController {
 		if (ret != null) {
 			return ret;
 		}
-		ret = authRepo.findOne(token);
+		ret = authRepo.getToken(token);
+
 		return ret; //can be null!
 	}
 
 	public void add (AuthToken token) {
-		authRepo.save(token);
 		cachedTokens.put(token.getSessionID(), token);
+		authRepo.insert(token);
 	}
 
 	public void delete (String token) {

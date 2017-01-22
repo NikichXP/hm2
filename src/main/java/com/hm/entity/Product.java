@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class Product {
 	private boolean offeredPrice;
 	private double discount;
 	private int finalPrice;
-	private long expirationDate;
+	private LocalDate expirationDate;
 
 	@Transient
 	private static WorkerRepository workers = (WorkerRepository) AppLoader.ctx.getBean("workerRepository");

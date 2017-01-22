@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -114,7 +115,7 @@ public class TestAPI {
 							genr[(int) (Math.random() * 5)].getName(),
 							authToken.getSessionID(),
 							1000,
-							"Kiev",
+							ConfigAPI.listCities()[(int)(Math.random()*3)],
 							"common/auth" + new Random().nextInt(8) + ".jpg").getBody());
 		});
 
@@ -122,6 +123,7 @@ public class TestAPI {
 			double disc = Math.random()*90.0 + 5;
 			disc = Math.round(disc);
 			product.setDiscount(disc / 100);
+			product.setExpirationDate(LocalDate.of(2017, 2, (int)(Math.random()*28)));
 			prodRepo.save(product);
 		});
 

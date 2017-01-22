@@ -11,4 +11,7 @@ public interface AuthRepository extends MongoRepository<AuthToken, String> {
 	@Query("{ 'timeout' : { $lt: ?0 } }")
 	public List<AuthToken> findByTimeoutLessThan(long now);
 
+	@Query("{'sessionID' : ?0}")
+	public AuthToken getToken(String token);
+
 }
