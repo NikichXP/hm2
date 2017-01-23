@@ -123,7 +123,7 @@ public class TestAPI {
 			double disc = Math.random()*90.0 + 5;
 			disc = Math.round(disc);
 			product.setDiscount(disc / 100);
-			product.setExpirationDate(LocalDate.of(2017, 2, (int)(Math.random()*28)));
+			product.setExpirationDate(LocalDate.of(2017, 2, (int)(Math.random()*28 + 1)));
 			prodRepo.save(product);
 		});
 
@@ -151,6 +151,19 @@ public class TestAPI {
 			list.add(e.toString());
 		});
 
+		return ResponseEntity.ok(list);
+	}
+
+	@RequestMapping("getAllObj")
+	public ResponseEntity getAllObj() {
+		List<Object> list = new ArrayList<>();
+		userRepo.findAll().forEach(list::add);
+		moderatorRepo.findAll().forEach(list::add);
+		clientRepo.findAll().forEach(list::add);
+		workerRepo.findAll().forEach(list::add);
+		authRepo.findAll().forEach(list::add);
+		prodRepo.findAll().forEach(list::add);
+		GenresHolder.getCategories().forEach(list::add);
 		return ResponseEntity.ok(list);
 	}
 
@@ -190,22 +203,4 @@ public class TestAPI {
 								.orElse("-----"))
 						.collect(Collectors.toList()));
 	}
-
-	//SHIT BELOW
-
-
-	@RequestMapping("/env")
-	public String sysEnv() {
-		return System.getenv("MONGODB_URI");
-	}
-
-	@RequestMapping("/test")
-	public ResponseEntity testdb() {
-		AuthController a = (AuthController) AppLoader.ctx.getBean("authController");
-		AuthToken token = a.auth("admin@corp.com", "pass");
-		System.out.println(token.toString());
-		((AuthController) AppLoader.ctx.getBean("authController")).getEntity("", Moderator.class);
-		return ResponseEntity.ok().body("ok");
-	}
-
 }

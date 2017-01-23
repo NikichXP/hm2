@@ -1,10 +1,11 @@
 package com.hm.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class BiddableProduct {
 	private String genre;
 	private String title;
 	private String description;
-	private LocalDateTime deadline;
+	private LocalDate deadline;
 	private int workingHours;
 	private int price;
 

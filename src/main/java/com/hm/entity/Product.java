@@ -94,6 +94,10 @@ public class Product {
 		return image.replace(".", "/");
 	}
 
+	public String getExpirationDateString () {
+		return (expirationDate == null) ? null : expirationDate.toString();
+	}
+
 	public Worker getWorkerEntity() {
 		return workers.findOne(workerId);
 	}

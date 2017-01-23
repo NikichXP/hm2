@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @RequestMapping("/bids")
@@ -51,6 +52,9 @@ public class BidsAPI {
 				.forEach(arg -> {
 					String[] pair = arg.split("=");
 					switch (pair[0]) {
+						case "deadline":
+							product.setDeadline(LocalDate.parse(pair[1]));
+							break;
 						case "genre":
 							if (GenresHolder.isGenreExists(pair[1])) {
 								product.setGenre(pair[1]);
