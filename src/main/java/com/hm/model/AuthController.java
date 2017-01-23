@@ -42,37 +42,7 @@ public class AuthController {
 		val ret = new AuthToken(user);
 		add(ret);
 //		cachedTokens.put(ret.getSessionID(), ret);
-		Thread entityLookup = null;
-		switch (user.getEntityClassName().toLowerCase()) {
-			case "moderator":
-				entityLookup = new Thread(() -> {
-					User u = moderatorRepo.findOne(user.getId());
-					if (u != null) {
-						cachedTokens.get(ret.getSessionID()).setUser(u);
-					}
-				});
-				break;
-			case "client":
-				entityLookup = new Thread(() -> {
-					User u = clientRepo.findOne(user.getId());
-					if (u != null) {
-						cachedTokens.get(ret.getSessionID()).setUser(u);
-					}
-				});
-				break;
-			case "worker":
-				entityLookup = new Thread(() -> {
-					User u = workerRepo.findOne(user.getId());
-					if (u != null) {
-						cachedTokens.get(ret.getSessionID()).setUser(u);
-					}
-				});
-				break;
-			default:
-				entityLookup = new Thread();
-		}
-		entityLookup.start();
-		queuedQueries.put(user.getMail(), entityLookup);
+		entityLookUp(user, ret);
 		return ret;
 	}
 
@@ -89,7 +59,7 @@ public class AuthController {
 	private HashMap<Class, MongoRepository> repos = new HashMap<>();
 
 	public <T extends User> T getLoggedToken (String sessionId, Class<T> clazz) {
-		User user = cachedTokens.get(sessionId).getUser();
+		User user = get(sessionId).getUser();
 		if (clazz.isInstance(user)) {
 			return clazz.cast(user);
 		} else if (user != null) {
@@ -142,13 +112,55 @@ public class AuthController {
 		return list;
 	}
 
+	private void entityLookUp (User user, AuthToken ret) {
+		Thread entityLookup = null;
+		switch (ret.getUser().getEntityClassName().toLowerCase()) {
+			case "moderator":
+				entityLookup = new Thread(() -> {
+					User u = moderatorRepo.findOne(user.getId());
+					if (u != null) {
+						cachedTokens.get(ret.getSessionID()).setUser(u);
+					}
+				});
+				break;
+			case "client":
+				entityLookup = new Thread(() -> {
+					User u = clientRepo.findOne(user.getId());
+					if (u != null) {
+						cachedTokens.get(ret.getSessionID()).setUser(u);
+					}
+				});
+				break;
+			case "worker":
+				entityLookup = new Thread(() -> {
+					User u = workerRepo.findOne(user.getId());
+					if (u != null) {
+						cachedTokens.get(ret.getSessionID()).setUser(u);
+					}
+				});
+				break;
+			default:
+				entityLookup = new Thread();
+		}
+		entityLookup.start();
+		queuedQueries.put(user.getMail(), entityLookup);
+	}
+
 	public AuthToken get (@NotNull String token) {
 		AuthToken ret = cachedTokens.get(token);
 		if (ret != null) {
 			return ret;
 		}
 		ret = authRepo.getToken(token);
-
+		if (ret != null) {
+			cachedTokens.put(ret.getSessionID(), ret);
+			entityLookUp(ret.getUser(), ret);
+			try {
+				queuedQueries.get(ret.getSessionID()).join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		return ret; //can be null!
 	}
 

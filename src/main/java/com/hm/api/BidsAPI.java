@@ -71,6 +71,7 @@ public class BidsAPI {
 					}
 				});
 
+		biddableRepo.save(product);
 		return ResponseEntity.ok(product);
 	}
 
@@ -87,6 +88,7 @@ public class BidsAPI {
 		node.setUserName(worker.getName());
 		node.setUserImg(worker.getUserImg());
 		prod.getBidders().add(node);
+		biddableRepo.save(prod);
 		return ResponseEntity.ok(new Object[]{prod, node});
 	}
 

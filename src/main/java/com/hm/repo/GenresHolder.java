@@ -56,13 +56,9 @@ public class GenresHolder {
 	}
 
 	public static boolean isGenreExists(String s) {
-		System.out.println("isGenresExists");
 		return categories.values().stream()
-				.peek(x -> System.out.println(x.toString()))
 				.flatMap(cat -> cat.getGroups().stream())
-				.peek(x -> System.out.println(x.toString()))
 				.flatMap(group -> group.getGenres().stream())
-				.peek(x -> System.out.println(x.toString()))
 				.filter(genre -> genre.getName().equals(s))
 				.findFirst()
 				.orElse(null) != null;
