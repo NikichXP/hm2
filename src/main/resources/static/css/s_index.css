@@ -532,6 +532,16 @@ footer {
     display: none;
 }
 
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.container-img {
+    margin: 0;
+    padding: 0;
+}
+
 
 @media (min-width: 1920px) {
 

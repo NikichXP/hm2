@@ -298,18 +298,11 @@ footer {
     text-align: left;
 }
 
-.part-label {
+.part-search {
     height: 120px;
 }
 
-.part-label h3{
-    font: 2.5em 'PT Sans Narrow', sans-serif;
-    font-weight: bold;
-    color: #585963;
-    text-transform: uppercase;
-    text-align: center;
-    margin-top: 37px;
-}
+
 .prob-block-dis {
     position: absolute;
     top: 36px;
@@ -532,8 +525,7 @@ footer {
 }
 
 .page-navigation {
-    margin: auto;
-    width: 470px;
+    float: right;
 }
 
 
@@ -556,6 +548,21 @@ footer {
     cursor: pointer;
 }
 
+.dropdown-menu__calendar {
+    width: 300px;
+}
+
+.calendar {
+    display: none;
+}
+
+.dropdown {
+    float: left;
+}
+.row {
+    margin-left:0;
+    margin-right: 0;
+}
 
 @media (min-width: 1920px) {
 
