@@ -16,6 +16,7 @@ import java.util.Arrays;
 
 @RequestMapping("/bids")
 @RestController
+@CrossOrigin
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BidsAPI {
 
