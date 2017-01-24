@@ -76,21 +76,21 @@ public class TestAPI {
 		System.out.print("Generating users... ");
 
 
-		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
-		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
-		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
-		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
-		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
+		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" +new Random().nextInt(5)+8 + ".jpg");
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
 
 		Set<User> users = new HashSet<>();
 
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(8) + ".jpg"));
+			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg"));
 		});
 
-		authapi.register("newuser@mail.com", "12345", "Client", "common/auth" + new Random().nextInt(8) + ".jpg");
+		authapi.register("newuser@mail.com", "12345", "Client", "common/auth" + new Random().nextInt(13) + ".jpg");
 
 		System.out.println("done.");
 		System.out.print("Generating products... ");
@@ -116,7 +116,7 @@ public class TestAPI {
 							authToken.getSessionID(),
 							1000,
 							ConfigAPI.listCities()[(int)(Math.random()*3)],
-							"common/auth" + new Random().nextInt(8) + ".jpg").getBody());
+							"common/auth" + new Random().nextInt(13) + ".jpg").getBody());
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
