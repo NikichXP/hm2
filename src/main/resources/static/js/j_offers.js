@@ -136,8 +136,8 @@ $(function(){
                                                 + "<h4>" + resData[i].title + "</h4>"
                                             + "</div>"
                                             + "<div class='prob-block-user'>"
-                                            + "<img class='user-pic__img' src='" + currentSite + "/file/get/" + resData[i].workerEntity.validUserImg + "'>"
-                                            + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
+                                                + "<img class='user-pic__img' src='" + currentSite + "/file/get/" + resData[i].workerEntity.validUserImg + "'>"
+                                                + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
                                             + "</div>"
                                             + "<div class='prob-block-price'> "
                                                 + "<div class='price-new'>" + resData[i].finalPrice + " грн</div>"
@@ -145,7 +145,7 @@ $(function(){
                                                 + "<div class='price-to'>" + i + " дней</div>"
                                             + "</div>"
                                             + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
-                                            + "</div>");  	
+                                        + "</div>");  	
             };                
                 
         },
