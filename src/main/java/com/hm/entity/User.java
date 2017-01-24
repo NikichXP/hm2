@@ -36,7 +36,7 @@ public class User {
 	 * Adds new field in user JSON, which is suitable for {@link com.hm.api.FileAPI} methods
 	 * @return userImg replaced . -> /
 	 */
-	private String getValidUserImg () {
+	public String getValidUserImg () {
 		return userImg.replace(".", "/");
 	}
 
