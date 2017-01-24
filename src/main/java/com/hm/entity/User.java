@@ -19,6 +19,8 @@ public class User {
 
 	private String name;
 
+
+
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
 			this.id = "not-a-real-id";
@@ -28,6 +30,14 @@ public class User {
 		this.pass = pass;
 		this.mail = mail;
 		this.name = "defaultName";
+	}
+
+	/**
+	 * Adds new field in user JSON, which is suitable for {@link com.hm.api.FileAPI} methods
+	 * @return userImg replaced . -> /
+	 */
+	private String getValidUserImg () {
+		return userImg.replace(".", "/");
 	}
 
 }

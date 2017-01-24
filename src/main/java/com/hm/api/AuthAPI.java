@@ -35,7 +35,6 @@ public class AuthAPI {
 	@Autowired
 	private AuthController authController;
 
-
 	@RequestMapping("/register/{type}")
 	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img) {
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {

@@ -10,7 +10,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AuthController {
@@ -26,6 +29,8 @@ public class AuthController {
 	@Autowired
 	private UserRepository userRepo;
 
+	private HashMap<Class, MongoRepository> repos = new HashMap<>();
+
 	public AuthController() {
 	}
 
@@ -33,6 +38,7 @@ public class AuthController {
 	/** Objects classtype given as default is User, this is queries to finalize type */
 	private static Map<String, Thread> queuedQueries = new HashMap<>();
 
+	/** creates session, starts lookup of entity in DB */
 	public AuthToken auth (String login, String pass) {
 		pass = UserUtils.encryptPass(login, pass);
 		User user = userRepo.findByMailAndPass(login, pass);
@@ -41,7 +47,6 @@ public class AuthController {
 		}
 		val ret = new AuthToken(user);
 		add(ret);
-//		cachedTokens.put(ret.getSessionID(), ret);
 		entityLookUp(user, ret);
 		return ret;
 	}
@@ -56,7 +61,9 @@ public class AuthController {
 		}
 	}
 
-	private HashMap<Class, MongoRepository> repos = new HashMap<>();
+	public Map<String, AuthToken> getCachedTokens() {
+		return cachedTokens;
+	}
 
 	public <T extends User> T getLoggedToken (String sessionId, Class<T> clazz) {
 		User user = get(sessionId).getUser();
