@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/file")
 public class FileAPI {
 
