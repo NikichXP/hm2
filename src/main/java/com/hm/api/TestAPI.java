@@ -76,11 +76,11 @@ public class TestAPI {
 		System.out.print("Generating users... ");
 
 
-		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
-		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
-		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
-		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" +new Random().nextInt(5)+8 + ".jpg");
-		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5)+8 + ".jpg");
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
+		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
 
 		Set<User> users = new HashSet<>();
 
@@ -115,15 +115,15 @@ public class TestAPI {
 							genr[(int) (Math.random() * 5)].getName(),
 							authToken.getSessionID(),
 							1000,
-							ConfigAPI.listCities()[(int)(Math.random()*3)],
+							ConfigAPI.listCities()[(int) (Math.random() * 3)],
 							"common/auth" + new Random().nextInt(13) + ".jpg").getBody());
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
-			double disc = Math.random()*90.0 + 5;
+			double disc = Math.random() * 90.0 + 5;
 			disc = Math.round(disc);
 			product.setDiscount(disc / 100);
-			product.setExpirationDate(LocalDate.of(2017, 2, (int)(Math.random()*28 + 1)));
+			product.setExpirationDate(LocalDate.of(2017, 2, (int) (Math.random() * 28 + 1)));
 			prodRepo.save(product);
 		});
 
@@ -188,9 +188,9 @@ public class TestAPI {
 								((meth.getAnnotation(RequestMapping.class) != null && meth.getAnnotation(RequestMapping.class).value().length == 1)
 										? meth.getAnnotation(RequestMapping.class).value()[0]
 										: ((meth.getAnnotation(GetMapping.class) != null)
-											? ((meth.getAnnotation(GetMapping.class).value().length == 1)
-												? meth.getAnnotation(GetMapping.class).value()[0]
-												: Arrays.toString(meth.getAnnotation(GetMapping.class).value()))
+										? ((meth.getAnnotation(GetMapping.class).value().length == 1)
+										? meth.getAnnotation(GetMapping.class).value()[0]
+										: Arrays.toString(meth.getAnnotation(GetMapping.class).value()))
 										: Arrays.toString(meth.getAnnotation(RequestMapping.class).value()))
 								)
 								+ " :: "
@@ -202,5 +202,55 @@ public class TestAPI {
 								.reduce((s1, s2) -> s1 + ", " + s2)
 								.orElse("-----"))
 						.collect(Collectors.toList()));
+	}
+
+
+	private static class NameGen {
+		public static ArrayList<Character> glasn = new ArrayList<>();
+
+		static {
+			char[] characters = {'a', 'i', 'u', 'e', 'o', 'y'};
+			for (char char_ : characters) {
+				glasn.add(char_);
+			}
+		}
+
+		public static String[] genNames(int size) {
+			String[] names = new String[size];
+			for (int i = 0; i < size; i++) {
+				names[i] = genName(4);
+			}
+			return names;
+		}
+
+		public static String genName(int minLength) {
+			StringBuilder sb;
+			double melodical = 0.33;
+			double k = melodical;
+			double kvar = 1.33;
+			Random r = new Random();
+			char temp;
+			boolean glasnoe;
+			sb = new StringBuilder();
+			for (int i = 0; i < (Math.random() * minLength) + 3; i++) {
+				glasnoe = (Math.random() > k);
+				do {
+					temp = (char) (r.nextInt(('Z' - 'A' + 1)) + 'a');
+				} while (checkGlasn(glasnoe, temp));
+				k = ((glasnoe) ? k * kvar : k / kvar);
+				if (i == 0) {
+					temp = Character.toUpperCase(temp);
+				}
+				sb.append(temp);
+			}
+			return sb.toString();
+		}
+
+		private static boolean checkGlasn(boolean cond, char temp) {
+			if (glasn.contains(temp) == cond) {
+				return true;
+			}
+			return false;
+		}
 	}
 }

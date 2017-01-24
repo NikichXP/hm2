@@ -164,8 +164,8 @@ public class AuthController {
 			entityLookUp(ret.getUser(), ret);
 			try {
 				queuedQueries.get(ret.getSessionID()).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println("exception: it's wrong on line 168");
 			}
 		}
 		return ret; //can be null!
