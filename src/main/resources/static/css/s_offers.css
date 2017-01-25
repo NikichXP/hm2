@@ -7,6 +7,12 @@ body {
     margin-top: 0px;
 }
 
+#tenders {
+    color: #fff;
+    background-color: #90b651;
+}
+
+
 .hero-spacer {
     margin-top: 50px;
 }
@@ -44,6 +50,7 @@ img.user-pic__img {
 footer {
     margin: 50px 0;
 }
+
 #main-img {
     background: url(../img/imgpsh_fullsize.png) center top;
     background-size: cover;
@@ -51,85 +58,6 @@ footer {
     height: 430px;
 }
 
-
-.main-navbar {
-    min-height: 73px;
-    background: #272a33;
-    border-top: 4px solid #90b651;
-    margin-bottom: 0;
-    position: relative;
-    margin-top: 0;
-}
-
-.navbar-brand {
-    height: 68px;
-    padding-top: 10px;
-}
-
-#navbar-toggle-button {
-    height: 30px;
-    width: 60px;
-    padding: 3px 6px;
-    margin-top: 14px;
-    background-color: #272a33;
-    background-image: none;
-    border: 3px solid #90b651;
-    border-radius: 4px;
-}
-
-#navbar-toggle-button span {
-    color: #b2b3b7;
-    font-family: PT Sans, sans-serif;
-}
-
-.menu-link {
-    display: block;
-    font: 1.14286em PT Sans, sans-serif;
-    color: #b2b3b7;
-    text-transform: uppercase;
-    float: left;
-    
-    
-}
-.menu-link-a {
-    font-family: PTSansbold, sans-serif;
-    font-weight: bold;
-    height: 62px;
-    line-height: 40px;
-}
-
-.navbar-nav a.menu-link-a {
-    height: 62px;
-    line-height: 50px;
-} 
-
-#tenders {
-    color: #fff;
-        background-color: #90b651;
-}
-
-
-#propositions {
-    color: #90b651;
-}
-
-#propositions:hover {
-    color: #fff;
-}
-
-
-
-.menu-link:hover {
-    background-color: #90b651;
-}
-
-.menu-link:hover a {
-    color: #fff;
-}
-
-#bs-example-navbar-collapse-1 {
-    background-color: #272a33;
-}
 
 .container-search {
     width: 200px;
@@ -540,26 +468,11 @@ footer {
     color: #90b651;
 }
 
-#menu-link-a__ad {
-    display: none;
-}
 
-#menu-link-a__s {
-    display: none;
-}
-
-#menu-link-a__log {
-    display: none;
-}
-
-#menu-link-a__reg {
-    display: none;
-}
 
 .page-navigation {
     float: right;
 }
-
 
 .page-navigation__list {
     width: 100%;
@@ -628,26 +541,6 @@ footer {
         height: 312px;
     }
     
-    .menu-link-a {
-        padding-left: 7px !important;
-        padding-right: 7px !important;
-    }
-    #menu-link-a__ad {
-        display: none;
-    }
-
-    #menu-link-a__s {
-        display: none;
-    }
-
-    #menu-link-a__log {
-        display: none;
-    }
-
-    #menu-link-a__reg {
-        display: none;
-    }
-
     .prob-block-desc {
         top: 183px;
         padding-left: 5px;
@@ -667,7 +560,6 @@ footer {
     
     .rec-block-desc {
         top: 195px;
-
     }
     
     .hero-feature img {
@@ -683,26 +575,10 @@ footer {
 
 @media (max-width: 992px) {
     
-    #logo-pic {
-        height: 30px;
-    }
+    
     
     #main-img {
         height: 312px;
-    }
-    
-    .navbar-brand {
-        padding-top: 20px;
-    }
-    
-    .menu-link-a {
-        padding-left: 3px !important;
-        padding-right: 3px !important;
-        font-size: 13px;
-    }
-    
-    .menu-link-mob {
-        display: none;
     }
     
     .container-search {
@@ -751,14 +627,6 @@ footer {
 
 @media (max-width: 767px) {
     
-    .navbar-header {
-        height: 60px;
-    }
-    
-    .navbar-nav {
-        margin: 0;
-    }
-    
     #main-img {
         height: 206px;
     }
@@ -767,48 +635,8 @@ footer {
         height: 30px;
     }
     
-    .navbar-brand {
-        padding-top: 13px;
-    } 
-    
-    .main-navbar {
-        height: 60px;
-        min-height: 60px;
-    }
-    
     .container-fluid {
         margin-top: -10px;
-    }
-    
-    #bs-example-navbar-collapse-1 {
-        position: absolute;
-        top: 56px;
-        width: 100%;
-    }
-    
-    #navbar-menu-ul {
-        width: 100%; !important
-        float: none; !important
-    }
-    
-    .menu-link {
-        width: 100%;
-        display: inline;
-        height: 30px;
-        padding-top: 0;
-    }
-    
-    .menu-link a {
-        font-size: 14px;
-    }
-    
-    .navbar-nav a.menu-link-a {
-        line-height: 14px;
-        height: 30px;
-    } 
-    
-    .menu-link-mob {
-        display: none;
     }
     
     .hero-feature {
@@ -841,10 +669,6 @@ footer {
         margin-left: 5px;
     }
     
-    #bs-example-navbar-collapse-1 {
-        padding-bottom: 10px;
-    }
-    
     .rec-block {
 	   width: 300px;
         margin: auto;
@@ -852,22 +676,6 @@ footer {
     
     .rec-block-desc {
         top: 250px;
-    }
-    
-    #menu-link-a__ad {
-        display: block;
-    }
-
-    #menu-link-a__s {
-        display: block;
-    }
-
-    #menu-link-a__log {
-        display: block;
-    }
-
-    #menu-link-a__reg {
-        display: block;
     }
     
     .upper-bar {

@@ -1,5 +1,7 @@
 $(function(){
     
+    $('.main-navbar').load('assets/navbar.html');
+    
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
 		
@@ -70,6 +72,8 @@ $(function(){
         $('span#upper-innertext__city').html($(this).html());
         window.location.replace(urlChangePage(1, $(this).html()));
     });
+    
+    
 });
 
 
