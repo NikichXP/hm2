@@ -236,6 +236,15 @@ footer {
 */
 }
 
+#auth-button_city {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 10px;
+    height: 30px;
+    font-family: B20 Sans, sans-serif;
+    float: right;
+}
+
 #auth-button_search {
     margin-left: 5px;
     margin-top: 5px;
@@ -582,6 +591,15 @@ footer {
 .dropdown {
     float: left;
 }
+
+.dropdown-upper {
+    float: right;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
+
 .row {
     margin-left:0;
     margin-right: 0;
@@ -632,6 +650,10 @@ footer {
 
     .prob-block-desc {
         top: 183px;
+        padding-left: 5px;
+    }
+    
+    .prob-block-price {
         padding-left: 5px;
     }
     

@@ -56,6 +56,16 @@
                 <span>Поиск</span>
             </button>
             
+            <div class="dropdown dropdown-upper">
+                <button class="btn btn-default dropdown-toggle button-auth" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span id='upper-innertext__city'>Выбрать город</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-upper-menu__city" aria-labelledby="dropdownMenu4">
+                            
+                </ul>
+            </div>
+            
             <div class="container-search">
                 <input type="search" id="search" placeholder="Поиск..." />
             </div>
@@ -77,31 +87,6 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<!--
-                <div class='container-lower-menu'>
-                    <div class="container-search">
-                        <input type="search" id="search" placeholder="Поиск..." />
-                    </div>
-                    <button type="button" class="button-auth" id='auth-button_search'>
-                            <span>Поиск</span>
-                    </button>
-                    <div class="container-social">          
-                        <a href="https://twitter.com/HMUkraine" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--tw"></a>   
-                        <a href="https://vk.com/happymoments" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--vk"></a> 
-                        <a href="https://www.facebook.com/pages/Happy-Moments/347923621985767" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--fb"></a>   
-                        <a href="https://www.instagram.com/happymoments.ua/" rel="nofollow" target="_blank" class="header-social-btns__link header-social-btns__link--in"></a>
-                    </div>
-
-                    <div class='container-auth'>
-                        <button type="button" class="button-auth" id='auth-button_reg'>
-                            <span>Регистрация</span>
-                        </button>
-                        <button type="button" class="button-auth" id='auth-button_auth'>
-                            <span>Вход</span>
-                        </button>
-                    </div>
-                </div>
--->
                 <ul class="nav navbar-nav" id='navbar-menu-ul'>
                     <li class='menu-link'>
                         <a href="#" class='menu-link-a' id='propositions'>Услуги</a>
@@ -120,10 +105,7 @@
                     </li>
                     <li class='menu-link'>
                         <a href="#" class='menu-link-a'>Новости</a>
-                    </li>
-                    <li class='menu-link' id='city'>
-                        <a href="#" class='menu-link-a'>Выбрать город</a>
-                    </li>
+                    </li> 
                     <li class='menu-link-mob menu-link' id='menu-link-a__ad'>
                         <a href="#" class='menu-link-a'>Реклама</a>
                     </li>
@@ -135,6 +117,9 @@
                     </li>
                     <li class='menu-link menu-link-mob' id='menu-link-a__reg'>
                         <a href="#" class='menu-link-a'>Регистрация</a>
+                    </li>
+                    <li class='menu-link menu-link-mob' id='city'>
+                        <a href="#" class='menu-link-a'>Выбрать город</a>
                     </li>
                     
                 </ul>
@@ -192,6 +177,7 @@
 <!--                        </ul>-->
 <!--                    </div>-->
                 <button type="button" class="btn btn-default" id='offer-search'>Поиск</button>
+                <button type="button" class="btn btn-default" id='offer-search-cancel'>Отмена</button>
 
             </div>
         </div>
@@ -256,6 +242,9 @@
     <script src="js/dcalendar.picker.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
+    
+    <script src="js/j_func.js"></script>
+    
     <script src="js/j_offers.js"></script>
 
 </body>

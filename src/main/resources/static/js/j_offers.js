@@ -35,10 +35,10 @@ $(function(){
         paramArray = urlArray[i].split('=');
         
         switch (paramArray[0]) {
-            case 'date': sendData.date = paramArray[1]; break;
-            case 'group': sendData.group = paramArray[1]; break;
-            case 'genre': sendData.genre = paramArray[1]; break;
-            case 'city': sendData.city = paramArray[1]; break;
+            case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
+            case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
+            case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
+            case 'city': sendData.city = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
         }
 
     }
@@ -46,7 +46,7 @@ $(function(){
     //End of getting search params from url
     
     
-    //Filling search dropdowns
+    //Filling dropdowns
     
     $.ajax({
         type: 'GET',
@@ -57,6 +57,22 @@ $(function(){
             for (var i = 0; i < resData.length; i++)
             {          
                 $('.dropdown-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
+                                            + resData[i]  
+                                            + "</a></li>");  	
+            };                
+                
+        },
+    });
+    
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/config/list/city',
+        success: function(resData) {
+            $('.dropdown-upper-menu__city').html("");
+            
+            for (var i = 0; i < resData.length; i++)
+            {          
+                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
                                             + resData[i]  
                                             + "</a></li>");  	
             };                
@@ -102,8 +118,10 @@ $(function(){
     });
        
 
-    //End of filling search dropdowns
+    //End of filling dropdowns
     
+    
+    //Loading offers from server
     
     $.ajax({
         type: 'GET',
@@ -152,18 +170,16 @@ $(function(){
     });
     
                         
+    //End of loading offers from server                    
                         
-                        
-                    
+     
     
-        
+    //Navigation buttons onclicks  
             
     $('body').on('click', 'li#page-navigation__page-next', function() {	   
         
         if (offerPage < maxPages) {
-            offerPage++;
-            //var url = 'offers.html?page=' + offerPage;
-            //window.location.replace(url);    
+            offerPage++;    
             window.location.replace(urlChangePage(offerPage));
         }
 
@@ -173,8 +189,6 @@ $(function(){
         
         if (offerPage > 1) {
             offerPage--;
-            //var url = 'offers.html?page=' + offerPage;
-            //window.location.replace(url);  
             window.location.replace(urlChangePage(offerPage));
         }
 
@@ -183,8 +197,6 @@ $(function(){
     $('body').on('click', 'li#page-navigation__page-last', function() {
         
         if (offerPage < maxPages) {
-            //var url = 'offers.html?page=' + maxPages;
-            //window.location.replace(url);
             window.location.replace(urlChangePage(maxPages));
         }
     });
@@ -192,7 +204,6 @@ $(function(){
     $('body').on('click', 'li#page-navigation__page-first', function() {
         
         if (offerPage > 1) {
-            //var url = 'offers.html?page=' + 1;
             window.location.replace(urlChangePage(1));
         }
     });
@@ -201,12 +212,16 @@ $(function(){
         
         if (offerPage != $(this).html()) {
             offerPage = $(this).html();
-            //var url = 'offers.html?page=' + offerPage;
             window.location.replace(urlChangePage(offerPage));
             
         }
     });
     
+    //End of navigation buttons onclicks 
+    
+    
+    
+    //Search buttons 
     
     $('body').on('click', 'ul.dropdown-menu__city li a.dropdown-menu__item', function() {	   
         $('span#search-innertext__city').html($(this).html());
@@ -220,6 +235,10 @@ $(function(){
         $('span#search-innertext__genre').html($(this).html());
     });
     
+    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
+        $('span#upper-innertext__city').html($(this).html());
+        window.location.replace(urlChangePage(1, $(this).html()));
+    });
     
     
     $('body').on('click', '#offer-search', function() {	   
@@ -244,6 +263,15 @@ $(function(){
         
     });
     
+    $('body').on('click', '#offer-search-cancel', function() {	   
+              
+        var url = 'offers.html?page=1'; 
+        window.location.replace(url);
+        
+    });
+    
+    //End of search buttons
+    
     
     
     //Calendar
@@ -266,30 +294,6 @@ $(function(){
 
 });
 
-
-function urlChangePage(pageNum) {
-    var url = window.location;
-    url = decodeURIComponent(url);
-    
-    url = '' + url;
-    var urlArray = url.split('?');
-    
-    var urlMain = urlArray[0];
-    urlArray = urlArray[1].split('&');
-    
-    for (var i = 0; i < urlArray.length; i++) 
-        if (urlArray[i].includes('page=')) 
-            urlArray[i] = 'page=' + pageNum;    
-
-    url = urlMain + '?';
-    
-    for (var i = 0; i < urlArray.length; i++) 
-        
-        if (i == urlArray.length - 1) url += urlArray[i];  
-        else url += urlArray[i] + '&';  
-    
-    return url;    
-}
 
 
 

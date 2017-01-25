@@ -48,6 +48,28 @@ $(function(){
                 
         },
     });
+    
+    
+     $.ajax({
+        type: 'GET',
+        url: currentSite + '/config/list/city',
+        success: function(resData) {
+            $('.dropdown-upper-menu__city').html("");
+            
+            for (var i = 0; i < resData.length; i++)
+            {          
+                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
+                                            + resData[i]  
+                                            + "</a></li>");  	
+            };                
+                
+        },
+    });
+    
+    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
+        $('span#upper-innertext__city').html($(this).html());
+        window.location.replace(urlChangePage(1, $(this).html()));
+    });
 });
 
 
