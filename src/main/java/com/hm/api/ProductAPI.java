@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.stream;
@@ -84,7 +85,8 @@ public class ProductAPI {
 		}
 
 		List<Object> ret = new ArrayList<>();
-		List<Product> data = stream.collect(Collectors.toList());
+		List<Product> data = new ArrayList<>();
+		stream.forEach(data::add); //cause somehow it's throwing exception here
 
 		ret.add(data.size());
 		if (limit == null) {
