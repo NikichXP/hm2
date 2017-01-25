@@ -746,7 +746,7 @@ footer {
     }
     
     .hero-feature {
-        width: 300px;
+        width: 290px;
         margin: auto;
     }
     
@@ -821,6 +821,18 @@ footer {
 @media (max-width: 450px) {
     #main-img {
         height: 150px;
+    }
+    
+    .row {
+        margin: auto;
+    }
+    
+    .rec-block {
+	   width: 260px;
+    }
+    
+    .rec-block-desc {
+        top: 205px;
     }
 }
 
