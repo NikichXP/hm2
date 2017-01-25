@@ -30,6 +30,23 @@ public class UserAdminAPI { //TODO add auth to all methods
 		return ResponseEntity.ok(userRepo.findAll());
 	}
 
+	@GetMapping("/moderators")
+	public ResponseEntity moderators(@RequestParam("args") String [] args) {
+		return ResponseEntity.ok(moderRepo.findAll());
+	}
+
+	@GetMapping("/workers")
+	public ResponseEntity workers(@RequestParam("args") String [] args) {
+		return ResponseEntity.ok(workerRepo.findAll());
+	}
+
+	@GetMapping("/clients")
+	public ResponseEntity clients(@RequestParam("args") String [] args) {
+		return ResponseEntity.ok(clientRepo.findAll());
+	}
+
+
+
 	@GetMapping("/sessions")
 	public ResponseEntity sessions() {
 		return ResponseEntity.ok(authController.getCachedTokens());

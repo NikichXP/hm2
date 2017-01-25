@@ -2,6 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.AppLoader;
+import com.hm.api.admin.UserAdminAPI;
 import com.hm.entity.*;
 import com.hm.model.AuthController;
 import com.hm.repo.*;
@@ -168,7 +169,8 @@ public class TestAPI {
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
-				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class, ProductAPI.class, TestAPI.class, UserAPI.class)
+				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class,
+						ProductAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())

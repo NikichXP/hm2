@@ -30,13 +30,12 @@ public class AuthController {
 	private UserRepository userRepo;
 
 	private HashMap<Class, MongoRepository> repos = new HashMap<>();
-
-	public AuthController() {
-	}
-
 	private static Map<String, AuthToken> cachedTokens = new HashMap<>();
 	/** Objects classtype given as default is User, this is queries to finalize type */
 	private static Map<String, Thread> queuedQueries = new HashMap<>();
+
+	public AuthController() {
+	}
 
 	/** creates session, starts lookup of entity in DB */
 	public AuthToken auth (String login, String pass) {
@@ -66,7 +65,11 @@ public class AuthController {
 	}
 
 	public <T extends User> T getLoggedToken (String sessionId, Class<T> clazz) {
-		User user = get(sessionId).getUser();
+		val token = get(sessionId);
+		if (token == null) {
+			return null;
+		}
+		User user = token.getUser();
 		if (clazz.isInstance(user)) {
 			return clazz.cast(user);
 		} else if (user != null) {
@@ -163,9 +166,9 @@ public class AuthController {
 			cachedTokens.put(ret.getSessionID(), ret);
 			entityLookUp(ret.getUser(), ret);
 			try {
-				queuedQueries.get(ret.getSessionID()).join();
-			} catch (Exception e) {
-				System.out.println("exception: it's wrong on line 168");
+				queuedQueries.get(ret.getUser().getMail()).join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		return ret; //can be null!
