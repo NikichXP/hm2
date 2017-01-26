@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/admin/dev")
-public class AdminAPI {
+public class DevAdminAPI {
 
 	@Autowired
 	GenresHolder gh;

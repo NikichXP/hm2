@@ -45,8 +45,6 @@ public class UserAdminAPI { //TODO add auth to all methods
 		return ResponseEntity.ok(clientRepo.findAll());
 	}
 
-
-
 	@GetMapping("/sessions")
 	public ResponseEntity sessions() {
 		return ResponseEntity.ok(authController.getCachedTokens());

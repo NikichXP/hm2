@@ -78,6 +78,8 @@ public class ProductAPI {
 
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
+		} else {
+			stream = stream.sorted((x1, x2) -> x1.getExpirationDate().compareTo(x2.getExpirationDate()));
 		}
 
 		if (offset == null) {
