@@ -17,8 +17,8 @@ public class Worker extends User {
 	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
 
 	private String id;
-	private String title;
 	private boolean isPro;
+	private String profession;
 
 	private double minPrice; //on link "starts from 200 UAH"
 	private ArrayList<String> productsIDs;
@@ -43,11 +43,14 @@ public class Worker extends User {
 				});
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
-		this.setPro(false);
+		this.isPro = false;
 		productsIDs = new ArrayList<>();
 	}
 
 	public void addProduct(Product product) {
+		if (this.profession == null) {
+			this.profession = product.getGroupName();
+		}
 		this.productsIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
 	}

@@ -58,5 +58,5 @@ public class UserAdminAPI { //TODO add auth to all methods
 	public ResponseEntity sessions() {
 		return ResponseEntity.ok(authController.getCachedTokens());
 	}
-	
+
 }
