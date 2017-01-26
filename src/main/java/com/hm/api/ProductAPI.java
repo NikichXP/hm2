@@ -77,13 +77,13 @@ public class ProductAPI {
 		}
 		Stream<Product> stream = (Stream<Product>) method.invoke(prodRepo, queryArgs);
 
-		stream.peek(prod -> {
+		stream = stream.peek(prod -> {
 			if (prod.getExpirationDate().isBefore(LocalDate.now())) {
 				checkOffer(prod);
 			}
 		});
 
-		stream.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()));
+		stream = stream.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()));
 
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));

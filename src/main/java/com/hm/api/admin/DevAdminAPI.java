@@ -20,6 +20,10 @@ public class DevAdminAPI {
 		return ResponseEntity.ok(gh.createGenre(genre, group, category));
 	}
 
+	@GetMapping("/invite") //TODO Need to implement this
+	public ResponseEntity inviteUserViaMail (@RequestParam("mail") String mail, @RequestParam("token") String token) {
+		return ResponseEntity.ok(null);
+	}
 
 
 
