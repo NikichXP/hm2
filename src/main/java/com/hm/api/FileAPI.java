@@ -2,11 +2,11 @@ package com.hm.api;
 
 import com.hm.entity.User;
 import com.hm.model.AuthController;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.val;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +53,6 @@ public class FileAPI {
 	@RequestMapping("/get/{userId}/{fileId}/{ext}") //alternate mapping
 	public void getFile2(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
 	                     @PathVariable("fileId") String fileId, @PathVariable("ext") String ext) throws Exception {
-		System.out.println(fileId);
 		getFile(response, request, userId + "/" + fileId + "." + ext);
 	}
 
@@ -74,7 +73,7 @@ public class FileAPI {
 		File dir = new File(path);
 		dir.mkdirs();
 		File f = new File(path + fileName);
-		System.out.println(f.getAbsolutePath());
+		System.out.println("Uploading: " + f.getAbsolutePath());
 		try {
 			f.createNewFile();
 		} catch (Exception e) {

@@ -166,6 +166,11 @@ public class TestAPI {
 		return ResponseEntity.ok(list);
 	}
 
+	@RequestMapping("/testLogs")
+	public ResponseEntity testLogs () {
+		throw new NullPointerException("This is TEST HEROKU");
+	}
+
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
