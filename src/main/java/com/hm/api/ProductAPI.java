@@ -40,6 +40,11 @@ public class ProductAPI {
 		return ResponseEntity.ok(GenresHolder.getCategories());
 	}
 
+	/**
+	 * List products with discounts
+	 * @param date - up to this date offers shown
+	 * @param offset - objects to skip
+	 */
 	@RequestMapping("/offer")
 	public ResponseEntity<List<Object>> listProducts(@RequestParam(value = "city", required = false) String city,
 	                                                 @RequestParam(value = "shuffle", required = false) Boolean shuffle,
@@ -50,6 +55,9 @@ public class ProductAPI {
 	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
+		if (date == null) {
+			date = "2099-12-31";
+		}
 		LocalDate expiration = LocalDate.parse(date);
 
 		args.put("offeredPrice", true);
