@@ -19,8 +19,6 @@ public class User {
 
 	private String name;
 
-
-
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
 			this.id = "not-a-real-id";

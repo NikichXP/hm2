@@ -26,22 +26,22 @@ public class UserAdminAPI { //TODO add auth to all methods
 	private AuthController authController;
 
 	@GetMapping("/users")
-	public ResponseEntity users(@RequestParam("args") String [] args) {
+	public ResponseEntity users(@RequestParam(value = "args", required = false) String [] args) {
 		return ResponseEntity.ok(userRepo.findAll());
 	}
 
 	@GetMapping("/moderators")
-	public ResponseEntity moderators(@RequestParam("args") String [] args) {
+	public ResponseEntity moderators(@RequestParam(value = "args", required = false) String [] args) {
 		return ResponseEntity.ok(moderRepo.findAll());
 	}
 
 	@GetMapping("/workers")
-	public ResponseEntity workers(@RequestParam("args") String [] args) {
+	public ResponseEntity workers(@RequestParam(value = "args", required = false) String [] args) {
 		return ResponseEntity.ok(workerRepo.findAll());
 	}
 
 	@GetMapping("/clients")
-	public ResponseEntity clients(@RequestParam("args") String [] args) {
+	public ResponseEntity clients(@RequestParam(value = "args", required = false) String [] args) {
 		return ResponseEntity.ok(clientRepo.findAll());
 	}
 
