@@ -97,7 +97,7 @@ public class ProductAPI {
 			return prod;
 		})
 				.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()))
-				.filter(prod -> prod.getExpirationDate().isBefore(expiration));
+				.filter(prod -> prod.getExpirationDate().isBefore(expiration.plusDays(1)));
 
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
