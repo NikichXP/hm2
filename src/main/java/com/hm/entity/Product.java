@@ -75,7 +75,7 @@ public class Product {
 	}
 
 	public void setDiscount(double discount) {
-		if (discount == 0) {
+		if (discount == 0.0) {
 			offeredPrice = false;
 			finalPrice = price;
 			this.discount = discount;

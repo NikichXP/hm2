@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,18 +36,18 @@ public class ProductAPI {
 	private WorkerRepository workerRepo;
 
 	@RequestMapping("/categories")
-	public ResponseEntity getHat() {
+	public ResponseEntity<java.util.Collection<com.hm.entity.Category>> getHat() {
 		return ResponseEntity.ok(GenresHolder.getCategories());
 	}
 
 	@RequestMapping("/offer")
-	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
-	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
-	                                   @RequestParam(value = "genre", required = false) String genre,
-	                                   @RequestParam(value = "group", required = false) String group,
-	                                   @RequestParam(value = "limit", required = false) Integer limit,
-	                                   @RequestParam(value = "date", required = false) Long expiration,
-	                                   @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	public ResponseEntity<List<Object>> listProducts(@RequestParam(value = "city", required = false) String city,
+	                                                 @RequestParam(value = "shuffle", required = false) Boolean shuffle,
+	                                                 @RequestParam(value = "genre", required = false) String genre,
+	                                                 @RequestParam(value = "group", required = false) String group,
+	                                                 @RequestParam(value = "limit", required = false) Integer limit,
+	                                                 @RequestParam(value = "date", required = false) Long expiration,
+	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
 		args.put("offeredPrice", true);
@@ -76,6 +77,14 @@ public class ProductAPI {
 		}
 		Stream<Product> stream = (Stream<Product>) method.invoke(prodRepo, queryArgs);
 
+		stream.peek(prod -> {
+			if (prod.getExpirationDate().isBefore(LocalDate.now())) {
+				checkOffer(prod);
+			}
+		});
+
+		stream.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()));
+
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		} else {
@@ -97,6 +106,21 @@ public class ProductAPI {
 		ret.addAll(data.subList(offset, (offset + limit > data.size()) ? data.size() : offset + limit));
 
 		return ResponseEntity.ok(ret);
+	}
+
+	private boolean checkOffer(Product prod) {
+		if (prod.getExpirationDate().isBefore(LocalDate.now())) {
+			prod.setDiscount(0.0);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@GetMapping("/checkOffer")
+	public ResponseEntity<String> checkOffer(@RequestParam("prodId") String prodId) {
+		checkOffer(prodRepo.findOne(prodId));
+		return ResponseEntity.ok((checkOffer(prodRepo.findOne(prodId))) ? "Offer checked: removed" : "Offer is OK");
 	}
 
 	@RequestMapping("/list/{group}/{city}")
