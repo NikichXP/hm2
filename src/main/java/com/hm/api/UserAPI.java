@@ -37,9 +37,12 @@ public class UserAPI {
 		return ResponseEntity.ok(worker);
 	}
 
+	/**
+	 * @return Shuffled array of users
+	 */
 	@GetMapping("/getProUsers")
 	public ResponseEntity getProUsers() {
-		return ResponseEntity.ok(workRepo.getPro().limit(4));
+		return ResponseEntity.ok(workRepo.getPro().sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
 	}
 
 }
