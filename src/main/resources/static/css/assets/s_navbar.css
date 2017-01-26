@@ -190,5 +190,9 @@
     #menu-link-a__city {
         display: block;
     }
+    
+    #logo-pic {
+        height: 30px;
+    }
 
 }

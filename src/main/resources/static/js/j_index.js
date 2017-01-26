@@ -1,6 +1,13 @@
 $(function(){
     
+    //Load elements from files
+    
     $('.main-navbar').load('assets/navbar.html');
+    $('.upper-bar').load('assets/upperbar.html');
+    
+   
+    
+    //End of load elements from files
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
@@ -23,10 +30,17 @@ $(function(){
 
     });
     
+    var offerData = { limit: '4', shuffle: true }
+    
+    if (getCookie('city') != null) {
+        offerData.city = getCookie('city');
+    }
+    
+    
     $.ajax({
         type: 'GET',
         url: currentSite + '/product/offer',
-        data: { limit: '4', shuffle: true },
+        data: offerData,
         success: function(resData) {
             $('.offers-container').html("");	
             for (var i = 1; i < resData.length; i++)
@@ -51,8 +65,7 @@ $(function(){
         },
     });
     
-    
-     $.ajax({
+    $.ajax({
         type: 'GET',
         url: currentSite + '/config/list/city',
         success: function(resData) {
@@ -68,12 +81,12 @@ $(function(){
         },
     });
     
-    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
+    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	
         $('span#upper-innertext__city').html($(this).html());
-        window.location.replace(urlChangePage(1, $(this).html()));
+        setCookie('city', $(this).html());
+        window.location.reload();
     });
-    
-    
+       
 });
 
 

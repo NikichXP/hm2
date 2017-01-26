@@ -1,6 +1,7 @@
 $(function(){
     
     $('.main-navbar').load('assets/navbar.html');
+    $('.upper-bar').load('assets/upperbar.html');
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
@@ -29,6 +30,9 @@ $(function(){
     }
     
     url = '' + url;
+    if (url.slice(-1) == '#') {
+            url = url.substring(0, url.length - 1);      
+        }
     var urlArray = url.split('&');
     var paramArray;
 
@@ -40,7 +44,7 @@ $(function(){
             case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
             case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
             case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
-            case 'city': sendData.city = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
+            case 'city': sendData.genre = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
         }
 
     }
@@ -119,7 +123,6 @@ $(function(){
 
     });
        
-
     //End of filling dropdowns
     
     
@@ -170,8 +173,7 @@ $(function(){
                 
         },
     });
-    
-                        
+                           
     //End of loading offers from server                    
                         
      
@@ -239,7 +241,8 @@ $(function(){
     
     $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
         $('span#upper-innertext__city').html($(this).html());
-        window.location.replace(urlChangePage(1, $(this).html()));
+        setCookie('city', $(this).html());
+        window.location.reload();
     });
     
     

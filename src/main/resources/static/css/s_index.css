@@ -38,144 +38,6 @@ footer {
     height: 430px;
 }
 
-.container-search {
-    width: 200px;
-    vertical-align: middle;
-    white-space: nowrap;
-    position: relative;
-    float: left;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    float: right;
-    display: none;
-    
-}
-
-.container-search input#search {
-    width: 100%;
-    height: 30px;
-    background: #fff;
-    border: 1px solid #c6c7cb;
-    font-size: 12pt;
-    font-family: B20 Sans, sans-serif;
-    float: left;
-    color: #c6c7cb;
-    padding-left: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding-top: 5px;
-    
-
-}
-
-.container-search input#search::-webkit-input-placeholder {
-   color: #c6c7cb;
-}
-
-.container-search input#search:-moz-placeholder { /* Firefox 18- */
-   color: #c6c7cb;  
-}
-
-.container-search input#search::-moz-placeholder {  /* Firefox 19+ */
-   color: #c6c7cb;  
-}
-
-.container-search input#search:-ms-input-placeholder {  
-   color: #c6c7cb;  
-}
-
-
-.container-searchinput#search:hover, .container-search input#search:focus, .container-search input#search:active {
-    outline:none;
-    background: #ffffff;
-}
-
-.header-social-btns__link {
-    display: block;
-    float: left;
-    width: 35px;
-    height: 35px;
-    margin-bottom: 5px;
-
-}
-
-.container-social {
-    float: left;
-    height: 35px;    
-}
-
-.header-social-btns__link--tw {
-    background: url(../img/header-social-btns-1.png) 5px 7px no-repeat;
-}
-
-.header-social-btns__link--vk {
-    background: url(../img/header-social-btns-1.png) -34px 7px no-repeat;
-}
-
-.header-social-btns__link--fb {
-    background: url(../img/header-social-btns-1.png) -73px 7px no-repeat;
-}
-
-.header-social-btns__link--in {
-    background: url(../img/header-social-btns-1.png) -110px 7px no-repeat;
-}
-
-.button-auth {
-    background-color: #fff;
-    border: 1px solid #c6c7cb;
-    border-radius: 4px;
-    color: #a4a5a9;
-    margin-left: 10px;
-    margin-top: 5px;
-    height: 30px;
-    font-size: 16px;
-    font-family: B20 Sans, sans-serif;
-    float: right;
-    padding-top: 3px;
-    
-/*
-    -webkit-transition: all ease-out 0.2s;
-    -moz-transition: all ease-out 0.2s;
-    -o-transition: all ease-out 0.2s;
-    -ms-transition: all ease-out 0.2s;
-    transition: all ease-out 0.2s;
-*/
-}
-
-#auth-button_city {
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-right: 10px;
-    height: 30px;
-    font-family: B20 Sans, sans-serif;
-    float: right;
-}
-
-#auth-button_search {
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-right: 10px;
-    height: 30px;
-    font-family: B20 Sans, sans-serif;  
-    float: right;
-}
-
-.container-auth {
-    float: right;
-/*    margin-right: 15px;*/
-    margin-bottom: 5px;
-}
-
-#city {
-    display: none;
-}
-
-.container-lower-menu {
-    width: 100%;
-    height: 35px;
-}
-
 .prob-block-desc {
     position: absolute;
     text-align: left;
@@ -431,26 +293,6 @@ footer {
     height: 40px;
 }
 
-.upper-bar {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.upper-bar__link {
-    float: left;
-    font-size: 16px;
-    display: block;
-    height: 100%;
-    padding-top: 10px;
-    margin-right: 20px;
-    color: #a4a5a9;
-}
-
-.upper-bar__link:hover{
-    text-decoration: none;
-    color: #90b651;
-}
-
 .row{
     margin-left: 0;
     margin-right: 0;
@@ -463,10 +305,6 @@ footer {
 
 .dropdown-menu {
     z-index: 2000;
-}
-
-.dropdown-upper {
-    float: right;
 }
 
 
@@ -518,10 +356,6 @@ footer {
         height: 312px;
     }
     
-    .container-search {
-	   width: 200px;
-    }
-    
     .prob-block-desc {
         top: 327px;
         width: 254.5px;
@@ -541,12 +375,7 @@ footer {
     .rec-block-desc {
         top: 320px;
     }
-    
-    .upper-bar__link {
-        font-size: 14px;
-        margin-right: 10px;
-    }
-    
+ 
     .hero-feature img {
         height: 407px;
     }
@@ -577,8 +406,7 @@ footer {
     .prob-block-bg {
         top: 246px;
     }
-    
-    
+     
     .prob-block-price {
         padding-left: 10px;
     }
@@ -589,10 +417,6 @@ footer {
         margin-left: 0;
     }
     
-    .button-auth {
-        margin-left: 5px;
-    }
-    
     .rec-block {
 	   width: 300px;
         margin: auto;
@@ -600,10 +424,6 @@ footer {
     
     .rec-block-desc {
         top: 250px;
-    }
-    
-    .upper-bar {
-        display: none; !important;
     }
     
     .hero-feature img {
