@@ -178,4 +178,19 @@ public class GenresHolder {
 	}
 
 
+	public boolean deleteGenre(String genreName) {
+		Genre genre = getGenre(genreName);
+		Group group = getGroup(genre.getGroupName());
+		return group.getGenres().remove(genre);
+	}
+
+	public boolean deleteGroup(String groupName) {
+		Group group = getGroup(groupName);
+		Category category = getCategory(group.getCategoryName());
+		return group.getGenres().isEmpty() && category.getGroups().remove(group); //genious, yeah?
+	}
+
+	public boolean deleteCategory(String categoryName) {
+		return categories.get(categoryName).getGroups().isEmpty() && categories.remove(categoryName) != null;
+	}
 }
