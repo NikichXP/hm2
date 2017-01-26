@@ -46,9 +46,11 @@ public class ProductAPI {
 	                                                 @RequestParam(value = "genre", required = false) String genre,
 	                                                 @RequestParam(value = "group", required = false) String group,
 	                                                 @RequestParam(value = "limit", required = false) Integer limit,
-	                                                 @RequestParam(value = "date", required = false) Long expiration,
+	                                                 @RequestParam(value = "date", required = false) String date,
 	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
+
+		LocalDate expiration = LocalDate.parse(date);
 
 		args.put("offeredPrice", true);
 		if (city != null) {
@@ -58,9 +60,6 @@ public class ProductAPI {
 			args.put("groupName", group);
 		} else if (genre != null) {
 			args.put("genreName", genre);
-		}
-		if (expiration != null) {
-			args.put("expirationDate", expiration);
 		}
 
 		Method method = stream(prodRepo.getClass().getDeclaredMethods())
@@ -83,7 +82,14 @@ public class ProductAPI {
 //			}
 //		});
 
-		stream = stream.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()));
+		stream = stream.map(prod -> {
+			if (prod.getExpirationDate().isBefore(LocalDate.now())) {
+				checkOffer(prod);
+			}
+			return prod;
+		})
+				.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()))
+				.filter(prod -> prod.getExpirationDate().isBefore(expiration));
 
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
