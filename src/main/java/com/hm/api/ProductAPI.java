@@ -52,7 +52,7 @@ public class ProductAPI {
 	                                                 @RequestParam(value = "group", required = false) String group,
 	                                                 @RequestParam(value = "limit", required = false) Integer limit,
 	                                                 @RequestParam(value = "date", required = false) String date,
-	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                 @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
 		if (date == null) {
