@@ -117,6 +117,8 @@ public class ProductAPI {
 		}
 		worker.addProduct(product);
 		prodRepo.save(product);
+		workerRepo.delete(worker.getId());
+		workerRepo.save(worker);
 		return ResponseEntity.ok().body(product);
 	}
 }

@@ -14,9 +14,9 @@ public class DevAdminAPI {
 	GenresHolder gh;
 
 	@GetMapping("/create/genre")
-	public ResponseEntity createGenre(@RequestParam("category") String category,
-	                                  @RequestParam("group") String group,
-	                                  @RequestParam("genre") String genre) {
+	public ResponseEntity createGenreMethod(@RequestParam("category") String category,
+	                                        @RequestParam("group") String group,
+	                                        @RequestParam("genre") String genre) {
 		return ResponseEntity.ok(gh.createGenre(genre, group, category));
 	}
 

@@ -37,4 +37,9 @@ public class UserAPI {
 		return ResponseEntity.ok(worker);
 	}
 
+	@GetMapping("/getProUsers")
+	public ResponseEntity getProUsers() {
+		return ResponseEntity.ok(workRepo.getPro().limit(4));
+	}
+
 }

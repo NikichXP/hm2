@@ -18,9 +18,10 @@ public class Worker extends User {
 
 	private String id;
 	private String title;
+	private boolean isPro;
 
 	private double minPrice; //on link "starts from 200 UAH"
-	private ArrayList<String> products;
+	private ArrayList<String> productsIDs;
 
 
 	public Worker(User user) {
@@ -42,11 +43,12 @@ public class Worker extends User {
 				});
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
-		products = new ArrayList<>();
+		this.setPro(false);
+		productsIDs = new ArrayList<>();
 	}
 
 	public void addProduct(Product product) {
-		this.products.add(product.getId());
+		this.productsIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
 	}
 

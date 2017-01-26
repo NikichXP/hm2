@@ -47,6 +47,12 @@ public class TestAPI {
 	@Autowired
 	private AuthController authController;
 	@Autowired
+	private UserAdminAPI userAdminAPI;
+	@Autowired
+	private ProductAPI productAPI;
+	@Autowired
+	private ConfigAPI configAPI;
+	@Autowired
 	private Gson gson;
 
 	@RequestMapping("/user")
@@ -86,13 +92,17 @@ public class TestAPI {
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			users.add(authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg"));
+			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
+			users.add(w);
+			if (Math.random() > 0.5) {
+				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
+			}
 		});
 
 		authapi.register("newuser@mail.com", "12345", "Client", "common/auth" + new Random().nextInt(13) + ".jpg");
 
 		System.out.println("done.");
-		System.out.print("Generating products... ");
+		System.out.print("Generating productsIDs... ");
 
 		Genre genr[] = {gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
 				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
@@ -106,15 +116,16 @@ public class TestAPI {
 
 		Set<Product> products = new HashSet<>();
 
+		configAPI.cityDefaults();
+
 		workers.parallelStream().forEach(worker -> {
-			ProductAPI p = (ProductAPI) AppLoader.ctx.getBean(ProductAPI.class);
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
 			products.add(
-					p.createProduct("Test work name, hello world!",
+					productAPI.createProduct("Test work name, hello world!",
 							genr[(int) (Math.random() * 5)].getName(),
 							authToken.getSessionID(),
 							1000,
-							ConfigAPI.listCities()[(int) (Math.random() * 3)],
+							configAPI.listCities()[(int) (Math.random() * 3)],
 							"common/auth" + new Random().nextInt(13) + ".jpg").getBody());
 		});
 

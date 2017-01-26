@@ -1,5 +1,6 @@
 package com.hm.api.admin;
 
+import com.hm.entity.Worker;
 import com.hm.model.AuthController;
 import com.hm.repo.ClientRepository;
 import com.hm.repo.ModeratorRepository;
@@ -24,6 +25,15 @@ public class UserAdminAPI { //TODO add auth to all methods
 	private WorkerRepository workerRepo;
 	@Autowired
 	private AuthController authController;
+
+	@GetMapping("/worker/promote")
+	public ResponseEntity workerPromoteToPro (@RequestParam("id") String id, @RequestParam("token") String token) {
+		Worker w = workerRepo.findOne(id);
+//		db().getCollection("worker").updateOne(Document.parse("{'_id' : '" + id + "'}"), Document.parse("{'isPro' : 'true'}"));
+		workerRepo.delete(id);
+		workerRepo.insert(w);
+		return ResponseEntity.ok(workerRepo.findOne(id));
+	}
 
 	@GetMapping("/users")
 	public ResponseEntity users(@RequestParam(value = "args", required = false) String [] args) {

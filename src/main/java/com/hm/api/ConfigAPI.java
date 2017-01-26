@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.hm.manualdb.ConnectionHandler.db;
@@ -31,23 +33,25 @@ public class ConfigAPI {
 	 */
 	@GetMapping("/list/city")
 	public static String[] listCities() {
-		if (cityCache == null) {
-//			List<String> list = (List<String>) ((ArrayList) db().getCollection("config")
-//					.find(Document.parse("{'key':'cities'}"))
-//					.first()
-//					.get("value")
-//			)
-//					.stream()
-//					.map(Object::toString)
-//					.collect(Collectors.toList());
-//			cityCache.addAll(list);
+		if (cityCache == null || cityCache.length < 3) {
+			List<String> list = (List<String>) ((ArrayList) db().getCollection("config")
+					.find(Document.parse("{'key':'cities'}"))
+					.first()
+					.get("value")
+			)
+					.stream()
+					.map(Object::toString)
+					.collect(Collectors.toList());
+			cityCache = list.toArray(new String[0]);
 
-			String get = db().getCollection("config").find(Document.parse("{'key':'cities'}")).first().get("value").toString();
-			get = get.substring(1, get.length()-1);
-			String[] cities = get.split(",");
-			for (int i = 0; i < cities.length; i++) {
-				cities[i] = cities[i].trim();
-			}
+			/* OR THIS */
+
+//			String get = db().getCollection("config").find(Document.parse("{'key':'cities'}")).first().get("value").toString();
+//			get = get.substring(1, get.length()-1);
+//			String[] cities = get.split(",");
+//			for (int i = 0; i < cities.length; i++) {
+//				cities[i] = cities[i].trim();
+//			}
 		}
 		return cityCache;
 	}
