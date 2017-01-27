@@ -186,7 +186,7 @@ public class TestAPI {
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
-				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class,
+				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class,
 						ProductAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, DevAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
