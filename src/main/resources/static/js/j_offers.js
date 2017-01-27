@@ -2,6 +2,7 @@ $(function(){
     
     $('.main-navbar').load('assets/navbar.html');
     $('.upper-bar').load('assets/upperbar.html');
+    $('.container-footer').load('assets/footer.html');
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
@@ -14,7 +15,7 @@ $(function(){
     offerPage = 0 + offerPage;
     
     var pageOffset = 0;
-    var itemsLimit = 20;
+    var itemsLimit = 10;
     
     for (var i = 1; i < offerPage; i++) { 
         pageOffset += itemsLimit;    
