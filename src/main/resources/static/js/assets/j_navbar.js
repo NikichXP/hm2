@@ -29,6 +29,9 @@ $(function(){
     
     
     $('body').on('click', '#propositions', function() {	
+//        var position = $(this).offset();
+//        $('.categories-container').css('top', position.top + 68);
+//        $('.categories-container').css('top', position.left);
         $('.categories-container').slideToggle();
     });   
     
