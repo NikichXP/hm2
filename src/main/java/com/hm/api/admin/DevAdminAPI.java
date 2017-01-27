@@ -2,9 +2,12 @@ package com.hm.api.admin;
 
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.hm.manualdb.ConnectionHandler.db;
 
 @RestController
 @CrossOrigin
@@ -15,6 +18,18 @@ public class DevAdminAPI {
 	GenresHolder gh;
 	@Autowired
 	ProductRepository prodRepo;
+
+	@GetMapping("/addFreePhotoUser")
+	public ResponseEntity addFreePhotoUser(@RequestParam("userid") String userid, @RequestParam("token") String token) {
+		if (db().getCollection("config").find(Document.parse("{'key':'freePhotoAuthors'}")).first() == null) {
+			db().getCollection("config").insertOne(Document.parse("{'key':'freePhotoAuthors', 'value':['"+userid+"']}"));
+		} else {
+			db().getCollection("config").updateOne(Document.parse("{'key':'freePhotoAuthors'}"),
+					Document.parse("{$push : {'value' : '" + userid + "'}}"));
+		}
+
+		return ResponseEntity.ok(db().getCollection("config").find(Document.parse("{'key':'freePhotoAuthors'}")).first().toJson());
+	}
 
 	@GetMapping("/genre/create")
 	public ResponseEntity createGenre(@RequestParam("category") String category,
