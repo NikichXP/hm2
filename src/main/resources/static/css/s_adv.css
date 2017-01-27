@@ -8,7 +8,7 @@ body {
 }
 
 .pic-container {
-    height: 210px;
+    height: 340px;
     background: url(../img/greenbg.jpg) no-repeat center;
     color: #fff;
     text-align: right;
@@ -68,13 +68,18 @@ input {
 }
 
 @media (max-width: 767px) {
+    .pic-container {
+        height: 400px;
+    }
     
   
 
 }
 
 @media (max-width: 450px) {
-  
+    .pic-container {
+        height: 430px;
+    }
 }
 
 @font-face {
