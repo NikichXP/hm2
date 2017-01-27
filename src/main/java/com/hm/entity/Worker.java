@@ -52,7 +52,7 @@ public class Worker extends User {
 	public void addProduct(Product product) {
 		if (this.profession == null) {
 			this.profession = product.getGroupName();
-			GenresHolder.getGroup(product.getGroupName()).addExecutor();
+			GenresHolder.addExecutor(product.getGroupName());
 		}
 		if (this.workingCities == null) {
 			this.workingCities = product.getCity();

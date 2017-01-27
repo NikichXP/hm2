@@ -193,4 +193,12 @@ public class GenresHolder {
 	public boolean deleteCategory(String categoryName) {
 		return categories.get(categoryName).getGroups().isEmpty() && categories.remove(categoryName) != null;
 	}
+
+	public static boolean addExecutor(String groupName) {
+		Group group = getGroup(groupName);
+		group.addExecutor();
+		db().getCollection("category").updateOne(Document.parse("{'groups.name': '" + groupName + "'}"),
+				Document.parse("{$inc : {'groups.$.executors' : 1}}"));
+		return false;
+	}
 }

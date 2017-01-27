@@ -132,7 +132,7 @@ public class ProductAPI {
 	}
 
 	@RequestMapping("/list/{group}/{city}")
-	public ResponseEntity<java.util.List<Product>> listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
+	public ResponseEntity listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
 	}
 

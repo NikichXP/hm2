@@ -54,6 +54,7 @@ public class Product {
 		this.groupName = genre.groupEntity().getName();
 		this.categoryId = genre.groupEntity().categoryEntity().getId();
 		this.categoryName = genre.groupEntity().categoryEntity().getName();
+		this.photos = new ArrayList<>();
 		this.city = "Kiev";
 		this.workerId = worker.getId();
 	}
@@ -88,6 +89,13 @@ public class Product {
 		this.offeredPrice = true;
 		this.discount = discount;
 		this.finalPrice = (int) Math.round(price * (1 - discount/100.0));
+	}
+
+	public boolean addPhoto (String path) {
+		if (this.photos == null) {
+			photos = new ArrayList<>(); //TODO Check if it's cool
+		}
+		return photos.add(path);
 	}
 
 	public String getValidImage () {
