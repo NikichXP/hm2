@@ -47,10 +47,6 @@ img.user-pic__img {
     padding-left: 10px;
 }
 
-footer {
-    margin: 50px 0;
-}
-
 #main-img {
     background: url(../img/imgpsh_fullsize.png) center top;
     background-size: cover;
