@@ -22,6 +22,8 @@ public class Group { //like "photographers"
 	private String categoryId;
 	private String categoryName;
 
+	private int executors;
+
 	@Transient
 	private static GenresHolder holder = (GenresHolder) AppLoader.ctx.getBean("genresHolder");
 
@@ -31,9 +33,14 @@ public class Group { //like "photographers"
 		this.categoryId = category.getId();
 		this.categoryName = category.getName();
 		this.genres = new ArrayList<>();
+		this.executors = 0;
 	}
 
 	public Category categoryEntity() {
 		return holder.getCategory(categoryId);
+	}
+
+	public void addExecutor() {
+		this.executors++;
 	}
 }

@@ -84,12 +84,6 @@ public class ProductAPI {
 		}
 		Stream<Product> stream = (Stream<Product>) method.invoke(prodRepo, queryArgs);
 
-//		stream = stream.peek(prod -> {
-//			if (prod.getExpirationDate().isBefore(LocalDate.now())) {
-//				checkOffer(prod);
-//			}
-//		});
-
 		stream = stream.map(prod -> {
 			if (prod.getExpirationDate().isBefore(LocalDate.now())) {
 				checkOffer(prod);
