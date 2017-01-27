@@ -5,9 +5,9 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Photo {
 
@@ -17,5 +17,12 @@ public class Photo {
 	String url;
 	LocalDate date;
 	boolean isFreePhoto;
+
+	public Photo(String authorId, String url) {
+		this.id = UUID.randomUUID().toString();
+		this.authorId = authorId;
+		this.url = url;
+		this.date = LocalDate.now();
+	}
 
 }

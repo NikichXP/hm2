@@ -57,7 +57,7 @@ public class FileAPI {
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ResponseEntity upload(HttpServletResponse response, HttpServletRequest request) throws Exception {
+	public ResponseEntity upload(HttpServletRequest request) throws Exception {
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
 		String fileExt = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 		fileExt = fileExt.substring(fileExt.lastIndexOf("."));
