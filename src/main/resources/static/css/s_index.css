@@ -175,16 +175,16 @@ footer {
     padding-right: 0;
 }
 
-.rec-block img{
+.rec-pic{
     width: 100%;
-    
+    height: 285px;
 }
 
 .rec-block-desc {
     position: absolute;
     text-align: left;
     color: #fff;
-    top: 240px;
+    top: 230px;
     width: 150px;
     height: 80px;
     padding-left: 20px;
@@ -341,12 +341,16 @@ footer {
     }
     
     .rec-block-desc {
-        top: 195px;
+        top: 185px;
+    }
+    .rec-pic {
+        height: 235px;
     }
     
     .hero-feature img {
         height: 263px;
     }
+    
 
 }
 
@@ -373,7 +377,10 @@ footer {
     }
     
     .rec-block-desc {
-        top: 320px;
+        top: 310px;
+    }
+    .rec-pic {
+        height: 360px;
     }
  
     .hero-feature img {
@@ -421,9 +428,12 @@ footer {
 	   width: 300px;
         margin: auto;
     }
+    .rec-pic {
+        height: 300px;
+    }
     
     .rec-block-desc {
-        top: 250px;
+        top: 240px;
     }
     
     .hero-feature img {
@@ -446,7 +456,7 @@ footer {
     }
     
     .rec-block-desc {
-        top: 205px;
+        top: 195px;
     }
 }
 

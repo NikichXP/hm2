@@ -5,6 +5,7 @@ $(function(){
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
+    var curDate = new Date();
     
     var url = window.location;
     url = decodeURIComponent(url);
@@ -150,8 +151,12 @@ $(function(){
             
             for (var i = 1; i < resData.length; i++)
             {          
-                $('.offers-container').append("<div class='col-md-3 col-sm-6 hero-feature'>" 
-                                            + "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
+                var expDateArr = resData[i].expirationDateString.split('-');
+                var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
+                var daysLeft = daysBetween(curDate, expDate);
+                $('.offers-container').append("<div class='col-md-6 col-sm-12 hero-feature'>" 
+                                            //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
+                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get/" + resData[i].validImage + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -159,13 +164,13 @@ $(function(){
                                                 + "<h4>" + resData[i].title + "</h4>"
                                             + "</div>"
                                             + "<div class='prob-block-user'>"
-                                                + "<img class='user-pic__img' src='" + currentSite + "/file/get/" + resData[i].workerEntity.validUserImg + "'>"
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get/" + resData[i].workerEntity.validUserImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
                                             + "</div>"
                                             + "<div class='prob-block-price'> "
                                                 + "<div class='price-new'>" + resData[i].finalPrice + " грн</div>"
                                                 + "<div class='price-old'>" + resData[i].price + " грн</div>"
-                                                + "<div class='price-to'>" + i + " дней</div>"
+                                                + "<div class='price-to'>" + Math.floor(daysLeft) + " дней</div>"
                                             + "</div>"
                                             + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
                                         + "</div>");  	
@@ -261,7 +266,8 @@ $(function(){
             url += '&group=' + $('#search-innertext__group').html();
         }
         if ($('#search-innertext__date').html() != 'Дата') {
-            url += '&date=' + $('#search-innertext__date').html();
+            var dateStr = $('#search-innertext__date').html().split('. ');
+            url += '&date=' + dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
         }
         
         window.location.replace(url);
@@ -288,8 +294,23 @@ $(function(){
     
     $('body').on('click', 'td.date', function() {	   
         var day = $(this).children('span').html();
-        var mmyy = $('th#currM').html();
-        $('.button-date').html(day + ' ' + mmyy);
+        if (day < 10) day = '0' + day;
+        var mmyy = $('th#currM').html().split(' ');
+        switch (mmyy[0]) {
+                case 'Январь' : mmyy[0] = '01'; break;
+                case 'Февраль' : mmyy[0] = '02'; break;
+                case 'Март' : mmyy[0] = '03'; break;
+                case 'Апрель' : mmyy[0] = '04'; break;
+                case 'Май' : mmyy[0] = '05'; break;
+                case 'Июнь' : mmyy[0] = '06'; break;
+                case 'Июль' : mmyy[0] = '07'; break;
+                case 'Август' : mmyy[0] = '08'; break;
+                case 'Сентябрь' : mmyy[0] = '09'; break;
+                case 'Октябрь' : mmyy[0] = '10'; break;
+                case 'Ноябрь' : mmyy[0] = '11'; break;
+                case 'Декабрь' : mmyy[0] = '12'; break;
+        }
+        $('#search-innertext__date').html(day + '. ' + mmyy[0] + '. ' + mmyy[1]);
     });
 
 

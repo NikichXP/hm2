@@ -23,7 +23,7 @@ body {
 
 .hero-feature img {
     width: 100%;
-    height: 317px;
+    height: 320px;
 }
 
 .prob-block-user {
@@ -37,8 +37,9 @@ body {
 }
 
 img.user-pic__img {
-    height: 83px; 
-    width: 83px; 
+    max-height: 83px; 
+    max-width: 83px; 
+/*    clip: rect(0px, 83px, 83px, 0px);*/
 }
 
 .user-name {
@@ -63,7 +64,7 @@ footer {
 /*    background-color: #272a33;*/
     color: #fff;
 /*    opacity: 0.7;*/
-    top: 238px;
+    top: 240px;
     width: 100%;
     height: 80px;
     padding-left: 20px;
@@ -87,7 +88,7 @@ footer {
     text-align: left;
     background-color: #272a33;
     opacity: 0.7;
-    top: 238px;
+    top: 240px;
     width: 100%;
     height: 80px;
 }
@@ -353,6 +354,11 @@ footer {
     margin-right: 0;
 }
 
+.offer-image {
+    width: 100%;
+    height: 320px;
+}
+
 @media (min-width: 1920px) {
 
     .container-img {
@@ -377,7 +383,6 @@ footer {
     }
     
     .prob-block-desc {
-        top: 183px;
         padding-left: 5px;
     }
     
@@ -387,14 +392,6 @@ footer {
     
     .prob-block-user {
         padding-left: 5px;
-    }
-    
-    .prob-block-bg {
-        top: 183px;    
-    }
-    
-    .rec-block-desc {
-        top: 195px;
     }
     
     .hero-feature img {
@@ -419,15 +416,15 @@ footer {
     }
     
     .prob-block-desc {
-        top: 327px;
         width: 254.5px;
         height: 80px;
         padding-left: 10px;
+        top: 420px;
     }
     
     .prob-block-bg {
-        top: 327px;
         left: 0px;
+        top: 420px;
     }
      
     .prob-block-price {
@@ -437,10 +434,6 @@ footer {
     .prob-block-user {
         padding-left: 10px;
     }
-    
-    .rec-block-desc {
-        top: 320px;
-    }
         
     .hero-feature img {
         height: 407px;
@@ -449,6 +442,10 @@ footer {
     img.user-pic__img {
         height: 60px; 
         width: 60px; 
+    }
+    
+    .offer-image {
+	   height: 500px;
     }
 
 }
@@ -469,27 +466,22 @@ footer {
     }
     
     .prob-block-desc {
-        top: 246px;
         height: 80px;
         padding-left: 10px;
+        top: 240px;
     }
     
     .prob-block-bg {
-        top: 246px;
+        top: 240px;
     }
-    
     
     .prob-block-price {
         padding-left: 10px;
     }
     
     .rec-block {
-	   width: 300px;
+        width: 300px;
         margin: auto;
-    }
-    
-    .rec-block-desc {
-        top: 250px;
     }
     
     .hero-feature img {
@@ -499,6 +491,10 @@ footer {
     img.user-pic__img {
         height: 60px; 
         width: 60px; 
+    }
+    
+    .offer-image {
+        height: 320px;
     }
 
 }
