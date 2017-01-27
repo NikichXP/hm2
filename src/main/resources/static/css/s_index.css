@@ -248,8 +248,9 @@ footer {
 
 @media (min-width: 1920px) {
 
-    .main-img {
+    #main-img {
         width: 1920px;
+        height: 518px;
     }
 
 }
