@@ -42,17 +42,18 @@ public class ProductAPI {
 
 	/**
 	 * List products with discounts
-	 * @param date - up to this date offers shown
+	 *
+	 * @param date   - up to this date offers shown
 	 * @param offset - objects to skip
 	 */
 	@RequestMapping("/offer")
-	public ResponseEntity<List<Object>> listProducts(@RequestParam(value = "city", required = false) String city,
-	                                                 @RequestParam(value = "shuffle", required = false) Boolean shuffle,
-	                                                 @RequestParam(value = "genre", required = false) String genre,
-	                                                 @RequestParam(value = "group", required = false) String group,
-	                                                 @RequestParam(value = "limit", required = false) Integer limit,
-	                                                 @RequestParam(value = "date", required = false) String date,
-	                                                 @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
+	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
+	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
+	                                   @RequestParam(value = "genre", required = false) String genre,
+	                                   @RequestParam(value = "group", required = false) String group,
+	                                   @RequestParam(value = "limit", required = false) Integer limit,
+	                                   @RequestParam(value = "date", required = false) String date,
+	                                   @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
 		if (date == null) {

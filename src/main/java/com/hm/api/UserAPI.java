@@ -41,8 +41,11 @@ public class UserAPI {
 	 * @return Shuffled array of users
 	 */
 	@GetMapping("/getProUsers")
-	public ResponseEntity getProUsers() {
-		return ResponseEntity.ok(workRepo.getPro().sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
+	public ResponseEntity getProUsers(@RequestParam(value = "city", required = false) String city) {
+		if (city == null) {
+			return ResponseEntity.ok(workRepo.getPro().sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
+		}
+		return ResponseEntity.ok(workRepo.getPro(city).sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
 	}
 
 }

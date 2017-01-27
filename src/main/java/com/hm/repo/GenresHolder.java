@@ -28,6 +28,10 @@ public class GenresHolder {
 		new Thread(this::updateCollectionsDB).start();
 	}
 
+	public static void TEST () { //TODO DELETE IN RELEASE
+		categories = null; //FIXME DELETE IN RELEASE
+	}
+
 	public int updateCollectionsDB() {
 		categories = null;
 		boolean flag = true;

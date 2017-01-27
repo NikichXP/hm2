@@ -105,6 +105,8 @@ public class TestAPI {
 		System.out.println("done.");
 		System.out.print("Generating productsIDs... ");
 
+		gh.TEST(); // removes cached data in categories to reimport
+
 		Genre genr[] = {gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
 				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
 				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
