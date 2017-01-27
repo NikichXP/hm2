@@ -77,9 +77,7 @@ public class AuthAPI {
 
 	@RequestMapping("/clean")
 	public ResponseEntity cleanup() {
-
 		List<AuthToken> list = authController.cleanup();
-
 		if (list.isEmpty()) {
 			return ResponseEntity.ok("None deleted");
 		} else {
