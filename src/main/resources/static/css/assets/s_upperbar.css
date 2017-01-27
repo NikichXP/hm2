@@ -111,7 +111,7 @@
     border: 1px solid #c6c7cb;
     border-radius: 4px;
     color: #a4a5a9;
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: 5px;
     height: 30px;
     font-size: 16px;
@@ -131,7 +131,7 @@
 #auth-button_city {
     margin-left: 5px;
     margin-top: 5px;
-    margin-right: 10px;
+    margin-right: 5px;
     height: 30px;
     font-family: B20 Sans, sans-serif;
     float: right;
@@ -140,7 +140,6 @@
 #auth-button_search {
     margin-left: 5px;
     margin-top: 5px;
-    margin-right: 10px;
     height: 30px;
     font-family: B20 Sans, sans-serif;  
     float: right;

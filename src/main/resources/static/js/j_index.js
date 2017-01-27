@@ -36,6 +36,7 @@ $(function(){
     
     if (getCookie('city') != null) {
         offerData.city = getCookie('city');
+        var proUserData = {city: getCookie('city')};
     }
     
     
@@ -72,7 +73,7 @@ $(function(){
     $.ajax({
         type: 'GET',
         url: currentSite + '/user/getProUsers',
-        //data: offerData,
+        data: proUserData,
         success: function(resData) {
             $('.rec-container').html("");	
             for (var i = 0; i < resData.length; i++)
@@ -85,7 +86,7 @@ $(function(){
                                                 + "<div class='rec-desc'>" + resData[i].profession + "</div>"
                                             + "</div>"
                                             + "<div class='rec-block-city-block'>"
-                                                + "<div class='rec-city'>г. " + resData[i].workingCities + "</div>"
+                                                + "<div class='rec-city'>г. " + resData[i].city + "</div>"
                                                 //+ "<div class='rec-city'>г. Kiev</div>"
                                                 + "<div class='rec-city-bg'></div>"
                                             + "</div>"

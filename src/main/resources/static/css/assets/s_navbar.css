@@ -81,6 +81,10 @@
     display: none;
 }
 
+#menu-link-a__ab {
+    display: none;
+}
+
 #menu-link-a__s {
     display: none;
 }
@@ -208,6 +212,10 @@
     }
     
     #menu-link-a__ad {
+        display: block;
+    }
+    
+    #menu-link-a__ab {
         display: block;
     }
 

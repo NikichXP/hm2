@@ -255,57 +255,6 @@ img.user-pic__img {
     text-align: center;
 }
 
-.footer-block a {
-    display: block;
-    text-decoration: none;
-    color: #545454;
-}
-
-.footer-block a:hover {
-
-    color: #90b651;
-}
-
-.footer-block h3 {
-    font: bold 1.28571em 'PT Sans Narrow', sans-serif;
-    text-transform: uppercase;
-    border-bottom: #bebebe 1px solid;
-}
-
-.footer-social-btns__link {
-    display: block;
-    float: left;
-    width: 35px;
-    height: 35px;
-    margin-bottom: 5px;
-    margin-left: -5px;
-    margin-right: 5px;
-
-}
-
-.footer-social-btns__link--tw {
-    background: url(../img/header-social-btns-1.png) 5px -34px no-repeat;
-}
-
-.footer-social-btns__link--vk {
-    background: url(../img/header-social-btns-1.png) -34px -34px no-repeat;
-}
-
-.footer-social-btns__link--fb {
-    background: url(../img/header-social-btns-1.png) -73px -34px no-repeat;
-}
-
-.footer-social-btns__link--in {
-    background: url(../img/header-social-btns-1.png) -110px -34px no-repeat;
-}
-
-
-.footer-block-soc {
-    width: 100%;
-    border-bottom: #bebebe 1px solid;
-    height: 40px;
-}
-
 .page-navigation {
     float: right;
 }
