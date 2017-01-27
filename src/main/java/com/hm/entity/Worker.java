@@ -20,7 +20,6 @@ public class Worker extends User {
 	private String id;
 	private boolean isPro;
 	private String profession;
-	private String workingCities;
 	private String city;
 
 	private double minPrice; //on link "starts from 200 UAH"
@@ -54,9 +53,6 @@ public class Worker extends User {
 		if (this.profession == null) {
 			this.profession = product.getGroupName();
 			GenresHolder.addExecutor(product.getGroupName());
-		}
-		if (this.workingCities == null) {
-			this.workingCities = product.getCity();
 		}
 		if (this.city == null) {
 			this.city = product.getCity();

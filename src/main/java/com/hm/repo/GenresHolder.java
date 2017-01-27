@@ -29,7 +29,7 @@ public class GenresHolder {
 	}
 
 	public static void TEST () { //TODO DELETE IN RELEASE
-		categories = null; //FIXME DELETE IN RELEASE
+		categories = new HashMap<>(); //FIXME DELETE IN RELEASE
 	}
 
 	public int updateCollectionsDB() {
