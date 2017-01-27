@@ -8,7 +8,7 @@ body {
 }
 
 .pic-container {
-    height: 340px;
+    height: 180px;
     background: url(../img/greenbg.jpg) no-repeat center;
     color: #fff;
     text-align: right;
@@ -21,6 +21,8 @@ body {
     text-align: right;
 /*    font: 3.21429em PT Sans, sans-serif;*/
     color: #fff;
+    font: 3.57143em PTSansCaptionBold, Sans-serif;
+    margin-top: 0px;
 /*    margin: 50px 0;*/
 }
 
@@ -46,6 +48,34 @@ input {
     margin-bottom: 10px;
 }
 
+h1 {
+   margin-bottom: 0px; 
+}
+
+h3 {
+   margin-top: 0px; 
+}
+
+.number {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+th {
+    font-size: 1.061429em;
+}
+
+td {
+    font-size: 1.061429em;   
+}
+
+.td-price {
+    color: #ff0000;  
+    font-size: 1.42857143em;    
+}
+
+
 
 @media (min-width: 1920px) {
 
@@ -69,16 +99,40 @@ input {
 
 @media (max-width: 767px) {
     .pic-container {
-        height: 400px;
+        height: 140px;
+    }
+    .pic-container h1 {
+        font-size: 28px;
+    }
+    .pic-container h3 {
+        font-size: 20px;
     }
     
   
 
 }
 
-@media (max-width: 450px) {
+@media (max-width: 650px) {
     .pic-container {
-        height: 430px;
+        height: 170px;
+    }
+    
+    .pic-container h1 {
+        font-size: 26px;
+    }
+    .pic-container h3 {
+        font-size: 18px;
+    }
+    
+    .number {
+        margin-top: 5px;
+    }
+    
+    td {
+        font-size: 1em;
+    }
+    .td-price {
+        font-size: 1em;
     }
 }
 

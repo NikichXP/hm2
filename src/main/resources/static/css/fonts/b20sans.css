@@ -4,3 +4,23 @@
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: "PTSansCaptionRegular";
+    src: url("PTSansCaptionRegular/PTSansCaptionRegular.eot");
+    src: url("PTSansCaptionRegular/PTSansCaptionRegular.eot?#iefix")format("embedded-opentype"),
+    url("PTSansCaptionRegular/PTSansCaptionRegular.woff") format("woff"),
+    url("PTSansCaptionRegular/PTSansCaptionRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "PTSansCaptionBold";
+    src: url("PTSansCaptionBold/PTSansCaptionBold.eot");
+    src: url("PTSansCaptionBold/PTSansCaptionBold.eot?#iefix")format("embedded-opentype"),
+    url("PTSansCaptionBold/PTSansCaptionBold.woff") format("woff"),
+    url("PTSansCaptionBold/PTSansCaptionBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
