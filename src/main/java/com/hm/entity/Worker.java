@@ -19,6 +19,7 @@ public class Worker extends User {
 	private String id;
 	private boolean isPro;
 	private String profession;
+	private String workingCities;
 
 	private double minPrice; //on link "starts from 200 UAH"
 	private ArrayList<String> productsIDs;
@@ -50,6 +51,9 @@ public class Worker extends User {
 	public void addProduct(Product product) {
 		if (this.profession == null) {
 			this.profession = product.getGroupName();
+		}
+		if (this.workingCities == null) {
+			this.workingCities = product.getCity();
 		}
 		this.productsIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
