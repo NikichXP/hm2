@@ -1,6 +1,7 @@
 package com.hm.entity;
 
 import com.hm.AppLoader;
+import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
 import lombok.*;
 
@@ -51,6 +52,7 @@ public class Worker extends User {
 	public void addProduct(Product product) {
 		if (this.profession == null) {
 			this.profession = product.getGroupName();
+			GenresHolder.getGroup(product.getGroupName()).addExecutor();
 		}
 		if (this.workingCities == null) {
 			this.workingCities = product.getCity();
