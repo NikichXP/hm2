@@ -54,6 +54,8 @@ public class TestAPI {
 	@Autowired
 	private ConfigAPI configAPI;
 	@Autowired
+	private NewsAPI newsAPI;
+	@Autowired
 	private Gson gson;
 
 	@RequestMapping("/user")
@@ -88,13 +90,13 @@ public class TestAPI {
 		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
 		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
 
-		Set<User> users = new HashSet<>();
+		Set<User> workingusers = new HashSet<>();
 
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
 			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
-			users.add(w);
+			workingusers.add(w);
 			if (Math.random() > 0.5) {
 				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
 			}
@@ -109,11 +111,15 @@ public class TestAPI {
 
 		Genre genr[] = {gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
 				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
+				gh.createGenre("Студийная съёмка", "Фотограф", "Популярные"),
+				gh.createGenre("Венчание", "Фотограф", "Популярные"),
+				gh.createGenre("Детская", "Фотограф", "Популярные"),
+				gh.createGenre("Семейная", "Фотограф", "Популярные"),
 				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
 				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
 				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда")};
 
-		users.forEach(user -> {
+		workingusers.forEach(user -> {
 			workers.add(authController.getEntity(user.getId(), Worker.class));
 		});
 
@@ -121,7 +127,7 @@ public class TestAPI {
 
 		configAPI.cityDefaults();
 
-		workers.parallelStream().forEach(worker -> {
+		workingusers.parallelStream().forEach(worker -> {
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
 			products.add(
 					productAPI.createProduct("Test work name, hello world!",
@@ -141,7 +147,20 @@ public class TestAPI {
 		});
 
 
-		System.out.println("done.");
+		System.out.println("done. \nGenerating news");
+
+		IntStream.range(0, 20).parallel().forEach(i -> {
+			Random r = new Random();
+			StringBuilder sb = new StringBuilder();
+			for (int x = 0; x < 5_000; x++) {
+				sb.append((char)(r.nextInt(26) + 'a'));
+				if (Math.random() > 0.8) {
+					sb.append(" ");
+				}
+			}
+			newsAPI.postNews(sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
+		});
+
 
 		return getAll();
 	}

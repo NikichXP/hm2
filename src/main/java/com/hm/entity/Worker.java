@@ -3,10 +3,12 @@ package com.hm.entity;
 import com.hm.AppLoader;
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -27,22 +29,10 @@ public class Worker extends User {
 
 
 	public Worker(User user) {
-		Arrays.stream(user.getClass().getMethods())
-				.filter(method -> method.getName().startsWith("get"))
-				.forEach(usermeth -> {
-					String name = usermeth.getName().substring(3);
-					Arrays.asList(this.getClass().getMethods()).stream()
-							.filter(meth -> meth.getName().startsWith("set"))
-							.filter(el -> el.getName().substring(3).equals(name))
-							.findAny()
-							.ifPresent(e -> {
-								try {
-									e.invoke(this, usermeth.invoke(user));
-								} catch (Exception ex) {
-									ex.printStackTrace();
-								}
-							});
-				});
+		this.id = user.getId();
+		this.mail = user.getMail();
+		this.userImg = user.getUserImg();
+		this.name = user.getName();
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
 		this.isPro = false;

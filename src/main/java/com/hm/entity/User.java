@@ -1,23 +1,25 @@
 package com.hm.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PROTECTED)
 public class User {
 
 	@Id
-	private String id;
-	private String mail;
+	String id;
+	String mail;
 	private String pass; //this is encrypted
-	private String userImg;
-	private String entityClassName;
-
-	private String name;
+	String userImg;
+	String entityClassName;
+	String name;
 
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {

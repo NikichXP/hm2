@@ -17,6 +17,10 @@ public class UserUtils {
 	}
 
 	public static String encryptPass(String login, String pass) {
+		if (pass == null) {
+			pass = "";
+			System.err.println("Pass null on login " + login);
+		}
 		if (pass.length() == 128) {
 			return pass;
 		}
