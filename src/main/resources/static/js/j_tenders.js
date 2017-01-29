@@ -8,6 +8,7 @@ $(function(){
     //var currentSite = "https://07962c19.eu.ngrok.io";
     var curDate = new Date();
     
+    /*
     var url = window.location;
     url = decodeURIComponent(url);
     var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
@@ -23,6 +24,7 @@ $(function(){
     
 
     var maxPages;  // get number of pages
+    */
     
     //Getting search params from url
     
@@ -104,26 +106,6 @@ $(function(){
         },
     });
     
-    $('body').on('click', 'a.dropdown-menu__item', function() {	
-        var cat = $(this).html();
-        
-        $.ajax({
-            type: 'GET',
-            url: currentSite + '/config/list/offer/genre/' + cat,
-            success: function(resData) {
-                $('.dropdown-menu__genre').html("");
-
-                for (var i = 0; i < resData.length; i++)
-                {          
-                    $('.dropdown-menu__genre').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                                + resData[i]  
-                                                + "</a></li>");  	
-                };                
-
-            },
-        });
-
-    });
        
     //End of filling dropdowns
     
@@ -155,7 +137,7 @@ $(function(){
                 var expDateArr = resData[i].expirationDateString.split('-');
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('.offers-container').append("<div class='col-md-6 col-sm-12 offers-container__offer'>" 
+                $('.offers-container').append("<div class='col-md-6 col-sm-12 hero-feature'>" 
                                             //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
                                             + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
@@ -255,21 +237,22 @@ $(function(){
     $('body').on('click', '#offer-search', function() {	   
         
         
-        var url = 'offers.html?page=1';
+        //var url = 'offers.html?page=1';
+        var url = 'tenders.html?';
         
         if ($('#search-innertext__city').html() != 'Город') {
             url += '&city=' + $('#search-innertext__city').html();
         }
-        if ($('#search-innertext__genre').html() != 'Жанр') {
-            url += '&genre=' + $('#search-innertext__genre').html();
-        }
+//        if ($('#search-innertext__genre').html() != 'Жанр') {
+//            url += '&genre=' + $('#search-innertext__genre').html();
+//        }
         if ($('#search-innertext__group').html() != 'Услуга') {
             url += '&group=' + $('#search-innertext__group').html();
         }
-        if ($('#search-innertext__date').html() != 'Дата') {
-            var dateStr = $('#search-innertext__date').html().split('. ');
-            url += '&date=' + dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
-        }
+//        if ($('#search-innertext__date').html() != 'Дата') {
+//            var dateStr = $('#search-innertext__date').html().split('. ');
+//            url += '&date=' + dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
+//        }
         
         window.location.replace(url);
         
@@ -286,7 +269,7 @@ $(function(){
     
     
     
-    //Calendar
+    /*Calendar
 
     $('.button-date').dcalendarpicker({
         format: 'dd-mm-yyyy'
@@ -314,7 +297,7 @@ $(function(){
     });
 
 
-    //End of Calendar
+    //End of Calendar*/
     
     
 

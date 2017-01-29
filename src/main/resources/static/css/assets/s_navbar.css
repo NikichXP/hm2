@@ -134,6 +134,18 @@
     color: #8ab04b; 
 }
 
+.categories-list__mob {
+    display: none;
+    background: none;
+    border: none;
+    font: 1.14286em PT Sans, sans-serif;
+    color: #90b651;
+    text-transform: uppercase;
+    width: auto;
+    padding: 0;
+    box-shadow: none;
+}
+
 @media (max-width: 1200px) {
 
     .menu-link-a {
@@ -207,6 +219,10 @@
         height: 30px;
     } 
     
+    #menu-link__prop {
+        display: none;
+    }
+    
     .menu-link-mob {
         display: none;
     }
@@ -241,6 +257,10 @@
     
     .categories-container {
         top: 87px;        
+    }
+    
+    .categories-list__mob {
+        display: block;
     }
 
 }

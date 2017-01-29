@@ -22,8 +22,9 @@ a:hover {
 .container-news__post {
     font-family: B20 Sans;
     height: 180px;
-    padding: 15px;
-    margin-bottom: 40px;
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    border: 1px solid #ddd; 
 }
 
 .container-news__post:hover {

@@ -7,7 +7,7 @@ body {
     margin-top: 0px;
 }
 
-#tenders {
+#offers {
     color: #fff;
     background-color: #90b651;
 }
@@ -16,12 +16,12 @@ body {
     margin-top: 50px;
 }
 
-.hero-feature {
+.offers-container__offer {
     margin-bottom: 30px;
     padding: 0px;
 }
 
-.hero-feature img {
+.offers-container__offer img {
     width: 100%;
     height: 320px;
 }
@@ -116,8 +116,7 @@ img.user-pic__img {
 }
 
 .part-search {
-    background-color: #e5e7eb;
-    
+    background-color: #e5e7eb;  
 }
 
 .part-search__item {
@@ -125,7 +124,6 @@ img.user-pic__img {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
 
 .prob-block-dis {
     position: absolute;
@@ -177,7 +175,6 @@ img.user-pic__img {
 
 .button-add-prop:hover h5{
     color: #90b651;
-
 }
 
 .row-rec {
@@ -196,8 +193,7 @@ img.user-pic__img {
 }
 
 .rec-block img{
-    width: 100%;
-    
+    width: 100%;   
 }
 
 .rec-block-desc {
@@ -207,8 +203,7 @@ img.user-pic__img {
     top: 240px;
     width: 150px;
     height: 80px;
-    padding-left: 20px;
-    
+    padding-left: 20px;   
 }
 
 .rec-name {
@@ -316,9 +311,7 @@ img.user-pic__img {
     .container-img {
         width: 1920px;
     }
-
 }
-
 
 @media (min-width: 1300px) {
     #main-img {
@@ -326,10 +319,8 @@ img.user-pic__img {
     }
 }
 
-
 @media (max-width: 1200px) {
-
-    
+  
     #main-img {
         height: 312px;
     }
