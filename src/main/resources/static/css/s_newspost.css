@@ -1,0 +1,86 @@
+body {
+/*    padding-top: 70px;  Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    font-family: 'B20 Sans', sans-serif;
+}
+h1 {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+
+#news {
+    color: #fff;
+    background-color: #90b651
+}
+
+
+.container-news__img {
+    background: url(../img/auth1.jpg) no-repeat center;
+    height: 300px;
+    float: left;
+    width: 50%;
+    margin-left: 0;
+}
+
+.container-news__text {
+    float: right;
+    width: 50%;
+    padding-left: 5px;
+}
+
+.container-news__text h5{
+    margin-top: 0;
+}
+
+
+@media (min-width: 1920px) {
+
+}
+
+
+@media (min-width: 1300px) {
+
+}
+
+
+@media (max-width: 1200px) {
+
+
+}
+
+@media (max-width: 992px) {
+     
+    
+}
+
+@media (max-width: 767px) {
+    
+    .container-news__img {
+        width: 100%;
+    }
+
+    .container-news__text {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 450px) {
+  
+}
+
+@font-face {
+    font-family: B20 Sans;
+    src: url(http://webfonts.ru/import/b20sans.css), 
+}  
+
+

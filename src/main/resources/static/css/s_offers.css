@@ -116,7 +116,14 @@ img.user-pic__img {
 }
 
 .part-search {
-    height: 120px;
+    background-color: #e5e7eb;
+    
+}
+
+.part-search__item {
+	text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 
@@ -287,7 +294,7 @@ img.user-pic__img {
 }
 
 .dropdown {
-    float: left;
+/*    float: left;*/
 }
 
 .dropdown-menu {
@@ -440,6 +447,11 @@ img.user-pic__img {
     
     .offer-image {
         height: 320px;
+    }
+    
+    .part-search__item {
+        text-align: left;
+        margin: 0;
     }
 
 }

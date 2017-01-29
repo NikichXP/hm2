@@ -157,7 +157,7 @@ $(function(){
                 var daysLeft = daysBetween(curDate, expDate);
                 $('.offers-container').append("<div class='col-md-6 col-sm-12 hero-feature'>" 
                                             //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
-                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get/" + resData[i].validImage + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
+                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -165,7 +165,7 @@ $(function(){
                                                 + "<h4>" + resData[i].title + "</h4>"
                                             + "</div>"
                                             + "<div class='prob-block-user'>"
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get/" + resData[i].workerEntity.validUserImg + "'>"
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
                                             + "</div>"
                                             + "<div class='prob-block-price'> "
@@ -287,7 +287,6 @@ $(function(){
     
     
     //Calendar
-    
 
     $('.button-date').dcalendarpicker({
         format: 'dd-mm-yyyy'

@@ -45,10 +45,9 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Title -->
         <div class="row">
-            <div class="col-lg-12 part-search">
-  
+            <div class="container-fluid part-search">
+                <div class="col-lg-3 col-sm-3 col-xs-12 part-search__item">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span id='search-innertext__city'>Город</span>
@@ -58,7 +57,8 @@
 
                         </ul>
                     </div>
-
+                </div>
+                <div class="col-lg-3 col-sm-3 col-xs-12 part-search__item">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span id='search-innertext__group'>Услуга</span>
@@ -68,6 +68,8 @@
 
                         </ul>
                     </div>
+                </div>
+                <div class="col-lg-3 col-sm-3 col-xs-12 part-search__item">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span id='search-innertext__genre'>Жанр</span>
@@ -77,22 +79,26 @@
                             
                         </ul>
                     </div>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-xs-12 part-search__item">
+                    <button class="btn btn-default button-date" type="button">
+                        <span id='search-innertext__date'>Дата окончания</span>
+                        <span class="caret"></span>
+                    </button>
 
-<!--                    <div class="dropdown">-->
-                        <button class="btn btn-default button-date" type="button">
-                            <span id='search-innertext__date'>Дата окончания</span>
-                            <span class="caret"></span>
-                        </button>
-<!--                        <ul class="dropdown-menu dropdown-menu__calendar" aria-labelledby="dropdownMenu1">-->
-                            <div class="calendar"></div>
-<!--                        </ul>-->
-<!--                    </div>-->
-                <button type="button" class="btn btn-default" id='offer-search'>Поиск</button>
-                <button type="button" class="btn btn-default" id='offer-search-cancel'>Отмена</button>
-
+                    <div class="calendar"></div>
+                </div>   
+                <div class="col-lg-12 col-sm-12 col-xs-12 part-search__item">
+                    <button type="button" class="btn btn-default" id='offer-search'>Поиск</button>
+                    <button type="button" class="btn btn-default" id='offer-search-cancel'>Сброс</button>
+                </div>
             </div>
         </div>
+
+
         <!-- Page Features -->
+        
+        
         <div class="row text-center offers-container">
 
 

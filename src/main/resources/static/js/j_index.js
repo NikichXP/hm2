@@ -52,7 +52,7 @@ $(function(){
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
                 $('.offers-container').append("<div class='col-md-3 col-sm-6 hero-feature'>" 
-                                            + "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
+                                            + "<img src='" + currentSite + "/file/get?file=" + resData[i].image + "' alt=''>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -79,15 +79,13 @@ $(function(){
             for (var i = 0; i < resData.length; i++)
             {          
                 $('.rec-container').append("<a href='#'><div class='col-md-3 col-sm-6 rec-block'>" 
-                                            //+ "<img class='rec-pic' src='" + currentSite + "/file/get/" + resData[i].validUserImg + "' alt=''>" 
-                                            + "<div class='rec-pic' style='background: url(" + currentSite + "/file/get/" + resData[i].validUserImg + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
+                                            + "<div class='rec-pic' style='background: url(" + currentSite + "/file/get?file=" + resData[i].userImg + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='rec-block-desc'>"
                                                 + "<div class='rec-name'>" + resData[i].name + "</div>"
                                                 + "<div class='rec-desc'>" + resData[i].profession + "</div>"
                                             + "</div>"
                                             + "<div class='rec-block-city-block'>"
                                                 + "<div class='rec-city'>г. " + resData[i].city + "</div>"
-                                                //+ "<div class='rec-city'>г. Kiev</div>"
                                                 + "<div class='rec-city-bg'></div>"
                                             + "</div>"
                                         + "</div></a>");  	
