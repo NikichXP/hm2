@@ -56,6 +56,10 @@ public class TestAPI {
 	@Autowired
 	private NewsAPI newsAPI;
 	@Autowired
+	private UserAPI userAPI;
+	@Autowired
+	private TendersAPI tendersAPI;
+	@Autowired
 	private Gson gson;
 
 	@RequestMapping("/user")
@@ -102,22 +106,29 @@ public class TestAPI {
 			}
 		});
 
-		authapi.register("newuser@mail.com", "12345", "Client", "common/auth" + new Random().nextInt(13) + ".jpg");
+		List<AuthToken> clientsTokens = new LinkedList<>();
+		IntStream.range(0, 20).parallel().forEach(i -> {
+			authapi.register("newuser" + i + "@mail.com", "12345", "Client" + i, "common/auth" + new Random().nextInt(13) + ".jpg");
+			clientsTokens.add((AuthToken) authapi.auth("newuser" + i + "@mail.com", "12345").getBody());
+		});
+
 
 		System.out.println("done.");
 		System.out.print("Generating productsIDs... ");
 
 		gh.TEST(); // removes cached data in categories to reimport
 
-		Genre genr[] = {gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
+		Genre genr[] = {
+				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
+				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
+				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда"),
+				gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
 				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
 				gh.createGenre("Студийная съёмка", "Фотограф", "Популярные"),
 				gh.createGenre("Венчание", "Фотограф", "Популярные"),
 				gh.createGenre("Детская", "Фотограф", "Популярные"),
-				gh.createGenre("Семейная", "Фотограф", "Популярные"),
-				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
-				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
-				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда")};
+				gh.createGenre("Семейная", "Фотограф", "Популярные")
+		};
 
 		workingusers.forEach(user -> {
 			workers.add(authController.getEntity(user.getId(), Worker.class));
@@ -153,7 +164,7 @@ public class TestAPI {
 			Random r = new Random();
 			StringBuilder sb = new StringBuilder();
 			for (int x = 0; x < 5_000; x++) {
-				sb.append((char)(r.nextInt(26) + 'a'));
+				sb.append((char) (r.nextInt(26) + 'a'));
 				if (Math.random() > 0.8) {
 					sb.append(" ");
 				}
@@ -161,6 +172,21 @@ public class TestAPI {
 			newsAPI.postNews(sb.subSequence(0, 20).toString(), sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
 		});
 
+		//TENDERS HERE
+
+		IntStream.range(0, 20).parallel().forEach(i -> {
+			tendersAPI.createBid(new String[]{"genre=Фотосессия", "title=test" + i,
+					"deadline=2017-02-20", "price=999", "workingHours=1", "token=" + clientsTokens.get(i)}, "TEST ZAKAZ");
+
+		});
+
+
+		//TESTING PHOTOGRAPHERS HERE
+
+		IntStream.range(0, 100).parallel().forEach(i -> {
+			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
+
+		});
 
 		return getAll();
 	}
@@ -200,14 +226,14 @@ public class TestAPI {
 	}
 
 	@RequestMapping("/testLogs")
-	public ResponseEntity testLogs () {
+	public ResponseEntity testLogs() {
 		throw new NullPointerException("This is TEST HEROKU");
 	}
 
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
-				Stream.of(AuthAPI.class, BidsAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class,
+				Stream.of(AuthAPI.class, TendersAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class,
 						ProductAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, DevAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)

@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-@RequestMapping("/bids")
+@RequestMapping("/tenders")
 @RestController
 @CrossOrigin
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BidsAPI {
+public class TendersAPI {
 
 	@Autowired
 	BidsRepository bidsRepo;

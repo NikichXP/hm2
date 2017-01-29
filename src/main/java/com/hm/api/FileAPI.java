@@ -43,13 +43,6 @@ public class FileAPI {
 		org.springframework.util.FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
 	}
 
-	@RequestMapping("/get/{userId}")
-	public void getFile(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
-	                    @RequestParam("fileId") String fileId) throws Exception {
-
-		getFile(response, request, userId + "/" + fileId);
-	}
-
 	@RequestMapping("/get/{userId}/{fileId}/{ext}") //alternate mapping
 	public void getFile2(HttpServletResponse response, HttpServletRequest request, @PathVariable("userId") String userId,
 	                     @PathVariable("fileId") String fileId, @PathVariable("ext") String ext) throws Exception {
