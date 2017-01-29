@@ -16,7 +16,7 @@ body {
 }
 
 .container-contact {
-    background: url(../img/freephoto_bg.jpg) repeat-x center;
+    background: url(../img/freephoto_bg.jpg) repeat top left;
     height: 400px;
 }
 
@@ -78,17 +78,25 @@ h4 span {
 }
 
 @media (max-width: 992px) {
-     
+     .container-contact {
+        height: 450px;
+    }
     
 }
 
 @media (max-width: 767px) {
     
-  
+    .container-contact {
+        height: 420px;
+    }
 
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
+    
+    .container-contact {
+        height: 600px;
+    }
   
 }
 

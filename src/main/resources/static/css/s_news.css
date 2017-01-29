@@ -71,6 +71,19 @@ a:hover {
 
 @media (max-width: 767px) {
     
+    .container-news__post {
+        height: 100px;
+
+    }
+    .container-news__img {
+        width: 30%;
+        height: 90px
+    }
+
+    .container-news__text {
+        width: 70%;
+
+    }
   
 
 }
