@@ -23,6 +23,7 @@ public class News {
 
 	public News (String title, String text, String img) {
 		this.id = UUID.randomUUID().toString();
+		this.title = title;
 		this.text = text;
 		this.img = img;
 		this.posted = LocalDateTime.now();
