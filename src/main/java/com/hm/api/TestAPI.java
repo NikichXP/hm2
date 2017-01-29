@@ -107,11 +107,10 @@ public class TestAPI {
 		});
 
 		List<AuthToken> clientsTokens = new LinkedList<>();
-		IntStream.range(0, 20).parallel().forEach(i -> {
-			authapi.register("newuser" + i + "@mail.com", "12345", "Client" + i, "common/auth" + new Random().nextInt(13) + ".jpg");
-			clientsTokens.add((AuthToken) authapi.auth("newuser" + i + "@mail.com", "12345").getBody());
+		IntStream.range(0, 100).parallel().forEach(i -> {
+			User u = authapi.register("newuser" + i + "@mail.com", "12345", "client", "common/auth" + new Random().nextInt(13) + ".jpg");
+			clientsTokens.add((AuthToken) authapi.auth(u.getMail(), u.getPass()).getBody());
 		});
-
 
 		System.out.println("done.");
 		System.out.print("Generating productsIDs... ");
@@ -133,6 +132,8 @@ public class TestAPI {
 		workingusers.forEach(user -> {
 			workers.add(authController.getEntity(user.getId(), Worker.class));
 		});
+
+
 
 		Set<Product> products = new HashSet<>();
 
@@ -176,7 +177,7 @@ public class TestAPI {
 
 		IntStream.range(0, 20).parallel().forEach(i -> {
 			tendersAPI.createBid(new String[]{"genre=Фотосессия", "title=test" + i,
-					"deadline=2017-02-20", "price=999", "workingHours=1", "token=" + clientsTokens.get(i)}, "TEST ZAKAZ");
+					"deadline=2017-02-20", "price=999", "workingHours=1", "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
 
 		});
 
@@ -185,7 +186,7 @@ public class TestAPI {
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
 			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
-
+			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
 		});
 
 		return getAll();

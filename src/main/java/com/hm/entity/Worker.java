@@ -18,8 +18,6 @@ import java.util.List;
 public class Worker extends User {
 
 	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
-
-	private String id;
 	private boolean isPro;
 	private String profession;
 	private String city;
