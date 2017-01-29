@@ -19,10 +19,11 @@ public class NewsAPI {
 	private AuthController authController;
 
 	@PostMapping("/postNews")
-	public ResponseEntity postNews(@RequestParam("text") String text, @RequestParam("token") String token,
+	public ResponseEntity postNews(@RequestParam("title") String title, @RequestParam("text") String text,
+	                               @RequestParam("token") String token,
 	                               @RequestParam(value = "img", defaultValue = "", required = false) String img) {
 		//TODO Add token here
-		News n = new News(text, img);
+		News n = new News(title, text, img);
 		newsRepo.save(n);
 		return ResponseEntity.ok("Done");
 	}

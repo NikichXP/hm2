@@ -16,11 +16,12 @@ public class News {
 
 	@Id
 	String id;
+	String title;
 	String text;
 	String img;
 	LocalDateTime posted;
 
-	public News (String text, String img) {
+	public News (String title, String text, String img) {
 		this.id = UUID.randomUUID().toString();
 		this.text = text;
 		this.img = img;

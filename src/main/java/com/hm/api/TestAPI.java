@@ -158,7 +158,7 @@ public class TestAPI {
 					sb.append(" ");
 				}
 			}
-			newsAPI.postNews(sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
+			newsAPI.postNews(sb.subSequence(0, 20).toString(), sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
 		});
 
 

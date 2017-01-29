@@ -46,7 +46,7 @@ public class AuthController {
 		}
 		val ret = new AuthToken(user);
 		add(ret);
-		entityLookUp(user, ret);
+		startEntityLookUp(user, ret);
 		return ret;
 	}
 
@@ -122,7 +122,7 @@ public class AuthController {
 		return list;
 	}
 
-	private void entityLookUp (User user, AuthToken ret) {
+	private void startEntityLookUp(User user, AuthToken ret) {
 		Thread entityLookup = null;
 		switch (ret.getUser().getEntityClassName().toLowerCase()) {
 			case "moderator":
@@ -164,7 +164,7 @@ public class AuthController {
 		ret = authRepo.getToken(token);
 		if (ret != null) {
 			cachedTokens.put(ret.getSessionID(), ret);
-			entityLookUp(ret.getUser(), ret);
+			startEntityLookUp(ret.getUser(), ret);
 			try {
 				queuedQueries.get(ret.getUser().getMail()).join();
 			} catch (InterruptedException e) {

@@ -17,7 +17,7 @@ public class AuthToken {
 
 	public AuthToken(User user) {
 		if (user.getId().startsWith("test") || user.getId().startsWith("not-a-real")) { //TODO TEST PURPOSE
-			this.sessionID = user.getId();
+			this.sessionID = user.getId(); //FIXME Delete this
 		} else {
 			this.sessionID = UUID.randomUUID().toString();
 		}
