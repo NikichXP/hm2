@@ -12,22 +12,24 @@ import java.util.UUID;
 
 @Data
 @FieldDefaults(level= AccessLevel.PRIVATE)
-public class BiddableProduct {
+public class Tender {
 
 	@Id
 	private String id;
 
 	private User creator;
 	private String genre;
+	private String group;
 	private String title;
 	private String description;
+	private String city;
 	private LocalDate deadline;
 	private int workingHours;
 	private int price;
 
 	private Set<Node> bidders = new HashSet<>();
 
-	public BiddableProduct() {
+	public Tender() {
 		this.id = UUID.randomUUID().toString();
 	}
 

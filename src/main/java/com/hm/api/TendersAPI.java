@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @RequestMapping("/tenders")
 @RestController
@@ -23,13 +24,28 @@ public class TendersAPI {
 	@Autowired
 	BidsRepository bidsRepo;
 	@Autowired
-	BiddableProductRepository biddableRepo;
+	TenderRepository biddableRepo;
 	@Autowired
 	AuthController authController;
 
 	@RequestMapping("/list/all")
-	public ResponseEntity listAll() {
-		return ResponseEntity.ok(biddableRepo.findAll());
+	public ResponseEntity listAll(@RequestParam(value = "city", required = false) String city,
+	                              @RequestParam(value = "price", defaultValue = "0-100500") String price,
+	                              @RequestParam(value = "group", required = false) String group) {
+		String[] tmp = price.split("-");
+
+		Stream<Tender> ret = biddableRepo.findAll().stream()
+				.filter(tender -> tender.getPrice() > Integer.parseInt(tmp[0]))
+				.filter(tender -> tender.getPrice() < Integer.parseInt(tmp[1]));
+
+		if (city != null) {
+			ret = ret.filter(tender -> tender.getCity().equals(city));
+		}
+		if (group != null) {
+			ret = ret.filter(tender -> tender.getGroup().equals(group));
+		}
+
+		return ResponseEntity.ok(ret.toArray());
 	}
 
 	@RequestMapping(value = "/create/tender", method = RequestMethod.POST)
@@ -44,7 +60,7 @@ public class TendersAPI {
 			return ResponseEntity.status(403).body("Need authorize");
 		}
 
-		BiddableProduct product = new BiddableProduct();
+		Tender product = new Tender();
 		if (text != null) {
 			product.setDescription(text);
 		}
@@ -60,6 +76,7 @@ public class TendersAPI {
 							break;
 						case "genre":
 							if (GenresHolder.isGenreExists(pair[1])) {
+								product.setGroup(GenresHolder.getGenre(pair[1]).getGroupName());
 								product.setGenre(pair[1]);
 							}
 							break;
@@ -75,6 +92,9 @@ public class TendersAPI {
 						case "hm-agent":
 							product.setCreator(null);
 							break;
+						case "city":
+							product.setCity(pair[1]);
+							break;
 					}
 				});
 
@@ -84,12 +104,12 @@ public class TendersAPI {
 
 	@RequestMapping("/bid/{id}")
 	public ResponseEntity bid(@RequestParam("token") String token, @RequestParam("price") int price, @PathVariable("id") String id) {
-		BiddableProduct prod = biddableRepo.findOne(id);
+		Tender prod = biddableRepo.findOne(id);
 		Worker worker = authController.getLoggedToken(token, Worker.class);
 		if (worker == null || prod == null) {
 			return ResponseEntity.status(403).body("Need to validate input data: " + token);
 		}
-		val node = new BiddableProduct.Node();
+		val node = new Tender.Node();
 		node.setBid(price);
 		node.setUserId(worker.getId());
 		node.setUserName(worker.getName());
