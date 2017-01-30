@@ -187,6 +187,14 @@ public class TestAPI {
 		IntStream.range(0, 100).parallel().forEach(i -> {
 			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
 			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
+			// 6 + 3
+			productAPI.createProduct("test of " + authToken.getUser().getName(),
+					genr[new Random().nextInt(6) + 3].getName(),
+					authToken.getSessionID(),
+					new Random().nextInt(1000) + 500,
+					configAPI.listCities()[(int) (Math.random() * 3)],
+					"common/auth" + new Random().nextInt(13) + ".jpg"
+					);
 		});
 
 		return getAll();
@@ -199,22 +207,11 @@ public class TestAPI {
 
 	@RequestMapping("getAll")
 	public ResponseEntity getAll() {
-		List<String> list = new ArrayList<>();
-		userRepo.findAll().forEach(e -> list.add(e.toString()));
-		moderatorRepo.findAll().forEach(e -> list.add(e.toString()));
-		clientRepo.findAll().forEach(e -> list.add(e.toString()));
-		workerRepo.findAll().forEach(e -> list.add(e.toString()));
-		authRepo.findAll().forEach(e -> list.add(e.toString()));
-		prodRepo.findAll().forEach(e -> list.add(e.toString()));
-		gh.getCategories().forEach(e -> {
-			list.add(e.toString());
-		});
-
-		return ResponseEntity.ok(list);
+		return ResponseEntity.ok(getAllObj().stream().map(Object::toString).collect(Collectors.toList()));
 	}
 
 	@RequestMapping("getAllObj")
-	public ResponseEntity getAllObj() {
+	public List<Object> getAllObj() {
 		List<Object> list = new ArrayList<>();
 		userRepo.findAll().forEach(list::add);
 		moderatorRepo.findAll().forEach(list::add);
@@ -223,7 +220,7 @@ public class TestAPI {
 		authRepo.findAll().forEach(list::add);
 		prodRepo.findAll().forEach(list::add);
 		GenresHolder.getCategories().forEach(list::add);
-		return ResponseEntity.ok(list);
+		return list;
 	}
 
 	@RequestMapping("/testLogs")
