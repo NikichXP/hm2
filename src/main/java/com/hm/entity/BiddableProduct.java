@@ -17,6 +17,7 @@ public class BiddableProduct {
 	@Id
 	private String id;
 
+	private User creator;
 	private String genre;
 	private String title;
 	private String description;

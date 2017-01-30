@@ -49,6 +49,8 @@ public class TendersAPI {
 			product.setDescription(text);
 		}
 
+		product.setCreator(user);
+
 		Arrays.stream(args)
 				.forEach(arg -> {
 					String[] pair = arg.split("=");
@@ -69,6 +71,10 @@ public class TendersAPI {
 							break;
 						case "workingHours":
 							product.setWorkingHours(Integer.parseInt(pair[1]));
+							break;
+						case "hm-agent":
+							product.setCreator(null);
+							break;
 					}
 				});
 
