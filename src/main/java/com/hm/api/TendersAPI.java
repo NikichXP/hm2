@@ -32,8 +32,8 @@ public class TendersAPI {
 		return ResponseEntity.ok(biddableRepo.findAll());
 	}
 
-	@RequestMapping(value = "/create/bid", method = RequestMethod.POST)
-	public ResponseEntity createBid(@RequestParam("args") String[] args, @RequestParam("text") String text) {
+	@RequestMapping(value = "/create/tender", method = RequestMethod.POST)
+	public ResponseEntity createTender(@RequestParam("args") String[] args, @RequestParam("text") String text) {
 		val data = Arrays.stream(args);
 		User user = AppLoader.ctx.getBean(AuthController.class)
 				.getUser(data.filter(arg -> arg.startsWith("token"))
