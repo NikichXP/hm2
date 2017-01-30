@@ -176,8 +176,9 @@ public class TestAPI {
 		//TENDERS HERE
 
 		IntStream.range(0, 20).parallel().forEach(i -> {
-			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=Киев",
-					"deadline=2017-02-20", "price=999", "workingHours=1", "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
+			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
+					"deadline=2017-02-" + (i%18+10), "price=" + (500 + new Random().nextInt(1000)),
+					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
 
 		});
 

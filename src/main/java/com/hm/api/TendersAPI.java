@@ -31,7 +31,9 @@ public class TendersAPI {
 	@RequestMapping("/list/all")
 	public ResponseEntity listAll(@RequestParam(value = "city", required = false) String city,
 	                              @RequestParam(value = "price", defaultValue = "0-100500") String price,
-	                              @RequestParam(value = "group", required = false) String group) {
+	                              @RequestParam(value = "group", required = false) String group,
+	                              @RequestParam(value = "offset", defaultValue = "0") int offset,
+	                              @RequestParam(value = "limit", defaultValue = Integer.MAX_VALUE + "") int limit) {
 		String[] tmp = price.split("-");
 
 		Stream<Tender> ret = biddableRepo.findAll().stream()
@@ -44,6 +46,9 @@ public class TendersAPI {
 		if (group != null) {
 			ret = ret.filter(tender -> tender.getGroup().equals(group));
 		}
+
+		ret = ret.skip(offset);
+		ret = ret.limit(limit);
 
 		return ResponseEntity.ok(ret.toArray());
 	}
