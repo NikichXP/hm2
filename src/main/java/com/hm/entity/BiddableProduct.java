@@ -21,7 +21,6 @@ public class BiddableProduct {
 	private String title;
 	private String description;
 	private LocalDate deadline;
-	private String deadlineString;
 	private int workingHours;
 	private int price;
 
@@ -37,6 +36,10 @@ public class BiddableProduct {
 		private String userImg;
 		private int bid;
 		private String userName;
+	}
+
+	public String getDeadlineString () {
+		return deadline.toString();
 	}
 
 }
