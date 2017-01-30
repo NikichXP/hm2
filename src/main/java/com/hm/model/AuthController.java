@@ -4,6 +4,7 @@ import com.hm.AppLoader;
 import com.hm.entity.AuthToken;
 import com.hm.entity.User;
 import com.hm.repo.*;
+import com.mongodb.DuplicateKeyException;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -176,7 +177,11 @@ public class AuthController {
 
 	public void add (AuthToken token) {
 		cachedTokens.put(token.getSessionID(), token);
-		authRepo.insert(token);
+		try {
+			authRepo.save(token);
+		}catch (DuplicateKeyException ex) {
+			System.err.println("Warning! -- duplicate key, fix token generation bug");
+		}
 	}
 
 	public void delete (String token) {
