@@ -33,7 +33,10 @@ public class UserUtils {
 			bytes[ptr++] = b;
 		}
 
-		byte[] result = mDigest.digest(bytes);
+		byte[] result;
+		synchronized (mDigest) {
+			result = mDigest.digest(bytes);
+		}
 		short[] secret = {228, 41, 34, 116, 78, 43, 30, 139, 229, 192, 122, 181, 0, 80, 112, 106};
 
 		for (int i = 0; i < result.length; i++) {
