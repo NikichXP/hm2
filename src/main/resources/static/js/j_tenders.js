@@ -24,7 +24,7 @@ $(function(){
     
 
     var maxPages;  // get number of pages
-    */
+    
     
     //Getting search params from url
     
@@ -52,7 +52,7 @@ $(function(){
         }
 
     }
-    
+    */
     //End of getting search params from url
     
     
@@ -110,61 +110,62 @@ $(function(){
     //End of filling dropdowns
     
     
-    //Loading offers from server
+    //Loading tenders from server
     
     $.ajax({
         type: 'GET',
-        url: currentSite + '/product/offer',
-        data: sendData,
-        success: function(resData) {
-            $('.offers-container').html("");
-            
-            maxPages = Math.ceil(resData[0]/itemsLimit);
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'>Первая</li>");		
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'>Предыдущая</li>");
-                    
-            for (var i = 1; i < Math.ceil(resData[0]/itemsLimit) + 1; i++) { 
-                $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
-                                                + i
-                                             + "</li>");	    
-            }
-            
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>Следующая</li>");
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>Последняя</li>");
-            
-            for (var i = 1; i < resData.length; i++)
-            {          
-                var expDateArr = resData[i].expirationDateString.split('-');
+        url: currentSite + '/tenders/list/all',
+        //data: sendData,
+        success: function(resData) { 
+            $('div.tenders').html("");
+            for (var i = 0; i < resData.length; i++)
+            {     
+                
+                var expDateArr = resData[i].deadlineString.split('-');
+                var expDateString = "" + expDateArr[2] + "." + expDateArr[1] - 1 + "." + expDateArr[0];
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('.offers-container').append("<div class='col-md-6 col-sm-12 hero-feature'>" 
-                                            //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
-                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
-                                            + "<div class='prob-block-bg'>"
-                                            + "</div>"
-                                            + "<div class='prob-block-desc'>"
-                                                + "<h5>г. " + resData[i].city + "</h5>"
-                                                + "<h4>" + resData[i].title + "</h4>"
-                                            + "</div>"
-                                            + "<div class='prob-block-user'>"
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
-                                                + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
-                                            + "</div>"
-                                            + "<div class='prob-block-price'> "
-                                                + "<div class='price-new'>" + resData[i].finalPrice + " грн</div>"
-                                                + "<div class='price-old'>" + resData[i].price + " грн</div>"
-                                                + "<div class='price-to'>" + Math.floor(daysLeft) + " дней</div>"
-                                            + "</div>"
-                                            + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
-                                        + "</div>");  	
+                $('div.tenders').append("<div class='col-md-12 col-sm-12 tender-container'><div class='user-pic'>" 
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].creator.userImg + "'>"
+                                              + "</div>"
+                                              + "<div class='tender-name'>"
+                                                + "<div class='user-name'>" + resData[i].creator.name + "</div>"
+                                                + "<div class='tender-title'>" + resData[i].title + "</div>"
+                                                + "<div class='tender-text'>" + resData[i].description + "</div>"
+                                              + "</div>"
+                                              + "<div class='tender-info'>"
+                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн.</span></div>"
+                                                + "<div class='tender-date'>" + expDateString + "</div>"
+                                                + "<div class='tender-days-left'>" + Math.floor(daysLeft) + " дней осталось</div>"
+                                                + "<div class='tender-time'>" + resData[i].workingHours + " рабочих часов</div>"
+                                              + "</div>"
+                                            + "</div>");  	
             };                
                 
         },
     });
                            
-    //End of loading offers from server                    
+    //End of loading tenders from server                    
                         
      
+    
+                
+                    
+                
+                
+                    
+                    
+                    
+                
+                
+                    
+                    
+                    
+                    
+                
+            
+    
+    
     
     //Navigation buttons onclicks  
             
@@ -255,7 +256,7 @@ $(function(){
 //        }
         
         window.location.replace(url);
-        
+         
     });
     
     $('body').on('click', '#offer-search-cancel', function() {	   

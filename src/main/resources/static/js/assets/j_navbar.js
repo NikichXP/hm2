@@ -39,6 +39,28 @@ $(function(){
         },
     });
     
+
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/config/list/city',
+        //data: offerData,
+        success: function(resData) {
+            if (getCookie('city') != null) $('.city-list__mob').html('<option selected disabled>' + getCookie('city') + '</option>');     
+            else $('.city-list__mob').html('<option selected disabled>Выберите город</option>');  
+            
+            
+            for (var i = 0; i < resData.length; i++)
+            {  
+                	
+
+                $('.city-list__mob').append("<option class='categories-list__mob-item __mob-group'>"
+                                    + resData[i] 
+                                    + "</option>");  	    
+            
+            };           
+        },
+    });
+    
     
      
     $('body').on('click', '#propositions', function() {	

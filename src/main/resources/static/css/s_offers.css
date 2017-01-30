@@ -37,8 +37,10 @@ body {
 }
 
 img.user-pic__img {
-    max-height: 83px; 
-    max-width: 83px; 
+    max-height: 90px; 
+    max-width: 90px; 
+    border-radius: 45px;
+    object-fit: cover;
 /*    clip: rect(0px, 83px, 83px, 0px);*/
 }
 
@@ -385,6 +387,7 @@ img.user-pic__img {
     img.user-pic__img {
         height: 60px; 
         width: 60px; 
+        border-radius: 30px
     }
     
     .offer-image {

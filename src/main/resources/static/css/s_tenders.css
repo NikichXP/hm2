@@ -20,17 +20,18 @@ body {
 }
 
 .user-pic {
-    margin-top: 25px;
+    margin-top: 15px;
     height: 100px; 
     width: 100px; 
     float: left;
 }
 
 img.user-pic__img {
-    max-height: 100px; 
-    max-width: 100px; 
+    height: 100px; 
+    width: 100px; 
     float: left;
     border-radius: 50px;
+    object-fit: cover;
 }
 
 .tender-name {
@@ -44,7 +45,7 @@ img.user-pic__img {
     font: 1em PTSansCaption, Sans-serif;
     margin-right: 5px;
 }
-
+ 
 .tender-price {
     font: 1.2em PTSansCaption, Sans-serif;
 }

@@ -134,16 +134,38 @@
     color: #8ab04b; 
 }
 
+.form-control:hover {
+    cursor: pointer;
+    color: #fff;
+}
+option {
+    color: black;
+}
+
 .categories-list__mob {
     display: none;
     background: none;
     border: none;
-    font: 1.14286em PT Sans, sans-serif;
+    font: 14px PTSansbold, sans-serif;
     color: #90b651;
     text-transform: uppercase;
     width: auto;
     padding: 0;
     box-shadow: none;
+    font-weight: bold;
+}
+
+.city-list__mob {
+    display: none;
+    background: none;
+    border: none;
+    font: 14px PTSansbold, sans-serif;
+    color: #90b651;
+    text-transform: uppercase;
+    width: auto;
+    padding: 0;
+    box-shadow: none;
+    font-weight: bold;
 }
 
 @media (max-width: 1200px) {
@@ -260,6 +282,10 @@
     }
     
     .categories-list__mob {
+        display: block;
+    }
+    
+    .city-list__mob {
         display: block;
     }
 

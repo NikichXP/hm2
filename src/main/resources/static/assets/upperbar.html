@@ -17,7 +17,7 @@
     
     <div class="dropdown" id='dropdown-upper'>
         <button class="btn btn-default dropdown-toggle button-auth" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span id='upper-innertext__city'>Выбрать город</span>
+            <span id='upper-innertext__city'></span>
             <span class="caret"></span>
         </button>
         
@@ -50,10 +50,3 @@
             
 </div>
 
-<script>
-    $('.container-lower-menu').ready(function(){
-        if (getCookie('city') != null) {
-            $('span#upper-innertext__city').html(getCookie('city'));     
-        } 
-    });
-</script>
