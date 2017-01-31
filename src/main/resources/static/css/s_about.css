@@ -67,6 +67,11 @@ input {
 }
 
 @media (max-width: 450px) {
+    
+    .title-container h1 {
+        font: 2.5em PT Sans, sans-serif;
+
+    }
   
 }
 
