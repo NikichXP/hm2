@@ -7,7 +7,9 @@ $(function () {
         type: 'GET',
         url: currentSite + 'api/admin/user/users',
         success: function (response) {
-            response.forEach(x => {
+            response
+                .sort((x1, x2) => x1.name.localeCompare(x2.name))
+                .forEach(x => {
                 $('#user-table-data')
             .append(`<tr>
                 <td>${x.id}</td>
