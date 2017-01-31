@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -36,6 +38,7 @@ public class AuthAPI {
 	@RequestMapping("/register/{type}")
 	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass,
 	                     @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img,
+	                     @RequestParam(value = "city", defaultValue = "Киев") String city,
 	                     @RequestParam(value = "name", defaultValue = "Some default") String name) {
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {
 			return null;
@@ -46,6 +49,8 @@ public class AuthAPI {
 			u.setUserImg(img);
 		}
 		u.setName(name);
+		u.setCity(city);
+		u.setRegDate(LocalDate.now().toString());
 		switch (type.toLowerCase()) {
 			case "moderator":
 				Moderator m = new Moderator(u);
@@ -63,10 +68,91 @@ public class AuthAPI {
 				workerRepo.save(w);
 				break;
 			default:
-				u = userRepo.save(u);
-				break;
+				throw new IllegalArgumentException("This arg is impossible: " + type);
 		}
 		return u;
+	}
+
+	@GetMapping("/updateInfo")
+	public ResponseEntity updateInfo(@RequestParam("token") String token, @RequestParam("data") String[] data) {
+		User user = userRepo.findOne(authController.get(token).getUser().getId());
+		for (String datapair : data) {
+			String[] pair = datapair.split("=");
+			switch(pair[0].toLowerCase()) {
+				case "userimg":
+					user.setUserImg(pair[1]);
+					break;
+				case "name":
+					user.setName(pair[1]);
+					break;
+				case "city":
+					user.setCity(pair[1]);
+					break;
+			}
+		}
+		userRepo.save(user);
+		switch (user.getEntityClassName().toLowerCase()) {
+			case "moderator":
+				Moderator m = moderatorRepo.findOne(user.getId());
+				user.cloneTo(m);
+				moderatorRepo.save(m);
+				break;
+			case "client":
+				Client c = clientRepo.findOne(user.getId());
+				user.cloneTo(c);
+				clientRepo.save(c);
+				break;
+			case "worker":
+				Worker w = workerRepo.findOne(user.getId());
+				user.cloneTo(w);
+				workerRepo.save(w);
+				break;
+			default:
+				throw new IllegalArgumentException("This arg is impossible: " + user.getEntityClassName()); //WHAT?
+		}
+		return ResponseEntity.ok(user);
+	}
+
+	@PostMapping("/updateDescription")
+	public ResponseEntity updateDescription (@RequestParam("text") String text, @RequestParam("token") String token) {
+		User user = userRepo.findOne(authController.get(token).getUser().getId());
+		user.setDescription(text);
+		userRepo.save(user);
+		switch (user.getEntityClassName().toLowerCase()) {
+			case "moderator":
+				Moderator m = moderatorRepo.findOne(user.getId());
+				m.setDescription(text);
+				moderatorRepo.save(m);
+				break;
+			case "client":
+				Client c = clientRepo.findOne(user.getId());
+				c.setDescription(text);
+				clientRepo.save(c);
+				break;
+			case "worker":
+				Worker w = workerRepo.findOne(user.getId());
+				w.setDescription(text);
+				workerRepo.save(w);
+				break;
+			default:
+				throw new IllegalArgumentException("This arg is impossible: " + user.getEntityClassName()); //WHAT?
+		}
+		return ResponseEntity.ok(user);
+	}
+
+	@PostMapping("/changePass")
+	public ResponseEntity changePass(@RequestParam("token") String token, @RequestParam("userId") String id,
+	                                 @RequestParam("oldpass") String oldpass, @RequestParam("newpass") String newpass) {
+		if (!Objects.equals(authController.get(token).getUser().getId(), id)) {
+			return ResponseEntity.status(403).body("Wrong id (admins reset not yet finished");
+		}
+		User user = userRepo.findOne(id);
+		if (!UserUtils.encryptPass(user.getMail(), oldpass).equals(user.getPass())) {
+			return ResponseEntity.status(403).body("Wrong old password");
+		}
+		user.setPass(UserUtils.encryptPass(user.getMail(), newpass));
+		userRepo.save(user);
+		return ResponseEntity.ok(null);
 	}
 
 	@RequestMapping("/auth")
@@ -111,24 +197,6 @@ public class AuthAPI {
 		} else {
 			return ResponseEntity.ok(u);
 		}
-	}
-
-	@RequestMapping("/getUser")
-	public ResponseEntity getUserById (@RequestParam("id") String id) {
-		User user = userRepo.findOne(id);
-		switch (user.getEntityClassName().toLowerCase()) {
-			case "worker":
-				user = workerRepo.findOne(user.getId());
-				break;
-			case "client":
-				user = userRepo.findOne(user.getId());
-				break;
-			case "moderator":
-				user = moderatorRepo.findOne(user.getId());
-				break;
-		}
-		user.setPass(null);
-		return ResponseEntity.ok(user);
 	}
 
 	@RequestMapping(value = {"/getEmp/{token}", "/getemp/{token}"})

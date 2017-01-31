@@ -79,27 +79,30 @@ public class TestAPI {
 			col.entrySet().forEach(ent -> {
 				try {
 					db().getCollection(ent.getValue().toString()).deleteMany(new Document());
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 				}
 			});
 		});
 
 		System.out.println("done.");
+
+		configAPI.cityDefaults();
+
 		System.out.print("Generating users... ");
 
-
-		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", "Anna Mart");
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
 
 		Set<User> workingusers = new HashSet<>();
-
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker",
+					"common/auth" + new Random().nextInt(13) + ".jpg",
+					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
 			workingusers.add(w);
 			if (Math.random() > 0.5) {
 				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
@@ -108,7 +111,9 @@ public class TestAPI {
 
 		List<AuthToken> clientsTokens = new LinkedList<>();
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			User u = authapi.register("newuser" + i + "@mail.com", "12345", "client", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+			User u = authapi.register("newuser" + i + "@mail.com", "12345", "client",
+					"common/auth" + new Random().nextInt(13) + ".jpg", configAPI.listCities()[(int) (Math.random() * 3)],
+					NameGen.genName(5) + " " + NameGen.genName(5));
 			clientsTokens.add((AuthToken) authapi.auth(u.getMail(), u.getPass()).getBody());
 		});
 
@@ -134,10 +139,7 @@ public class TestAPI {
 		});
 
 
-
 		Set<Product> products = new HashSet<>();
-
-		configAPI.cityDefaults();
 
 		workingusers.parallelStream().forEach(worker -> {
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
@@ -148,6 +150,7 @@ public class TestAPI {
 							1000,
 							configAPI.listCities()[(int) (Math.random() * 3)],
 							"common/auth" + new Random().nextInt(13) + ".jpg").getBody());
+			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
 		});
 
 		products.stream().filter(e -> Math.random() > 0.5).forEach(product -> {
@@ -177,7 +180,7 @@ public class TestAPI {
 
 		IntStream.range(0, 20).parallel().forEach(i -> {
 			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
-					"deadline=2017-02-" + (i%18+10), "price=" + (500 + new Random().nextInt(1000)),
+					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
 					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
 
 		});
@@ -186,7 +189,8 @@ public class TestAPI {
 		//TESTING PHOTOGRAPHERS HERE
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg",
+					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
 			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
 			// 6 + 3
 			productAPI.createProduct("test of " + authToken.getUser().getName(),
@@ -195,8 +199,10 @@ public class TestAPI {
 					new Random().nextInt(1000) + 500,
 					configAPI.listCities()[(int) (Math.random() * 3)],
 					"common/auth" + new Random().nextInt(13) + ".jpg"
-					);
+			);
+			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
 		});
+
 
 		return getAll();
 	}
@@ -276,6 +282,13 @@ public class TestAPI {
 			for (char char_ : characters) {
 				glasn.add(char_);
 			}
+		}
+
+		public static String genText (int length) {
+			String[] text = genNames(length);
+			StringBuilder sb = new StringBuilder();
+			Arrays.stream(text).forEach(sb::append);
+			return sb.toString();
 		}
 
 		public static String[] genNames(int size) {

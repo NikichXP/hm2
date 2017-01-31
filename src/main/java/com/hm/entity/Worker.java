@@ -20,22 +20,28 @@ public class Worker extends User {
 	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
 	private boolean isPro;
 	private String profession;
-	private String city;
 
 	private double minPrice; //on link "starts from 200 UAH"
 	private ArrayList<String> productsIDs;
 
 
 	public Worker(User user) {
-		this.id = user.getId();
-		this.mail = user.getMail();
-		this.userImg = user.getUserImg();
-		this.name = user.getName();
+		user.cloneTo(this);
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
 		this.isPro = false;
 		productsIDs = new ArrayList<>();
 	}
+
+//	public void cloneOf (User user) {
+//		this.id = user.getId();
+//		this.mail = user.getMail();
+//		this.userImg = user.getUserImg();
+//		this.name = user.getName();
+//		this.regDate = user.getRegDate();
+//		this.description = user.getDescription();
+//		this.city = user.getCity();
+//	}
 
 	public void addProduct(Product product) {
 		if (this.profession == null) {

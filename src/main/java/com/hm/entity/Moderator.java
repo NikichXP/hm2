@@ -14,10 +14,7 @@ public class Moderator extends User {
 	private int accessLevel;
 
 	public Moderator(User user) {
-		this.id = user.getId();
-		this.mail = user.getMail();
-		this.userImg = user.getUserImg();
-		this.name = user.getName();
+		user.cloneTo(this);
 		this.accessLevel = 0;
 		this.setEntityClassName("Moderator");
 		user.setEntityClassName("Moderator");

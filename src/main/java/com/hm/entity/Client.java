@@ -11,10 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Client extends User {
 	public Client(User user) {
-		this.id = user.getId();
-		this.mail = user.getMail();
-		this.userImg = user.getUserImg();
-		this.name = user.getName();
+		user.cloneTo(this);
 		this.setEntityClassName("Client");
 		user.setEntityClassName("Client");
 	}

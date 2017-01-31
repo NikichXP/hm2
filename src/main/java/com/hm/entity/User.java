@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -21,7 +20,9 @@ public class User {
 	String userImg;
 	String entityClassName;
 	String name;
-	String regdate;
+	String regDate;
+	String description;
+	String city;
 
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
@@ -31,8 +32,18 @@ public class User {
 		}
 		this.pass = pass;
 		this.mail = mail;
-		this.name = "defaultName";
-		this.regdate = LocalDate.now().toString();
+		this.description = "";
+	}
+
+	public void cloneTo (User user) {
+		user.setId(this.id);
+		user.setMail(this.mail);
+		user.setUserImg(this.userImg);
+		user.setName(this.name);
+		user.setRegDate(this.regDate);
+		user.setDescription(this.description);
+		user.setCity(this.city);
+		user.setPass(null); //security
 	}
 
 	/**
