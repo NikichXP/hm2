@@ -67,6 +67,15 @@ img.user-pic__img {
     margin-top: 25px;
 }
 
+.input-price {
+	display: inline-block;
+    width: 100px;
+}
+
+.input-price:hover {
+	cursor: text;
+    color: black;
+}
 
 @media (min-width: 1920px) {
 

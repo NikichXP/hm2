@@ -119,13 +119,17 @@
     float: right;
     padding-top: 3px;
     
-/*
     -webkit-transition: all ease-out 0.2s;
     -moz-transition: all ease-out 0.2s;
     -o-transition: all ease-out 0.2s;
     -ms-transition: all ease-out 0.2s;
     transition: all ease-out 0.2s;
-*/
+}
+
+.button-auth:hover {
+    color: #333333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
 }
 
 #auth-button_city {
@@ -151,6 +155,9 @@
     margin-bottom: 5px;
 }
 
+
+
+
 #city {
     float: right;
 }
@@ -158,6 +165,88 @@
 #dropdown-upper {
     float: right;
 }
+
+.auth-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 31231;
+    background: #272a33;
+    padding: 10px;
+    border-top: 4px solid #90b651;
+}
+
+.auth-menu label{
+    color: #9d9d9d;
+}
+
+.auth-menu input.form-control:hover{
+    cursor: text;
+}
+
+.auth-menu input.form-control:hover{
+    color: #000;
+}
+
+.auth-menu input[type="checkbox"]:hover{
+    cursor: pointer;
+}
+
+.auth-menu__warn {
+
+    padding-top: 10px;
+    color: #f00;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 31231;
+    background: #272a33;
+    color: #9d9d9d;
+    padding: 10px;
+    border-top: 4px solid #90b651;
+}
+
+.profile-menu ul { 
+    margin: 0;
+    padding: 0;
+}
+
+.profile-menu a {
+    text-decoration: none; 
+    color: #9d9d9d;
+    display: block;
+}
+
+.profile-menu a:hover {
+    color: #fff;
+}
+
+
+.profile-menu li {
+    text-decoration: none;
+    list-style: none;
+    text-align: right;
+    font-size: 16px;
+}
+
+.profile-menu li:hover {
+    background-color: #90b651;
+    color: #fff;
+    cursor: pointer;
+}
+
+.profile-menu li:hover a{
+    color: #fff;
+}
+
+
 
 @media (max-width: 992px) {
     

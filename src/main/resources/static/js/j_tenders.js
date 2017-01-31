@@ -8,9 +8,11 @@ $(function(){
     //var currentSite = "https://07962c19.eu.ngrok.io";
     var curDate = new Date();
     
-    /*
+    
     var url = window.location;
     url = decodeURIComponent(url);
+    
+    /*
     var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
     
     offerPage = 0 + offerPage;
@@ -25,12 +27,13 @@ $(function(){
 
     var maxPages;  // get number of pages
     
+    */
     
     //Getting search params from url
     
     var sendData = { 
-        limit: itemsLimit, 
-        offset: pageOffset 
+        //limit: itemsLimit, 
+       // offset: pageOffset 
     }
     
     url = '' + url;
@@ -39,20 +42,27 @@ $(function(){
         }
     var urlArray = url.split('&');
     var paramArray;
+    
+    if (urlArray[1] != null) {
 
-    for (var i = 0; i < urlArray.length; i++) { 
-        
-        paramArray = urlArray[i].split('=');
-        
-        switch (paramArray[0]) {
-            case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
-            case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
-            case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
-            case 'city': sendData.genre = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
+        for (var i = 0; i < urlArray.length; i++) { 
+            paramArray = urlArray[i].split('=');
+
+            switch (paramArray[0]) {
+                //case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
+                case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
+                //case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
+                case 'city': sendData.city = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
+                case 'price': {
+                    sendData.price = paramArray[1]; 
+                    var priceStr = paramArray[1].split('-');
+                    $('#input-price__lower').val(priceStr[0]); 
+                    $('#input-price__upper').val(priceStr[1]); 
+                    break;
+                }
+            }
         }
-
     }
-    */
     //End of getting search params from url
     
     
@@ -67,22 +77,6 @@ $(function(){
             for (var i = 0; i < resData.length; i++)
             {          
                 $('.dropdown-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                            + resData[i]  
-                                            + "</a></li>");  	
-            };                
-                
-        },
-    });
-    
-    $.ajax({
-        type: 'GET',
-        url: currentSite + '/config/list/city',
-        success: function(resData) {
-            $('.dropdown-upper-menu__city').html("");
-            
-            for (var i = 0; i < resData.length; i++)
-            {          
-                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
                                             + resData[i]  
                                             + "</a></li>");  	
             };                
@@ -115,7 +109,7 @@ $(function(){
     $.ajax({
         type: 'GET',
         url: currentSite + '/tenders/list/all',
-        //data: sendData,
+        data: sendData,
         success: function(resData) { 
             $('div.tenders').html("");
             for (var i = 0; i < resData.length; i++)
@@ -147,28 +141,10 @@ $(function(){
                            
     //End of loading tenders from server                    
                         
-     
-    
-                
-                    
-                
-                
-                    
-                    
-                    
-                
-                
-                    
-                    
-                    
-                    
-                
-            
-    
-    
+ 
     
     //Navigation buttons onclicks  
-            
+   /*         
     $('body').on('click', 'li#page-navigation__page-next', function() {	   
         
         if (offerPage < maxPages) {
@@ -209,7 +185,7 @@ $(function(){
             
         }
     });
-    
+    */
     //End of navigation buttons onclicks 
     
     
@@ -224,15 +200,10 @@ $(function(){
         $('span#search-innertext__group').html($(this).html());
     });
     
-    $('body').on('click', 'ul.dropdown-menu__genre li a.dropdown-menu__item', function() {	   
-        $('span#search-innertext__genre').html($(this).html());
-    });
+//    $('body').on('click', 'ul.dropdown-menu__genre li a.dropdown-menu__item', function() {	   
+//        $('span#search-innertext__genre').html($(this).html());
+//    });
     
-    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
-        $('span#upper-innertext__city').html($(this).html());
-        setCookie('city', $(this).html());
-        window.location.reload();
-    });
     
     
     $('body').on('click', '#offer-search', function() {	   
@@ -250,6 +221,22 @@ $(function(){
         if ($('#search-innertext__group').html() != 'Услуга') {
             url += '&group=' + $('#search-innertext__group').html();
         }
+        if ($('#input-price__lower').val() != '') {
+            if ($('#input-price__upper').val() != '') {
+                if ($('#input-price__upper').val() > 1000000)
+                    url += '&price=' + $('#input-price__lower').val() + "-1000000"; 
+                else 
+                    url += '&price=' + $('#input-price__lower').val() + "-" + $('#input-price__upper').val(); 
+            }
+            else {
+                url += '&price=' + $('#input-price__lower').val() + "-1000000"; 
+            }
+        }
+        else {
+            if ($('#input-price__upper').val() != '') {
+                url += '&price=' + "0-" + $('#input-price__upper').val(); 
+            }
+        }
 //        if ($('#search-innertext__date').html() != 'Дата') {
 //            var dateStr = $('#search-innertext__date').html().split('. ');
 //            url += '&date=' + dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
@@ -261,7 +248,8 @@ $(function(){
     
     $('body').on('click', '#offer-search-cancel', function() {	   
               
-        var url = 'offers.html?page=1'; 
+        //var url = 'tenders.html?page=1'; 
+        var url = 'tenders.html'; 
         window.location.replace(url);
         
     });

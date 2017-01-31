@@ -10,6 +10,7 @@ $(function(){
     
     var url = window.location;
     url = decodeURIComponent(url);
+    
     var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
     
     offerPage = 0 + offerPage;
@@ -21,8 +22,9 @@ $(function(){
         pageOffset += itemsLimit;    
     }
     
-
     var maxPages;  // get number of pages
+    
+    
     
     //Getting search params from url
     
@@ -46,7 +48,7 @@ $(function(){
             case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
             case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
             case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
-            case 'city': sendData.genre = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
+            case 'city': sendData.city = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
         }
 
     }
@@ -65,22 +67,6 @@ $(function(){
             for (var i = 0; i < resData.length; i++)
             {          
                 $('.dropdown-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                            + resData[i]  
-                                            + "</a></li>");  	
-            };                
-                
-        },
-    });
-    
-    $.ajax({
-        type: 'GET',
-        url: currentSite + '/config/list/city',
-        success: function(resData) {
-            $('.dropdown-upper-menu__city').html("");
-            
-            for (var i = 0; i < resData.length; i++)
-            {          
-                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
                                             + resData[i]  
                                             + "</a></li>");  	
             };                
@@ -244,13 +230,7 @@ $(function(){
     $('body').on('click', 'ul.dropdown-menu__genre li a.dropdown-menu__item', function() {	   
         $('span#search-innertext__genre').html($(this).html());
     });
-    
-    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	   
-        $('span#upper-innertext__city').html($(this).html());
-        setCookie('city', $(this).html());
-        window.location.reload();
-    });
-    
+        
     
     $('body').on('click', '#offer-search', function() {	   
         
@@ -266,7 +246,7 @@ $(function(){
         if ($('#search-innertext__group').html() != 'Услуга') {
             url += '&group=' + $('#search-innertext__group').html();
         }
-        if ($('#search-innertext__date').html() != 'Дата') {
+        if ($('#search-innertext__date').html() != 'Дата окончания') {
             var dateStr = $('#search-innertext__date').html().split('. ');
             url += '&date=' + dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
         }

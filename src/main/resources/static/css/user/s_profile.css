@@ -1,0 +1,174 @@
+body {
+/*    padding-top: 70px;  Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    font-family: 'B20 Sans', sans-serif;
+}
+
+#hmagent {
+    color: #fff;
+    background-color: #90b651
+}
+
+.title-container h1 {
+    text-align: center;
+    font: 2.21429em PT Sans, sans-serif;
+    color: #74767f;
+    margin: 50px 0;
+}
+
+.container-contact {
+/*    background: url(../img/about_us.png) no-repeat center;*/
+    height: 450px;
+}
+
+.container-contact__right {
+    height: 450px;
+}
+
+.container-contact__left {
+    font-family: PT Sans;
+}
+
+.btn-send {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    background-color: #9fbf31;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 40px;
+    font-family: PT Sans;
+}
+
+.btn-send:hover {
+    background-color: #9fbf31;
+    color: #fff;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+h4 span {
+    color: #90b651;
+}
+
+.pic {
+    padding: 0;
+}
+
+.pic-container {
+    height: 262px;
+    background: url(../../img/greenbg.jpg) no-repeat center;
+    color: #fff;
+    text-align: right;
+    font-family: PT Sans;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+.pic-container h1 {
+    text-align: right;
+    color: #fff;
+    font: 3.57143em PTSansCaptionBold, Sans-serif;
+    margin-top: 0px;
+}
+
+.pic-container h3 {
+    font: 22px PTSansCaptionBold, Sans-serif;
+}
+
+.number {
+    display: inline-block;
+}
+
+.profile-pic {
+    top: 275px;
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    border: 4px solid white;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+.profile-info {
+    margin-left: 200px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #585963;
+}
+
+.profile-info__name {
+    font: 2.28571em PT Sans Narrow, sans-serif;
+    color: #585963;
+}
+
+.profile-info__pro {
+    background: #272a33;
+    color: white;
+    padding: 2px 5px 2px 5px;
+    font: 1.21429em PT Sans, sans-serif;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.profile-info__days {
+    float: right;
+    padding-top: 20px;
+}
+
+.profile-desc {
+    font: 1.21429em B20 Sans, sans-serif;
+    width: 200px;
+    padding-top: 40px;
+}
+
+.profile-desc__block {
+    font: 1.5em PT Sans Narrow, sans-serif;
+    display: block;
+}
+.btn-price {
+    width: 100%;
+    font: 1.5em PT Sans Narrow, sans-serif;
+    background-color: #9fbf31;
+    color: #fff;
+    border: none;
+}
+}
+
+@media (min-width: 1920px) {
+
+}
+
+
+@media (min-width: 1300px) {
+
+}
+
+
+@media (max-width: 1200px) {
+
+
+}
+
+@media (max-width: 992px) {
+     
+    
+}
+
+@media (max-width: 767px) {
+    
+  
+
+}
+
+@media (max-width: 450px) {
+  
+}
+
+@font-face {
+    font-family: B20 Sans;
+    src: url(http://webfonts.ru/import/b20sans.css), 
+}  
+
+

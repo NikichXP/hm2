@@ -15,6 +15,18 @@
             
     </div>
     
+     <div class='container-auth'>
+<!--
+            
+        <button type="button" class="button-auth" id='auth-button__reg'>
+            <span>Регистрация</span>
+        </button>
+-->
+        <button type='button' class='button-auth' id='auth-button__auth'><span id='auth-button__auth-text'>sdasda</span></button>        
+        
+            
+    </div>
+    
     <div class="dropdown" id='dropdown-upper'>
         <button class="btn btn-default dropdown-toggle button-auth" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <span id='upper-innertext__city'></span>
@@ -26,21 +38,13 @@
         </ul>
     </div>
     
+<!--
     <button type="button" class="button-auth" id='auth-button_search'>    
         <span>Поиск</span>       
     </button>
+-->
                      
-    <div class='container-auth'>
-            
-        <button type="button" class="button-auth" id='auth-button_reg'>
-            <span>Регистрация</span>
-        </button>
-            
-        <button type="button" class="button-auth" id='auth-button_auth'>
-            <span>Вход</span>
-        </button>
-            
-    </div>
+   
             
     
             
@@ -49,4 +53,47 @@
     </div>
             
 </div>
+<div class='auth-menu'>
 
+        <div class="form-group">
+            <label for="form-input__email">E-mail</label>
+            <input type="email" class="form-control" id="form-input__email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="form-input__pass">Пароль</label>
+            <input type="password" class="form-control" id="form-input__pass" placeholder="Пароль">
+        </div>
+        <div class="checkbox">
+            <label>
+              <input type="checkbox"> Запомнить
+            </label>
+        </div>
+        <button class="btn btn-default" id='form-button__auth'>Войти</button>
+        <button class="btn btn-default">Зарегистрироваться</button>
+
+    <p class='auth-menu__warn'></p>
+</div>
+
+<div class='profile-menu'>
+    <ul>
+        <li id='profile-menu__profile'>Мой профиль</li>
+        <li id='profile-menu__settings'><a href='#'>Настройки</a></li>
+        <li id='profile-menu__logout'>Выйти</li>    
+    </ul>
+
+
+</div>
+
+<script>
+    if (getCookie('sessionId') == null) {
+        $('#auth-button__auth-text').html("Вход");     
+    }
+    else {
+        $('#auth-button__auth-text').html(getCookie('username'));    
+    } 
+    
+    if (getCookie('accessLevel') != null)
+        if (getCookie('accessLevel') == 'Moderator') 
+            $('.profile-menu ul').append("<li id='profile-menu__admin'><a href='admin/admin.html'>Администрирование</a></li>");   
+
+</script>
