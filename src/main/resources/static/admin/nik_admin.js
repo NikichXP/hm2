@@ -17,6 +17,7 @@ $(function () {
                 <td>${x.mail}</td>
                 <td>${x.entityClassName}</td>
                 <td>${(x.profession != null) ? x.profession : '----'}</td>
+                <td>${x.regdate}</td>
                 </tr>`);
         });
         }

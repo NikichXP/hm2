@@ -8,6 +8,7 @@ import com.hm.repo.ClientRepository;
 import com.hm.repo.ModeratorRepository;
 import com.hm.repo.UserRepository;
 import com.hm.repo.WorkerRepository;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -111,6 +112,24 @@ public class AuthAPI {
 		} else {
 			return ResponseEntity.ok(u);
 		}
+	}
+
+	@RequestMapping("/getUser")
+	public ResponseEntity getUserById (@RequestParam("id") String id) {
+		val user = userRepo.findOne(id);
+		switch (user.getEntityClassName().toLowerCase()) {
+			case "worker":
+				user = workerRepo.findOne(user.getId());
+				break;
+			case "client":
+				user = userRepo.findOne(user.getId());
+				break;
+			case "moderator":
+				user = moderatorRepo.findOne(user.getId());
+				break;
+		}
+		user.setPass(null);
+		return ResponseEntity.ok(user);
 	}
 
 	@RequestMapping(value = {"/getEmp/{token}", "/getemp/{token}"})
