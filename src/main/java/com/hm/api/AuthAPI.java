@@ -34,7 +34,9 @@ public class AuthAPI {
 	private AuthController authController;
 
 	@RequestMapping("/register/{type}")
-	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass, @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img) {
+	public User register(@RequestParam("mail") @NotNull String mail, @RequestParam("pass") String pass,
+	                     @PathVariable("type") String type, @RequestParam(value = "img", required = false) String img,
+	                     @RequestParam(value = "name", defaultValue = "Some default") String name) {
 		if (!mail.matches("[0-9a-zA-Z]{2,}@[0-9a-zA-Z]{2,}\\.[a-zA-Z]{2,5}")) {
 			return null;
 		}
@@ -43,6 +45,7 @@ public class AuthAPI {
 		if (img != null) {
 			u.setUserImg(img);
 		}
+		u.setName(name);
 		switch (type.toLowerCase()) {
 			case "moderator":
 				Moderator m = new Moderator(u);

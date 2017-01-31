@@ -86,7 +86,7 @@ public class FileAPI {
 
 		outputStream.close();
 
-		return ResponseEntity.ok().body("Save success: " + f.getAbsolutePath());
+		return ResponseEntity.ok().body(userId + "/" + fileName);
 	}
 
 	//TODO Test methods below

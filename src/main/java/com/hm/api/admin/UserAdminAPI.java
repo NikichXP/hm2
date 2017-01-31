@@ -1,5 +1,6 @@
 package com.hm.api.admin;
 
+import com.hm.entity.User;
 import com.hm.model.AuthController;
 import com.hm.repo.ClientRepository;
 import com.hm.repo.ModeratorRepository;
@@ -9,6 +10,9 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.hm.manualdb.ConnectionHandler.db;
 
@@ -36,7 +40,11 @@ public class UserAdminAPI { //TODO add auth to all methods
 
 	@GetMapping("/users")
 	public ResponseEntity users(@RequestParam(value = "args", required = false) String[] args) {
-		return ResponseEntity.ok(userRepo.findAll());
+		List<User> ret = new ArrayList<>();
+		ret.addAll(workerRepo.findAll());
+		ret.addAll(moderRepo.findAll());
+		ret.addAll(clientRepo.findAll());
+		return ResponseEntity.ok(ret);
 	}
 
 	@GetMapping("/moderators")

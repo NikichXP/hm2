@@ -88,18 +88,18 @@ public class TestAPI {
 		System.out.print("Generating users... ");
 
 
-		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
-		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
-		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
-		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
-		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg");
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
 
 		Set<User> workingusers = new HashSet<>();
 
 		Set<Worker> workers = new HashSet<>();
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
+			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
 			workingusers.add(w);
 			if (Math.random() > 0.5) {
 				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
@@ -108,7 +108,7 @@ public class TestAPI {
 
 		List<AuthToken> clientsTokens = new LinkedList<>();
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			User u = authapi.register("newuser" + i + "@mail.com", "12345", "client", "common/auth" + new Random().nextInt(13) + ".jpg");
+			User u = authapi.register("newuser" + i + "@mail.com", "12345", "client", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
 			clientsTokens.add((AuthToken) authapi.auth(u.getMail(), u.getPass()).getBody());
 		});
 
@@ -186,7 +186,7 @@ public class TestAPI {
 		//TESTING PHOTOGRAPHERS HERE
 
 		IntStream.range(0, 100).parallel().forEach(i -> {
-			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg");
+			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg", NameGen.genName(5) + " " + NameGen.genName(5));
 			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
 			// 6 + 3
 			productAPI.createProduct("test of " + authToken.getUser().getName(),

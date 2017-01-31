@@ -179,7 +179,7 @@ public class AuthController {
 		cachedTokens.put(token.getSessionID(), token);
 		try {
 			authRepo.save(token);
-		}catch (DuplicateKeyException ex) {
+		}catch (DuplicateKeyException ex) { //TODO Delete in release
 			System.err.println("Warning! -- duplicate key, fix token generation bug");
 		}
 	}
