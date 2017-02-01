@@ -1,5 +1,9 @@
-# Ensure all URLs have a trailing slash.
- RewriteBase /
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteCond %{REQUEST_URI} !(.*)/$
- RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1/ [L,R=301]
+Options +FollowSymLinks -MultiViews
+# Turn mod_rewrite on
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_URI} /$
+RewriteRule ^(.+?)\.html?/?$ /$1.html [L,NC,R=302]
