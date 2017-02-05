@@ -132,6 +132,11 @@ public class ProductAPI {
 		return ResponseEntity.ok((checkOffer(prodRepo.findOne(prodId))) ? "Offer checked: removed" : "Offer is OK");
 	}
 
+	@GetMapping("/getUserProducts/{userid}")
+	public ResponseEntity getUserProducts (@PathVariable("userid") String userid) {
+		return ResponseEntity.ok(prodRepo.listByWorkerId(userid));
+	}
+
 	@RequestMapping("/list/{group}/{city}")
 	public ResponseEntity listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
