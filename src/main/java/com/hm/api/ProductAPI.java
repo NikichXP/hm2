@@ -1,9 +1,12 @@
 package com.hm.api;
 
+import com.hm.AppLoader;
+import com.hm.entity.LinkedPage;
 import com.hm.entity.Product;
 import com.hm.entity.Worker;
 import com.hm.model.AuthController;
 import com.hm.repo.GenresHolder;
+import com.hm.repo.PagesRepository;
 import com.hm.repo.ProductRepository;
 import com.hm.repo.WorkerRepository;
 import lombok.val;
@@ -163,5 +166,19 @@ public class ProductAPI {
 		workerRepo.delete(worker.getId());
 		workerRepo.save(worker);
 		return ResponseEntity.ok().body(product);
+	}
+
+
+	@GetMapping("/attachPage")
+	public ResponseEntity attachPage (@RequestParam("productid") String prodid,
+	                                  @RequestParam("pageid") String pageid) {
+		Product prod = prodRepo.findOne(prodid);
+		LinkedPage page = AppLoader.ctx.getBean(PagesRepository.class).findOne(pageid);
+		if (prod == null || page == null) {
+			return ResponseEntity.status(403).body("Wrong ID's");
+		}
+		prod.setLinkedPageId(page.getId());
+		prodRepo.save(prod);
+		return ResponseEntity.ok(prod);
 	}
 }
