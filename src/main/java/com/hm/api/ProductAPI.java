@@ -35,6 +35,11 @@ public class ProductAPI {
 	@Autowired
 	private WorkerRepository workerRepo;
 
+	@GetMapping("/{id}")
+	public Product getProduct (@PathVariable("id") String id) {
+		return prodRepo.findOne(id);
+	}
+
 	@RequestMapping("/categories")
 	public ResponseEntity<java.util.Collection<com.hm.entity.Category>> getHat() {
 		return ResponseEntity.ok(GenresHolder.getCategories());

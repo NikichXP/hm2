@@ -28,6 +28,11 @@ public class TendersAPI {
 	@Autowired
 	AuthController authController;
 
+	@GetMapping("/{id}")
+	public Tender getProduct (@PathVariable("id") String id) {
+		return biddableRepo.findOne(id);
+	}
+
 	@RequestMapping("/list/all")
 	public ResponseEntity listAll(@RequestParam(value = "city", required = false) String city,
 	                              @RequestParam(value = "price", defaultValue = "0-100500") String price,
