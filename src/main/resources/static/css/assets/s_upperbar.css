@@ -166,6 +166,32 @@
     float: right;
 }
 
+.auth-menu-mob {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    z-index: 31231;
+    background: #272a33;
+    padding: 10px;
+}
+
+.auth-menu-mob label{
+    color: #9d9d9d;
+}
+
+.auth-menu-mob input.form-control:hover{
+    cursor: text;
+}
+
+.auth-menu-mob input.form-control:hover{
+    color: #000;
+}
+
+.auth-menu-mob input[type="checkbox"]:hover{
+    cursor: pointer;
+}
+
 .auth-menu {
     display: none;
     position: absolute;
@@ -199,6 +225,50 @@
     color: #f00;
     margin-bottom: 0;
     font-size: 16px;
+}
+
+.profile-menu-mob {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    z-index: 31231;
+    background: #272a33;
+    color: #9d9d9d;
+    padding: 10px;
+}
+
+.profile-menu-mob ul { 
+    margin: 0;
+    padding: 0;
+}
+
+.profile-menu-mob a {
+    text-decoration: none; 
+    color: #9d9d9d;
+    display: block;
+}
+
+.profile-menu-mob a:hover {
+    color: #fff;
+}
+
+
+.profile-menu-mob li {
+    text-decoration: none;
+    list-style: none;
+    text-align: right;
+    font-size: 16px;
+}
+
+.profile-menu-mob li:hover {
+    background-color: #90b651;
+    color: #fff;
+    cursor: pointer;
+}
+
+.profile-menu-mob li:hover a{
+    color: #fff;
 }
 
 .profile-menu {
