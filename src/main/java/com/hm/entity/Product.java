@@ -41,6 +41,7 @@ public class Product {
 	private double discount;
 	private int finalPrice;
 	private LocalDate expirationDate;
+	private String linkedPageId;
 
 	@Transient
 	private static WorkerRepository workers = (WorkerRepository) AppLoader.ctx.getBean("workerRepository");
