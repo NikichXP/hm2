@@ -150,6 +150,7 @@ $(function(){
                                                 + "<h5>г. " + resData[i].city + "</h5>"
                                                 + "<h4>" + resData[i].title + "</h4>"
                                             + "</div>"
+                                            + "<a href='profile.html?id=" + resData[i].workerEntity.id + "'>"
                                             + "<div class='prob-block-user'>"
                                                 + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"

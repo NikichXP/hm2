@@ -3,11 +3,6 @@ body {
     font-family: 'B20 Sans', sans-serif;
 }
 
-#hmagent {
-    color: #fff;
-    background-color: #90b651
-}
-
 .title-container h1 {
     text-align: center;
     font: 2.21429em PT Sans, sans-serif;
@@ -26,22 +21,6 @@ body {
 
 .container-contact__left {
     font-family: PT Sans;
-}
-
-.btn-send {
-    margin-top: 10px;
-    width: 100%;
-    height: 50px;
-    background-color: #9fbf31;
-    color: #fff;
-    text-transform: uppercase;
-    line-height: 40px;
-    font-family: PT Sans;
-}
-
-.btn-send:hover {
-    background-color: #9fbf31;
-    color: #fff;
 }
 
 input {
@@ -110,6 +89,7 @@ h4 span {
     font: 1.21429em PT Sans, sans-serif;
     border-radius: 5px;
     margin-top: 5px;
+    display: none;
 }
 
 .profile-info__days {
@@ -119,14 +99,16 @@ h4 span {
 
 .profile-desc {
     font: 1.21429em B20 Sans, sans-serif;
-    width: 200px;
-    padding-top: 40px;
+    margin-left: 200px;
+    padding-top: 20px;
+    word-wrap: break-word;
 }
 
 .profile-desc__block {
     font: 1.5em PT Sans Narrow, sans-serif;
     display: block;
 }
+
 .btn-price {
     width: 100%;
     font: 1.5em PT Sans Narrow, sans-serif;
@@ -134,6 +116,134 @@ h4 span {
     color: #fff;
     border: none;
 }
+
+.content-options__option {
+    margin-top: 60px;
+}
+
+.content-options__option span {
+    text-align: center; 
+    font: 1.5em PT Sans Narrow, sans-serif;
+    display: block;
+    border-bottom: 2px solid #9c9c9c;
+    color: #585963;
+    text-transform: uppercase;
+}
+.content-options__option span:hover {
+    border-bottom: 2px solid #90b651;
+    color: #90b651;    
+    cursor: pointer;
+}
+
+#content-options__port span {
+    border-bottom: 2px solid #90b651;  
+    color: #90b651;
+}
+
+.content-container {
+    margin-top: 50px;
+}
+
+.table-props {
+    margin-top: 30px;
+    display: none;
+}
+
+.table-props th {
+    color: #585963;
+    font: 1.21429em PT Sans, sans-serif;
+    padding: 30px 0 30px 38px;
+    font-weight: 700;
+}
+
+td.td-name {
+    color: #585963;
+    font: 1.21429em PT Sans, sans-serif;
+    font-weight: 700;
+}
+
+td.td-price {
+    color: #305491;
+    font: 1.21429em PT Sans, sans-serif;
+    text-align: center;
+}
+
+td.td-price:hover {
+    color: #305491;
+    cursor: pointer;
+    background-color: #e7f2c8;
+    
+}
+
+.td-desc {
+    height: 100px;
+}
+
+.td-desc__title {
+    width: 500px;
+    font: 17px PT Sans;
+    font-weight: 700;
+}
+.td-desc__text {
+    width: 500px;
+    float: left;
+    font: 15px PT Sans;
+}
+
+.table-props__desc {
+    display: none;
+}
+
+.btn-send {
+    margin-top: -5px;
+    width: 150px;
+    height: 50px;
+    background-color: #9fbf31;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 40px;
+    font-size: 20px;
+    font-family: PT Sans;
+    font-weight: 700;
+    float: right;
+}
+
+.btn-send:hover {
+    background-color: #9fbf31;
+    color: #fff;
+}
+
+.td-desc__close {
+    float: right;
+    margin-top: -28px;
+}
+
+.td-desc__close:hover {
+    cursor: pointer;
+}
+
+.container-portfolio__album {
+    height: 350px;
+    width: 350px;    
+      
+}
+
+#album-1 {
+    background: url(../../img/auth1.jpg) 0px 0px no-repeat; 
+    background-size: cover; 
+    background-position: center; 
+}
+ 
+#album-2 {
+    background: url(../../img/auth2.jpg) 0px 0px no-repeat; 
+    background-size: cover; 
+    background-position: center; 
+}
+
+#album-3 {
+    background: url(../../img/auth3.jpg) 0px 0px no-repeat; 
+    background-size: cover; 
+    background-position: center; 
 }
 
 @media (min-width: 1920px) {

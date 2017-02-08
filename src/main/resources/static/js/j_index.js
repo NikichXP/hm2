@@ -6,10 +6,9 @@ $(function(){
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var curDate = new Date();
-   
-    
     //End of load elements from files
+    
+    var curDate = new Date();
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io";
@@ -78,7 +77,7 @@ $(function(){
             $('.rec-container').html("");	
             for (var i = 0; i < resData.length; i++)
             {          
-                $('.rec-container').append("<a href='#'><div class='col-md-3 col-sm-6 rec-block'>" 
+                $('.rec-container').append("<a href='profile.html?id=" + resData[i].id + "'><div class='col-md-3 col-sm-6 rec-block'>" 
                                             + "<div class='rec-pic' style='background: url(" + currentSite + "/file/get?file=" + resData[i].userImg + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='rec-block-desc'>"
                                                 + "<div class='rec-name'>" + resData[i].name + "</div>"
@@ -92,13 +91,6 @@ $(function(){
             };           
         },
     });
-    
-    
-    
-    
-    
-    
-    
        
 });
 

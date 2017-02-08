@@ -2,32 +2,47 @@ $(function(){
     
     var currentSite = "https://hm2.herokuapp.com";
     //var currentSite = "https://07962c19.eu.ngrok.io"; 
-        
-    $.ajax({
-        type: 'GET',
-        url: currentSite + '/config/list/city',
-        success: function(resData) {
-            
-            if (getCookie('city') != null) $('#upper-innertext__city').html(getCookie('city'));     
-            else $('#upper-innertext__city').html('Выбрать город');
-            
-            $('.dropdown-upper-menu__city').html("");
-            
-            for (var i = 0; i < resData.length; i++)
-            {          
-                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                            + resData[i]  
-                                            + "</a></li>");  	
-            };                
-                
-        },
-    });
     
-    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	
-        $('span#upper-innertext__city').html($(this).html());
-        setCookie('city', $(this).html());
-        window.location.reload();
-    });
+    if (getCookie('sessionId') != null) {
+        $.ajax({
+            type: 'GET',
+            url: currentSite + '/auth/check/' + getCookie('sessionId'),
+            error: function() {
+                deleteCookie('sessionId');  
+                deleteCookie('userId');
+                deleteCookie('username'); 
+                deleteCookie('accessLevel'); 
+            }
+        });   
+    }
+    
+     
+        
+//    $.ajax({
+//        type: 'GET',
+//        url: currentSite + '/config/list/city',
+//        success: function(resData) {
+//            
+//            if (getCookie('city') != null) $('#upper-innertext__city').html(getCookie('city'));     
+//            else $('#upper-innertext__city').html('Выбрать город');
+//            
+//            $('.dropdown-upper-menu__city').html("");
+//            
+//            for (var i = 0; i < resData.length; i++)
+//            {          
+//                $('.dropdown-upper-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
+//                                            + resData[i]  
+//                                            + "</a></li>");  	
+//            };                
+//                
+//        },
+//    });
+//    
+//    $('body').on('click', 'ul.dropdown-upper-menu__city li a.dropdown-menu__item', function() {	
+//        $('span#upper-innertext__city').html($(this).html());
+//        setCookie('city', $(this).html());
+//        window.location.reload();
+//    });
     
     
     //Authbutton
@@ -39,41 +54,45 @@ $(function(){
     
     
     
-    $('body').on('click', '#form-button__auth', function() {
+    $('body').on('click', '.auth-menu #form-button__auth', function() {
         
-        $('.auth-menu__warn').html('');
+        $('.auth-menu .auth-menu__warn').html('');
         
-        if ($('#form-input__email').val() != '') {
+        if ($('.auth-menu #form-input__email').val() != '') {
             
-            var authEmail = $('#form-input__email').val(); 
+            var authEmail = $('.auth-menu #form-input__email').val(); 
             
-            if ($('#form-input__pass').val() != '') {
+            if ($('.auth-menu #form-input__pass').val() != '') {
                 
-                var authPass = $('#form-input__pass').val(); 
+                var authPass = $('.auth-menu #form-input__pass').val(); 
                 
                 $.ajax({
                     type: 'GET',
                     url: currentSite + '/auth/auth',
                     data: {login: authEmail, pass: authPass},
-                    success: function(resData) {          
-                        setCookie('sessionId', resData.sessionID);  
-                        setCookie('userId', resData.user.id);
-                        setCookie('username', resData.user.name); 
-                        setCookie('accessLevel', resData.user.entityClassName); 
-                        window.location.reload();
+                    success: function(resData) {  
+                        
+                        if (resData != '') {
+                            setCookie('sessionId', resData.sessionID);  
+                            setCookie('userId', resData.user.id);
+                            setCookie('username', resData.user.name); 
+                            setCookie('accessLevel', resData.user.entityClassName); 
+                            window.location.reload();
+                        }
+                        else $('.auth-menu .auth-menu__warn').html("Вы ввели неверные данные");  
                     },
                     error: function(resData) {          
-                        $('.auth-menu__warn').html("Вы ввели неверные данные");        
+                        $('.auth-menu .auth-menu__warn').html("Вы ввели неверные данные");        
                     },
                 });
                 
             }
             else {
-                $('.auth-menu__warn').append("Заполните оба поля");    
+                $('.auth-menu .auth-menu__warn').append("Заполните оба поля");    
             }
         }
         else {
-            $('.auth-menu__warn').append("Заполните оба поля");    
+            $('.auth-menu .auth-menu__warn').append("Заполните оба поля");    
         }
        
     });
@@ -84,6 +103,7 @@ $(function(){
     
     $('body').on('click', '#profile-menu__logout', function() {
         deleteCookie('sessionId');
+        deleteCookie('userId');
         deleteCookie('username'); 
         deleteCookie('accessLevel'); 
         window.location.reload();

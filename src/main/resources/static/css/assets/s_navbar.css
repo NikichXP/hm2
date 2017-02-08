@@ -17,6 +17,26 @@
     padding-top: 10px;
 }
 
+#navbar-auth-button {
+    height: 30px;
+/*    width: 60px;*/
+    padding: 3px 6px;
+    margin-top: 14px;
+    background-color: #272a33;
+    background-image: none;
+    border: 3px solid #90b651;
+    border-radius: 4px;
+    float: right;
+    color: #b2b3b7;
+    font-family: PT Sans, sans-serif;
+    margin-right: 10px;
+    display: none;
+}
+
+.auth-menu-mob {	
+     display: none;   
+}
+
 #navbar-toggle-button {
     height: 30px;
     width: 60px;
@@ -38,32 +58,50 @@
     font: 1.14286em PT Sans, sans-serif;
     color: #b2b3b7;
     text-transform: uppercase;
-    float: left;
-    
-    
+    float: left;   
 }
+
 .menu-link-a {
-    font-family: PTSansbold, sans-serif;
+/*
+    font-family: PT Sansbold, sans-serif;
     font-weight: bold;
+*/
     height: 62px;
     line-height: 40px;
 }
 
+#menu-button__city {
+    font: 1.14286em PT Sans, sans-serif;
+    color: #b2b3b7;
+    text-transform: uppercase;
+    display: inline-block;
+    height: 62px;
+    line-height: 80px;
+    padding-left: 7px;
+    padding-right: 7px;  
+    float: right;
+}
+
+#menu-button__city:hover {
+    background-color: #90b651;
+    color: #fff;
+    cursor: pointer;
+}
+
 .navbar-nav a.menu-link-a {
     height: 62px;
-    line-height: 50px;
+    line-height: 51px;
 } 
-
 
 #propositions {
     color: #90b651;
+    font-family: PT Sansbold, sans-serif;
+    font-weight: bold;
 }
 
 #propositions:hover {
     color: #fff;
 }
-
-
 
 .menu-link:hover {
     background-color: #90b651;
@@ -94,10 +132,6 @@
 }
 
 #menu-link-a__reg {
-    display: none;
-}
-
-#menu-link-a__city {
     display: none;
 }
 
@@ -132,6 +166,43 @@
 
 .categories-list__group span {
     color: #8ab04b; 
+}
+
+.city-container {
+/*    position: absolute;*/
+    background-color: #fff;
+    display: none;
+    z-index: 10000;
+}
+
+.city-container__text {
+    padding: 27px 0 0 16px;
+    margin: 0 0 24px 0;
+    font: 1.42857em PTSansbold, sans-serif;
+}
+
+.city-list {
+    margin-top: 5px;
+}
+
+.city-list__item {
+    display: inline-block;
+    text-decoration: none;
+    list-style: none;
+    font: 1.21429em B20 Sans, sans-serif;
+    padding: 5px 8px 3px 11px;
+    color: #545454;
+    border-radius: 3px;
+}
+
+.city-list__current {
+    background: #e7f2c8;
+
+}
+
+.city-list__item:hover {
+    background: #e7f2c8;
+    cursor: pointer;
 }
 
 .form-control:hover {
@@ -269,10 +340,6 @@ option {
         display: block;
     }
     
-    #menu-link-a__city {
-        display: block;
-    }
-    
     #logo-pic {
         height: 30px;
     }
@@ -286,6 +353,14 @@ option {
     }
     
     .city-list__mob {
+        display: block;
+    }
+    
+    #menu-button__city {
+        display: none;
+    }
+    
+    #navbar-auth-button {
         display: block;
     }
 
