@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ public class Worker extends User {
 	private String profession;
 
 	private double minPrice; //on link "starts from 200 UAH"
-	private ArrayList<ProductInfo> products;
+	private ArrayList<String> productIDs;
 
 
 	public Worker(User user) {
@@ -32,7 +30,7 @@ public class Worker extends User {
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
 		this.isPro = false;
-		products = new ArrayList<>();
+		productIDs = new ArrayList<>();
 	}
 
 //	public void cloneOf (User user) {
@@ -53,7 +51,7 @@ public class Worker extends User {
 		if (this.city == null) {
 			this.city = product.getCity();
 		}
-		this.products.add(new ProductInfo(product));
+		this.productIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
 	}
 
@@ -61,52 +59,52 @@ public class Worker extends User {
 		return prodRepo.listByWorkerId(this.id);
 	}
 
-	@Data
-	@NoArgsConstructor
-	public static class ProductInfo {
-
-		private static final ApplicationContext app = AppLoader.ctx;
-		private String id;
-		@Transient
-		private Product nested;
-
-		public ProductInfo (Product prod) {
-			this.setId(prod.getId());
-		}
-
-		public String getName() {
-			if (nested == null) {
-				nested = app.getBean(ProductRepository.class).findOne(this.id);
-			}
-			return nested.getTitle();
-		}
-
-		public String getGenreName() {
-			if (nested == null) {
-				nested = app.getBean(ProductRepository.class).findOne(this.id);
-			}
-			return nested.getGenreName();
-		}
-
-		public int getPrice () {
-			if (nested == null) {
-				nested = app.getBean(ProductRepository.class).findOne(this.id);
-			}
-			return nested.getPrice();
-		}
-
-		public int getFinalPrice () {
-			if (nested == null) {
-				nested = app.getBean(ProductRepository.class).findOne(this.id);
-			}
-			return nested.getFinalPrice();
-		}
-
-		public String getDescription() {
-			if (nested == null) {
-				nested = app.getBean(ProductRepository.class).findOne(this.id);
-			}
-			return nested.getDescription();
-		}
-	}
+//	@Data
+//	@NoArgsConstructor
+//	public static class ProductInfo {
+//
+//		private static final ApplicationContext app = AppLoader.ctx;
+//		private String id;
+//		@Transient
+//		private Product nested;
+//
+//		public ProductInfo (Product prod) {
+//			this.setId(prod.getId());
+//		}
+//
+//		public String getName() {
+//			if (nested == null) {
+//				nested = app.getBean(ProductRepository.class).findOne(this.id);
+//			}
+//			return nested.getTitle();
+//		}
+//
+//		public String getGenreName() {
+//			if (nested == null) {
+//				nested = app.getBean(ProductRepository.class).findOne(this.id);
+//			}
+//			return nested.getGenreName();
+//		}
+//
+//		public int getPrice () {
+//			if (nested == null) {
+//				nested = app.getBean(ProductRepository.class).findOne(this.id);
+//			}
+//			return nested.getPrice();
+//		}
+//
+//		public int getFinalPrice () {
+//			if (nested == null) {
+//				nested = app.getBean(ProductRepository.class).findOne(this.id);
+//			}
+//			return nested.getFinalPrice();
+//		}
+//
+//		public String getDescription() {
+//			if (nested == null) {
+//				nested = app.getBean(ProductRepository.class).findOne(this.id);
+//			}
+//			return nested.getDescription();
+//		}
+//	}
 }
