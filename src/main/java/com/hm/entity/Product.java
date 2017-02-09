@@ -39,6 +39,7 @@ public class Product {
 	//offer section
 	private boolean offeredPrice;
 	private double discount;
+	private String condition;
 	private int finalPrice;
 	private LocalDate expirationDate;
 	private String linkedPageId;

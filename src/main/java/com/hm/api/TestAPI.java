@@ -155,6 +155,7 @@ public class TestAPI {
 			disc = Math.round(disc);
 			product.setDiscount(disc / 100);
 			product.setExpirationDate(LocalDate.of(2017, 2, (int) (Math.random() * 28 + 1)));
+			product.setCondition(Arrays.toString(NameGen.genNames(5)).substring(1).replace(']', '.'));
 		});
 
 		products.parallelStream().forEach(prod -> {
