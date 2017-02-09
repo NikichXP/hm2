@@ -28,7 +28,7 @@ $(function(){
             var name = resData.name.split(' ');   
             
             $('.profile-info__name').html(name[0] + " / " + resData.city); 
-            if (resData.pro == 'true') $('.profile-info__pro').css('display', 'block');
+            if (resData.pro == true) $('.profile-info__pro').css('display', 'inline-block');
             
             $('.profile-info__group').html(resData.profession); 
             

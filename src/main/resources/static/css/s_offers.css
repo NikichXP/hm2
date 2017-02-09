@@ -47,6 +47,15 @@ img.user-pic__img {
 .user-name {
     display: inline-block;
     padding-left: 10px;
+    color: #717171;
+}
+ 
+a {
+    color: #717171;
+}
+
+a:hover {
+    color: #717171;
 }
 
 #main-img {

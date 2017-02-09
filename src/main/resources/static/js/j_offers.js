@@ -141,7 +141,7 @@ $(function(){
                 var expDateArr = resData[i].expirationDateString.split('-');
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('.offers-container').append("<div class='col-md-6 col-sm-12 offers-container__offer'>" 
+                $('.offers-container').append("<a href='offer.html?id=" + resData[i].id + "'><div class='col-md-6 col-sm-12 offers-container__offer'>" 
                                             //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
                                             + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
@@ -154,14 +154,14 @@ $(function(){
                                             + "<div class='prob-block-user'>"
                                                 + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
-                                            + "</div>"
+                                            + "</div></a>"
                                             + "<div class='prob-block-price'> "
                                                 + "<div class='price-new'>" + resData[i].finalPrice + " грн</div>"
                                                 + "<div class='price-old'>" + resData[i].price + " грн</div>"
                                                 + "<div class='price-to'>" + Math.floor(daysLeft) + " дней</div>"
                                             + "</div>"
                                             + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
-                                        + "</div>");  	
+                                        + "</div></a>");  	
             };                
                 
         },
