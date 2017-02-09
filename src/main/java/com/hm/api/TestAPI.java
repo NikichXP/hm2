@@ -190,11 +190,12 @@ public class TestAPI {
 			// 6 + 3
 			for (int genrePos = 3; genrePos < 6+3; genrePos++) {
 				String city = configAPI.listCities()[(int) (Math.random() * 3)];
-				for (int price = 500 + new Random().nextInt(500); price < 1000 + new Random().nextInt(2999) + 1000; price = price+500) {
+				int price = 500 + new Random().nextInt(500);
+				for (i = 0; i < new Random().nextInt(5); i++) {
 					Product p = productAPI.createProduct("test of " + authToken.getUser().getName(),
 							genr[genrePos].getName(),
 							authToken.getSessionID(),
-							price,
+							price + (i * price/2),
 							city,
 							"common/auth" + new Random().nextInt(13) + ".jpg"
 					).getBody();
