@@ -77,6 +77,10 @@ public class Product {
 		this.image = img;
 	}
 
+	/**
+	 * Does all alone, no additional methods required
+	 * @param discount
+	 */
 	public void setDiscount(double discount) {
 		if (discount == 0.0) {
 			offeredPrice = false;

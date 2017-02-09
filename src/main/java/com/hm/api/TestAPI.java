@@ -186,15 +186,28 @@ public class TestAPI {
 					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
 			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
 			// 6 + 3
-			Product p = productAPI.createProduct("test of " + authToken.getUser().getName(),
-					genr[new Random().nextInt(6) + 3].getName(),
-					authToken.getSessionID(),
-					new Random().nextInt(1000) + 500,
-					configAPI.listCities()[(int) (Math.random() * 3)],
-					"common/auth" + new Random().nextInt(13) + ".jpg"
-			).getBody();
-			p.setDescription(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '!'));
-			prodRepo.save(p);
+			for (int genrePos = 3; genrePos < 6+3; genrePos++) {
+				String city = configAPI.listCities()[(int) (Math.random() * 3)];
+				for (int price = 500 + new Random().nextInt(500); price < 1000 + new Random().nextInt(2999) + 1000; price = price+500) {
+					Product p = productAPI.createProduct("test of " + authToken.getUser().getName(),
+							genr[genrePos].getName(),
+							authToken.getSessionID(),
+							price,
+							city,
+							"common/auth" + new Random().nextInt(13) + ".jpg"
+					).getBody();
+					p.setDescription(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '.'));
+					if (Math.random() > 0.7) {
+						double disc = Math.random() * 90.0 + 5;
+						disc = Math.round(disc);
+						p.setDiscount(disc / 100);
+						p.setExpirationDate(LocalDate.of(2017, 3, (int) (Math.random() * 30 + 1)));
+						p.setCondition(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '!'));
+					}
+					prodRepo.save(p);
+				}
+			}
+
 			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
 		});
 	}
