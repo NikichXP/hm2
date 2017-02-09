@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class Worker extends User {
 	private String profession;
 
 	private double minPrice; //on link "starts from 200 UAH"
-	private ArrayList<String> productsIDs;
+	private ArrayList<ProductInfo> products;
 
 
 	public Worker(User user) {
@@ -30,7 +32,7 @@ public class Worker extends User {
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
 		this.isPro = false;
-		productsIDs = new ArrayList<>();
+		products = new ArrayList<>();
 	}
 
 //	public void cloneOf (User user) {
@@ -51,11 +53,53 @@ public class Worker extends User {
 		if (this.city == null) {
 			this.city = product.getCity();
 		}
-		this.productsIDs.add(product.getId());
+		this.products.add(new ProductInfo(product));
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
 	}
 
 	public List<Product> listProducts () {
 		return prodRepo.listByWorkerId(this.id);
+	}
+
+	@Data
+	@NoArgsConstructor
+	public static class ProductInfo {
+
+		private static final ApplicationContext app = AppLoader.ctx;
+		private String id;
+		@Transient
+		private Product nested;
+
+		public ProductInfo (Product prod) {
+			this.setId(prod.getId());
+		}
+
+		public String getName() {
+			if (nested == null) {
+				nested = app.getBean(ProductRepository.class).findOne(this.id);
+			}
+			return nested.getTitle();
+		}
+
+		public String getGenreName() {
+			if (nested == null) {
+				nested = app.getBean(ProductRepository.class).findOne(this.id);
+			}
+			return nested.getGenreName();
+		}
+
+		public int getPrice () {
+			if (nested == null) {
+				nested = app.getBean(ProductRepository.class).findOne(this.id);
+			}
+			return nested.getPrice();
+		}
+
+		public String getDescription() {
+			if (nested == null) {
+				nested = app.getBean(ProductRepository.class).findOne(this.id);
+			}
+			return nested.getDescription();
+		}
 	}
 }
