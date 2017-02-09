@@ -73,6 +73,8 @@ public class TestAPI {
 			});
 		});
 
+		db().getCollection("config").insertOne(Document.parse("{'userptr' : 0}"));
+
 		System.out.println("done.");
 
 		configAPI.cityDefaults();

@@ -145,6 +145,16 @@ public class ProductAPI {
 		return ResponseEntity.ok(prodRepo.listByWorkerId(userid));
 	}
 
+	@GetMapping("/getUserProducts/arr/{userid}")
+	public ResponseEntity getUserProductsArrays (@PathVariable("userid") String userid) {
+		HashMap<String, List<Product>> ret = new HashMap<>();
+		prodRepo.listByWorkerId(userid).stream().forEach(prod -> {
+			ret.putIfAbsent(prod.getGenreName(), new ArrayList<>());
+			ret.get(prod.getGenreName()).add(prod);
+		});
+		return ResponseEntity.ok(ret.values());
+	}
+
 	@RequestMapping("/list/{group}/{city}")
 	public ResponseEntity listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));

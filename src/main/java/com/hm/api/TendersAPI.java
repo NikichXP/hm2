@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 @RequestMapping("/tenders")
-@RestController
 @CrossOrigin
+@RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TendersAPI {
 
