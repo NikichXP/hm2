@@ -33,16 +33,6 @@ public class Worker extends User {
 		productIDs = new ArrayList<>();
 	}
 
-//	public void cloneOf (User user) {
-//		this.id = user.getId();
-//		this.mail = user.getMail();
-//		this.userImg = user.getUserImg();
-//		this.name = user.getName();
-//		this.regDate = user.getRegDate();
-//		this.description = user.getDescription();
-//		this.city = user.getCity();
-//	}
-
 	public void addProduct(Product product) {
 		if (this.profession == null) {
 			this.profession = product.getGroupName();
@@ -59,52 +49,4 @@ public class Worker extends User {
 		return prodRepo.listByWorkerId(this.id);
 	}
 
-//	@Data
-//	@NoArgsConstructor
-//	public static class ProductInfo {
-//
-//		private static final ApplicationContext app = AppLoader.ctx;
-//		private String id;
-//		@Transient
-//		private Product nested;
-//
-//		public ProductInfo (Product prod) {
-//			this.setId(prod.getId());
-//		}
-//
-//		public String getName() {
-//			if (nested == null) {
-//				nested = app.getBean(ProductRepository.class).findOne(this.id);
-//			}
-//			return nested.getTitle();
-//		}
-//
-//		public String getGenreName() {
-//			if (nested == null) {
-//				nested = app.getBean(ProductRepository.class).findOne(this.id);
-//			}
-//			return nested.getGenreName();
-//		}
-//
-//		public int getPrice () {
-//			if (nested == null) {
-//				nested = app.getBean(ProductRepository.class).findOne(this.id);
-//			}
-//			return nested.getPrice();
-//		}
-//
-//		public int getFinalPrice () {
-//			if (nested == null) {
-//				nested = app.getBean(ProductRepository.class).findOne(this.id);
-//			}
-//			return nested.getFinalPrice();
-//		}
-//
-//		public String getDescription() {
-//			if (nested == null) {
-//				nested = app.getBean(ProductRepository.class).findOne(this.id);
-//			}
-//			return nested.getDescription();
-//		}
-//	}
 }
