@@ -21,7 +21,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.hm.manualdb.ConnectionHandler.db;
-import static com.mongodb.client.model.Filters.eq;
 import static java.util.Arrays.stream;
 
 @RestController
@@ -62,16 +61,6 @@ public class TestAPI {
 	@Autowired
 	private Gson gson;
 
-	@RequestMapping("/user")
-	public String testUser() {
-		return db().getCollection("users").find(eq("mail", "test1@gg.gg")).first().toJson();
-	}
-
-	@RequestMapping("/wipe/db")
-	public ResponseEntity wipeDb() {
-		return ResponseEntity.ok().build();
-	}
-
 	@RequestMapping("/rebuild/db")
 	public ResponseEntity rebuildDB() {
 		System.out.print("Wiping prev DB... ");
@@ -99,15 +88,7 @@ public class TestAPI {
 		Set<User> workingusers = new HashSet<>();
 		Set<Worker> workers = new HashSet<>();
 
-		IntStream.range(0, 100).parallel().forEach(i -> {
-			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker",
-					"common/auth" + new Random().nextInt(13) + ".jpg",
-					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
-			workingusers.add(w);
-			if (Math.random() > 0.5) {
-				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
-			}
-		});
+		generateWorkers(workingusers);
 
 		List<AuthToken> clientsTokens = new LinkedList<>();
 		IntStream.range(0, 100).parallel().forEach(i -> {
@@ -122,23 +103,39 @@ public class TestAPI {
 
 		gh.TEST(); // removes cached data in categories to reimport
 
-		Genre genr[] = {
-				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
-				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
-				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда"),
-				gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
-				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
-				gh.createGenre("Студийная съёмка", "Фотограф", "Популярные"),
-				gh.createGenre("Венчание", "Фотограф", "Популярные"),
-				gh.createGenre("Детская", "Фотограф", "Популярные"),
-				gh.createGenre("Семейная", "Фотограф", "Популярные")
-		};
+		Genre genr[] = generateGenres();
 
 		workingusers.forEach(user -> {
 			workers.add(authController.getEntity(user.getId(), Worker.class));
 		});
 
 
+		Set<Product> products = generateProducts(workingusers, genr);
+
+
+		System.out.println("done. \nGenerating news");
+
+		generateNews();
+
+		//TENDERS HERE
+
+		IntStream.range(0, 20).parallel().forEach(i -> {
+			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
+					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
+					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
+
+		});
+
+
+		//TESTING PHOTOGRAPHERS HERE
+
+		generatePhotographers(genr);
+
+
+		return getAll();
+	}
+
+	private Set<Product> generateProducts(Set<User> workingusers, Genre[] genr) {
 		Set<Product> products = new HashSet<>();
 
 		workingusers.parallelStream().forEach(worker -> {
@@ -158,36 +155,31 @@ public class TestAPI {
 			disc = Math.round(disc);
 			product.setDiscount(disc / 100);
 			product.setExpirationDate(LocalDate.of(2017, 2, (int) (Math.random() * 28 + 1)));
-			prodRepo.save(product);
 		});
 
-
-		System.out.println("done. \nGenerating news");
-
-		IntStream.range(0, 20).parallel().forEach(i -> {
-			Random r = new Random();
-			StringBuilder sb = new StringBuilder();
-			for (int x = 0; x < 5_000; x++) {
-				sb.append((char) (r.nextInt(26) + 'a'));
-				if (Math.random() > 0.8) {
-					sb.append(" ");
-				}
-			}
-			newsAPI.postNews(sb.subSequence(0, 20).toString(), sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
+		products.parallelStream().forEach(prod -> {
+			prod.setDescription(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '!'));
+			prodRepo.save(prod);
 		});
+		return products;
 
-		//TENDERS HERE
+	}
 
-		IntStream.range(0, 20).parallel().forEach(i -> {
-			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
-					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
-					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
+	private Genre[] generateGenres() {
+		return new Genre[]{
+				gh.createGenre("Мастер-шеф", "Кулинар", "Популярные"),
+				gh.createGenre("Свадебный торт", "Кулинар", "Популярные"),
+				gh.createGenre("Дирижабль", "Аренда транспорта", "Аренда"),
+				gh.createGenre("Свадебный фотограф", "Фотограф", "Популярные"),
+				gh.createGenre("Фотосессия", "Фотограф", "Популярные"),
+				gh.createGenre("Студийная съёмка", "Фотограф", "Популярные"),
+				gh.createGenre("Венчание", "Фотограф", "Популярные"),
+				gh.createGenre("Детская", "Фотограф", "Популярные"),
+				gh.createGenre("Семейная", "Фотограф", "Популярные")
+		};
+	}
 
-		});
-
-
-		//TESTING PHOTOGRAPHERS HERE
-
+	private void generatePhotographers(Genre[] genr) {
 		IntStream.range(0, 100).parallel().forEach(i -> {
 			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg",
 					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
@@ -202,10 +194,40 @@ public class TestAPI {
 			);
 			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
 		});
-
-
-		return getAll();
 	}
+
+	private void generateWorkers(Set<User> workingusers) {
+		IntStream.range(0, 100).parallel().forEach(i -> {
+			User w = authapi.register("worker" + i + "@hm.com", "pass" + i, "Worker",
+					"common/auth" + new Random().nextInt(13) + ".jpg",
+					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
+			workingusers.add(w);
+			if (Math.random() > 0.5) {
+				userAdminAPI.workerPromoteToPro(w.getId(), "here is some auth token, lol"); //TODO add real token here
+			}
+		});
+	}
+
+	private void generateNews() {
+		IntStream.range(0, 20).parallel().forEach(i -> {
+			Random r = new Random();
+			StringBuilder sb = new StringBuilder();
+			for (int x = 0; x < 5_000; x++) {
+				sb.append((char) (r.nextInt(26) + 'a'));
+				if (Math.random() > 0.8) {
+					sb.append(" ");
+				}
+			}
+			newsAPI.postNews(sb.subSequence(0, 20).toString(), sb.toString(), "", "common/auth" + new Random().nextInt(13) + ".jpg");
+		});
+	}
+
+
+	// ----------------------------------------------------
+	// ---------------------- E N D -----------------------
+	// --------------- of generator scripts ---------------
+	// ----------------------------------------------------
+
 
 	@RequestMapping("/update/genres")
 	public ResponseEntity updateGenres() {
@@ -284,7 +306,7 @@ public class TestAPI {
 			}
 		}
 
-		public static String genText (int length) {
+		public static String genText(int length) {
 			String[] text = genNames(length);
 			StringBuilder sb = new StringBuilder();
 			Arrays.stream(text).forEach(sb::append);
