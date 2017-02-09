@@ -95,6 +95,13 @@ public class Worker extends User {
 			return nested.getPrice();
 		}
 
+		public int getFinalPrice () {
+			if (nested == null) {
+				nested = app.getBean(ProductRepository.class).findOne(this.id);
+			}
+			return nested.getFinalPrice();
+		}
+
 		public String getDescription() {
 			if (nested == null) {
 				nested = app.getBean(ProductRepository.class).findOne(this.id);
