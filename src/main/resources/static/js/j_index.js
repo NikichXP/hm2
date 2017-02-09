@@ -50,7 +50,7 @@ $(function(){
                 var expDateArr = resData[i].expirationDateString.split('-');
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('.offers-container').append("<div class='col-md-3 col-sm-6 hero-feature'>" 
+                $('.offers-container').append("<a href='offer.html?id=" + resData[i].id + "'><div class='col-md-3 col-sm-6 hero-feature'>" 
                                             + "<img src='" + currentSite + "/file/get?file=" + resData[i].image + "' alt=''>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
@@ -64,7 +64,7 @@ $(function(){
                                                 + "<div class='price-to'>" + Math.floor(daysLeft) + " дней</div>"
                                             + "</div>"
                                             + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
-                                            + "</div>");  	
+                                            + "</div></a>");  	
             };           
         },
     });
