@@ -40,6 +40,9 @@ public class UserAPI {
 	@RequestMapping("/getUser")
 	public ResponseEntity getUserById (@RequestParam("id") String id) {
 		User user = userRepo.findOne(id);
+		if (user == null) {
+			return ResponseEntity.status(404).body("User not found");
+		}
 		switch (user.getEntityClassName().toLowerCase()) {
 			case "worker":
 				user = workerRepo.findOne(user.getId());
