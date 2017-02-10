@@ -187,6 +187,8 @@ public class TestAPI {
 			authapi.register("photo" + i + "@test.com", "pass", "Worker", "common/auth" + new Random().nextInt(13) + ".jpg",
 					configAPI.listCities()[(int) (Math.random() * 3)], NameGen.genName(5) + " " + NameGen.genName(5));
 			AuthToken authToken = (AuthToken) authapi.auth("photo" + i + "@test.com", "pass").getBody();
+
+			AppLoader.ctx.getBean(UserAdminAPI.class).workerPromoteToPro(authToken.getUser().getId(), "TEST");
 			// 6 + 3
 			for (int genrePos = 3; genrePos < 6+3; genrePos++) {
 				String city = configAPI.listCities()[(int) (Math.random() * 3)];
