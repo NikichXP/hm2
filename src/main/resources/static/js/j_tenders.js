@@ -123,7 +123,7 @@ $(function(){
                                                 + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].creator.userImg + "'>"
                                               + "</div>"
                                               + "<div class='tender-name'>"
-                                                + "<div class='user-name'>" + resData[i].creator.name + "</div>"
+                                                + "<a href='profile.html?id=" + resData[i].creator.id + "'><div class='user-name'>" + resData[i].creator.name + "</div></a>"
                                                 + "<div class='tender-title'>" + resData[i].title + "</div>"
                                                 + "<div class='tender-text'>" + resData[i].description + "</div>"
                                               + "</div>"

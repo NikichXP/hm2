@@ -160,6 +160,7 @@ td.td-name {
     color: #585963;
     font: 1.21429em PT Sans, sans-serif;
     font-weight: 700;
+    width: 300px;
 }
 
 td.td-price {
@@ -171,8 +172,7 @@ td.td-price {
 td.td-price:hover {
     color: #305491;
     cursor: pointer;
-    background-color: #e7f2c8;
-    
+    background-color: #e7f2c8;   
 }
 
 .td-desc {
@@ -184,6 +184,7 @@ td.td-price:hover {
     font: 17px PT Sans;
     font-weight: 700;
 }
+
 .td-desc__text {
     width: 500px;
     float: left;

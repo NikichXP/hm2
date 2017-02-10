@@ -3,6 +3,16 @@ body {
     font-family: 'B20 Sans', sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #90b651;
+}
+
 .container-img {
     margin-top: 0px;
 }
