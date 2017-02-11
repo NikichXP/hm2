@@ -51,7 +51,7 @@ public class User {
 	 * @return userImg replaced . -> /
 	 */
 	public String getValidUserImg () {
-		return userImg.replace(".", "/");
+		return (userImg != null) ? userImg.replace(".", "/") : "";
 	}
 
 }

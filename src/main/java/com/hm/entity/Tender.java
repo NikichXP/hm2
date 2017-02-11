@@ -27,10 +27,20 @@ public class Tender {
 	private int workingHours;
 	private int price;
 
-	private Set<Node> bidders = new HashSet<>();
+	private Set<Node> bidders;// = new HashSet<>();
 
 	public Tender() {
+		bidders = new HashSet<>();
 		this.id = UUID.randomUUID().toString();
+	}
+
+	public void bid (Worker worker, int bid) {
+		Node node = new Node();
+		node.setUserId(worker.getId());
+		node.setUserImg(worker.getUserImg());
+		node.setUserName(worker.getName());
+		node.setBid(bid);
+		bidders.add(node);
 	}
 
 	@Data

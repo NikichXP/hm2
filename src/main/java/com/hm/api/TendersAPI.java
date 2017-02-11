@@ -59,7 +59,7 @@ public class TendersAPI {
 	}
 
 	@RequestMapping(value = "/create/tender", method = RequestMethod.POST)
-	public ResponseEntity createTender(@RequestParam("args") String[] args, @RequestParam("text") String text) {
+	public ResponseEntity<Tender> createTender(@RequestParam("args") String[] args, @RequestParam("text") String text) {
 		val data = Arrays.stream(args);
 		User user = AppLoader.ctx.getBean(AuthController.class)
 				.getUser(data.filter(arg -> arg.startsWith("token"))
@@ -67,7 +67,7 @@ public class TendersAPI {
 						.findAny()
 						.orElse(null));
 		if (user == null) {
-			return ResponseEntity.status(403).body("Need authorize");
+			return ResponseEntity.status(403).body(null);
 		}
 
 		Tender product = new Tender();
@@ -119,14 +119,9 @@ public class TendersAPI {
 		if (worker == null || prod == null) {
 			return ResponseEntity.status(403).body("Need to validate input data: " + token);
 		}
-		val node = new Tender.Node();
-		node.setBid(price);
-		node.setUserId(worker.getId());
-		node.setUserName(worker.getName());
-		node.setUserImg(worker.getUserImg());
-		prod.getBidders().add(node);
+		prod.bid(worker, price);
 		biddableRepo.save(prod);
-		return ResponseEntity.ok(new Object[]{prod, node});
+		return ResponseEntity.ok(prod);
 	}
 
 }

@@ -81,14 +81,14 @@ public class TestAPI {
 
 		System.out.print("Generating users... ");
 
-		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("anna@hm.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", "Anna Mart");
-		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
-		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + new Random().nextInt(5) + 8 + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("admin@corp.com", "pass", "Moderator", "common/auth" + (new Random().nextInt(5) + 8) + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("anna@hm.com", "12345", "Moderator", null, "Киев", "Anna Mart");
+		authapi.register("john@doe.com", "12345", "Moderator", "common/auth" + (new Random().nextInt(5) + 8) + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("dave@doe.com", "12345", "Moderator", "common/auth" + (new Random().nextInt(5) + 8) + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
+		authapi.register("moderator@corp.com", "12345", "Moderator", "common/auth" + (new Random().nextInt(5) + 8) + ".jpg", "Киев", NameGen.genName(5) + " " + NameGen.genName(5));
 
 		Set<User> workingusers = new HashSet<>();
-		Set<Worker> workers = new HashSet<>();
+		ArrayList<Worker> workers = new ArrayList<>();
 
 		generateWorkers(workingusers);
 
@@ -122,9 +122,19 @@ public class TestAPI {
 		//TENDERS HERE
 
 		IntStream.range(0, 20).parallel().forEach(i -> {
-			tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
+			ResponseEntity<Tender> resp = tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
 					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
 					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
+			Tender t = resp.getBody();
+			workers.stream()
+					.filter(x -> (i < 5) || Math.random() > 0.9)
+					.forEach(w -> {
+						int x = new Random().nextInt(100);
+						AuthToken token = (AuthToken) authapi.auth("worker" + x + "@hm.com", "pass" + x).getBody();
+						tendersAPI.bid(
+								token.getSessionID(),
+								1000, t.getId());
+					});
 
 		});
 
@@ -190,14 +200,14 @@ public class TestAPI {
 
 			AppLoader.ctx.getBean(UserAdminAPI.class).workerPromoteToPro(authToken.getUser().getId(), "TEST");
 			// 6 + 3
-			for (int genrePos = 3; genrePos < 6+3; genrePos++) {
+			for (int genrePos = 3; genrePos < 6 + 3; genrePos++) {
 				String city = configAPI.listCities()[(int) (Math.random() * 3)];
 				int price = 500 + new Random().nextInt(500);
 				for (i = 0; i < new Random().nextInt(5); i++) {
 					Product p = productAPI.createProduct("test of " + authToken.getUser().getName(),
 							genr[genrePos].getName(),
 							authToken.getSessionID(),
-							price + (i * price/2),
+							price + (i * price / 2),
 							city,
 							"common/auth" + new Random().nextInt(13) + ".jpg"
 					).getBody();
@@ -270,6 +280,7 @@ public class TestAPI {
 		authRepo.findAll().forEach(list::add);
 		prodRepo.findAll().forEach(list::add);
 		GenresHolder.getCategories().forEach(list::add);
+		AppLoader.ctx.getBean(TenderRepository.class).findAll().forEach(list::add);
 		return list;
 	}
 

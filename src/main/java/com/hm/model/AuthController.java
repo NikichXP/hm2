@@ -80,7 +80,7 @@ public class AuthController {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				return clazz.cast(cachedTokens.get(sessionId).getUser());
+				return getLoggedToken(sessionId, clazz);
 			}
 		}
 		return null;
