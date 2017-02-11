@@ -30,13 +30,13 @@ $(function(){
             sendData.genre = resData.groupName;
             
             $('.container-offer h1').html(resData.title);
-            $('.offer-pic').attr('src', currentSite + "/file/get?file=" + resData.image);
+            $('.offer-pic').attr('src', currentSite + "/file/getimg/720?img=" + resData.image);
             $('.offer-disc__price').html("-" + resData.discount + "%");
             $('.offer-desc__about').append(resData.description);
             $('.offer-desc__info').append(resData.condition);
             $('.offer-user__link').attr('href', 'profile.html?id=' + resData.workerEntity.id);
             
-            $('.offer-user__pic').attr('src', currentSite + "/file/get?file=" + resData.workerEntity.userImg);
+            $('.offer-user__pic').attr('src', currentSite + "/file/getimg/70?img=" + resData.workerEntity.userImg);
             $('.offer-user__info').append(resData.workerEntity.name);
             
             var expDateArr = resData.expirationDateString.split('-');
@@ -71,7 +71,7 @@ $(function(){
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
                 $('.offer-similar').append("<a href='offer.html?id=" + resData[i].id + "'><div class='offers-container__offer'>" 
-                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
+                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/getimg/300?img=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -80,7 +80,7 @@ $(function(){
                                             + "</div>"
                                             + "<a href='profile.html?id=" + resData[i].workerEntity.id + "'>"
                                             + "<div class='prob-block-user'>"
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/50?img=" + resData[i].workerEntity.userImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
                                             + "</div></a>"
                                             + "<div class='prob-block-price'> "

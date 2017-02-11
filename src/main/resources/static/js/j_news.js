@@ -21,7 +21,7 @@ $(function(){
                 var trimmedText = resData[i].text.substring(0, 100) + "...";
                 
                 $('.container-news').append("<a href='newspost.html?id=" + resData[i].id + "'><div class='col-lg-6 col-sm-6 container-news__post'>" 
-                                            + "<div class='container-news__img' style='background: url(" + currentSite + "/file/get?file=" + resData[i].img + ") no-repeat center;'></div>" 
+                                            + "<div class='container-news__img' style='background: url(" + currentSite + "/file/getimg/274?img=" + resData[i].img + ") no-repeat center;'></div>" 
                                             + "<div class='container-news__text'>" 
                                             + "<h3>" + resData[i].title + "</h3>" 
                                             + "<h5>" + trimmedText + "</h5>" 

@@ -120,7 +120,7 @@ $(function(){
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
                 $('div.tenders').append("<div class='col-md-12 col-sm-12 tender-container'><div class='user-pic'>" 
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].creator.userImg + "'>"
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/100?img=" + resData[i].creator.userImg + "'>"
                                               + "</div>"
                                               + "<div class='tender-name'>"
                                                 + "<a href='profile.html?id=" + resData[i].creator.id + "'><div class='user-name'>" + resData[i].creator.name + "</div></a>"

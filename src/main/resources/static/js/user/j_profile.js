@@ -24,7 +24,7 @@ $(function(){
         url: currentSite + '/user/getUser',
         data: {id: userId},
         success: function(resData) {   
-            $('.profile-pic').attr("src", currentSite + "/file/get?file=" + resData.userImg);  
+            $('.profile-pic').attr("src", currentSite + "/file/getimg/200?img=" + resData.userImg);  
             var name = resData.name.split(' ');   
             
             $('.profile-info__name').html(name[0] + " / " + resData.city); 
