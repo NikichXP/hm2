@@ -124,14 +124,20 @@ $(function(){
                                               + "</div>"
                                               + "<div class='tender-name'>"
                                                 + "<a href='profile.html?id=" + resData[i].creator.id + "'><div class='user-name'>" + resData[i].creator.name + "</div></a>"
-                                                + "<div class='tender-title'>" + resData[i].title + "</div>"
+                                                + "<div class='tender-title'>Мне нужен: " 
+                                                + resData[i].group 
+                                                + " (" 
+                                                + resData[i].genre 
+                                                + ")/ " 
+                                                + resData[i].city
+                                                + "</div>"
                                                 + "<div class='tender-text'>" + resData[i].description + "</div>"
                                               + "</div>"
                                               + "<div class='tender-info'>"
                                                 + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн.</span></div>"
                                                 + "<div class='tender-date'>" + expDateString + "</div>"
-                                                + "<div class='tender-days-left'>" + Math.floor(daysLeft) + " дней осталось</div>"
-                                                + "<div class='tender-time'>" + resData[i].workingHours + " рабочих часов</div>"
+                                                + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
+                                                + "<div class='tender-time'>Pабочих часов: " + resData[i].workingHours + "</div>"
                                               + "</div>"
                                             + "</div>");  	
             };                
@@ -203,6 +209,11 @@ $(function(){
 //    $('body').on('click', 'ul.dropdown-menu__genre li a.dropdown-menu__item', function() {	   
 //        $('span#search-innertext__genre').html($(this).html());
 //    });
+    
+    $('body').on('click', '#search-open', function() {	   
+              
+        $('.part-search').slideToggle();   
+    });
     
     
     

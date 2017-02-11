@@ -126,7 +126,7 @@ $(function(){
             maxPages = Math.ceil(resData[0]/itemsLimit);
             $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'>Первая</li>");		
             $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'>Предыдущая</li>");
-                    
+                 
             for (var i = 1; i < Math.ceil(resData[0]/itemsLimit) + 1; i++) { 
                 $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
                                                 + i
@@ -254,6 +254,11 @@ $(function(){
         
         window.location.replace(url);
         
+    });
+    
+    $('body').on('click', '#search-open', function() {	   
+              
+        $('.part-search').slideToggle();   
     });
     
     $('body').on('click', '#offer-search-cancel', function() {	   

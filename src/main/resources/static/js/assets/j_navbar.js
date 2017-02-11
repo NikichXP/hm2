@@ -12,6 +12,15 @@ $(function(){
             $('.categories-list').html("");
             $('.categories-list__mob').html('<option selected disabled>Услуги</option>');
             
+            var k = 0;
+            
+            for (var i = 0; i < resData.length; i++) 
+                for (var j = 0; j < resData[i].groups.length; j++) 
+                    k++; 
+            
+            k = k / 15;
+            $('.categories-list').css('column-count', Math.round(k+1));
+            
             for (var i = 0; i < resData.length; i++)
             {  
                 $('.categories-list').append("<li class='categories-list__item categories-list__cat'>"

@@ -18,7 +18,7 @@ body {
 .offer-disc__bg {
     background-image: url('../img/discount.png');
     width: 140px;
-    height: 140px;
+    height: 139px;
     position: absolute;
     top: -1px;
     left: 50px;
