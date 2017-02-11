@@ -24,8 +24,26 @@ import static com.hm.manualdb.ConnectionHandler.db;
 public class ConfigAPI {
 
 	private static String[] cityCache;
+	private static Integer nextUserId;
+
+	static {
+		updateNextUserId();
+	}
+
 	@Autowired
 	Gson gson;
+
+	public static void updateNextUserId() {
+		Object val = db().getCollection("config")
+				.find(Document.parse("{'key' : 'nextUserId'}")).first().get("value");
+		if (val instanceof Integer) {
+			nextUserId = (Integer) val;
+		} else if (val instanceof Double) {
+			nextUserId = Math.toIntExact(Math.round((Double) val));
+		} else {
+			throw new UnsupportedClassVersionError("Expected double or int");
+		}
+	}
 
 	/**
 	 * Lists cities to APIs and inner methods.
@@ -34,32 +52,42 @@ public class ConfigAPI {
 	@GetMapping("/list/city")
 	public static String[] listCities() {
 		if (cityCache == null || cityCache.length < 3) {
-			List<String> list = (List<String>) ((ArrayList) db().getCollection("config")
-					.find(Document.parse("{'key':'cities'}"))
-					.first()
-					.get("value")
-			)
-					.stream()
-					.map(Object::toString)
-					.collect(Collectors.toList());
-			cityCache = list.toArray(new String[0]);
-
-			/* OR THIS */
-
-//			String get = db().getCollection("config").find(Document.parse("{'key':'cities'}")).first().get("value").toString();
-//			get = get.substring(1, get.length()-1);
-//			String[] cities = get.split(",");
-//			for (int i = 0; i < cities.length; i++) {
-//				cities[i] = cities[i].trim();
-//			}
+			try {
+				List<String> list = (List<String>) ((ArrayList) db().getCollection("config")
+						.find(Document.parse("{'key':'cities'}"))
+						.first()
+						.get("value")
+				)
+						.stream()
+						.map(Object::toString)
+						.collect(Collectors.toList());
+				cityCache = list.toArray(new String[0]);
+			} catch (Exception e) { //just another algorythm
+				String get = db().getCollection("config").find(Document.parse("{'key':'cities'}")).first().get("value").toString();
+				get = get.substring(1, get.length() - 1);
+				String[] cities = get.split(",");
+				for (int i = 0; i < cities.length; i++) {
+					cities[i] = cities[i].trim();
+				}
+			}
 		}
 		return cityCache;
 	}
 
-	@GetMapping("/list/city/defaults")
-	public String[] cityDefaults() { //TODO Delete this!
+	@GetMapping("/getNextUserId")
+	public static synchronized int getNextUserId() {
+		new Thread(() -> {
+			db().getCollection("config").updateOne(Document.parse("{'key' : 'nextUserId'}"),
+					Document.parse("{$inc : {'value' : 1}}"));
+		}).start();
+		return nextUserId++;
+ 	}
+
+	public String[] defaults() { //TODO Delete this!
 		cityCache = null; //will be un-nulled in listCities
-		db().getCollection("config").deleteMany(Document.parse("{'key':'cities'}"));
+		db().getCollection("config").drop();
+		nextUserId = 0;
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextUserId', 'value': 0}"));
 		db().getCollection("config").insertOne(Document.parse("{'key':'cities', 'value':['Киев', 'Одесса', 'Львов']}"));
 		return listCities();
 	}

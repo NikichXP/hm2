@@ -77,7 +77,7 @@ public class TestAPI {
 
 		System.out.println("done.");
 
-		configAPI.cityDefaults();
+		configAPI.defaults();
 
 		System.out.print("Generating users... ");
 

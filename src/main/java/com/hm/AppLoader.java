@@ -1,5 +1,6 @@
 package com.hm;
 
+import com.hm.api.ConfigAPI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +12,7 @@ public class AppLoader {
 
 	public static void main(String[] args) {
 		while (ctx == null) {}
+		ConfigAPI.updateNextUserId();
 		System.out.println("Seems like all running normal");
 	}
 

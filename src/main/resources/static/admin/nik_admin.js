@@ -1,7 +1,6 @@
 "use strict";
 
 let currentSite = "http://localhost:8080/";
-
 let users = null;
 
 $(function () {

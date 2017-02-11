@@ -48,6 +48,7 @@ public class AuthAPI {
 		if (img != null) {
 			u.setUserImg(img);
 		}
+		u.setId(ConfigAPI.getNextUserId()+"");
 		u.setName(name);
 		u.setCity(city);
 		u.setRegDate(LocalDate.now().toString());
