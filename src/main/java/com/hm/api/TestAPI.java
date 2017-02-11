@@ -143,8 +143,32 @@ public class TestAPI {
 
 		generatePhotographers(genr);
 
+		moarGenres();
 
 		return getAll();
+	}
+
+	private void moarGenres() {
+		gh.createGenre("Аниматоры", "Аниматоры", "Актеры");
+		gh.createGenre("Пантомимы", "Пантомимы", "Актеры");
+		gh.createGenre("Фрики", "Фрик-Шоу", "Актеры");
+		gh.createGenre("Фаер-шоу", "Фаер-шоу", "Опасные");
+		gh.createGenre("Пиротехники", "Пиротехники", "Опасные");
+		gh.createGenre("Электрическая катушка Теслы", "Экспериментальные шоу", "Опасные");
+		gh.createGenre("Живая статуя", "Живая статуя", "Актеры");
+		gh.createGenre("Акробаты", "Акробаты", "Опасные");
+		gh.createGenre("Шоу Мыльных Пузырей", "Шоу Мыльных Пузырей", "Шоу");
+		gh.createGenre("Двойники", "Двойники", "Шоу");
+		gh.createGenre("Иллюзионисты", "Фокусники", "Шоу");
+		gh.createGenre("Карточные фокусы", "Фокусники", "Шоу");
+		gh.createGenre("Неоновое шоу", "Неоновое шоу", "Шоу");
+		gh.createGenre("Жонглеры", "Жонглеры", "Шоу");
+		gh.createGenre("Бармен шоу", "Бармен шоу", "Шоу");
+		gh.createGenre("Кукольный театр", "Кукольный театр", "Шоу");
+
+
+
+
 	}
 
 	private Set<Product> generateProducts(Set<User> workingusers, Genre[] genr) {
