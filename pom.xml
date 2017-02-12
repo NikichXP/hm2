@@ -8,7 +8,6 @@
     <version>2.0.0</version>
     <artifactId>hm</artifactId>
 
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -72,6 +71,19 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>1.10.0.RELEASE</version>
         </dependency>
+
+        <!-- Spring logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+
     </dependencies>
 
     <build>
