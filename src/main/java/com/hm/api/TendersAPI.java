@@ -67,7 +67,7 @@ public class TendersAPI {
 
 		List<Object> a = new ArrayList<>();
 		a.add(data.size());
-		a.addAll(ret.collect(Collectors.toList()));
+		a.addAll(data);
 
 		return ResponseEntity.ok(a);
 	}
