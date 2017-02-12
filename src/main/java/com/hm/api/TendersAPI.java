@@ -63,10 +63,11 @@ public class TendersAPI {
 
 		ret.forEach(data::add);
 
-		data = data.stream().skip(offset).limit(limit).collect(Collectors.toList());
-
 		List<Object> a = new ArrayList<>();
 		a.add(data.size());
+
+		data = data.stream().skip(offset).limit(limit).collect(Collectors.toList());
+		
 		a.addAll(data);
 
 		return ResponseEntity.ok(a);
