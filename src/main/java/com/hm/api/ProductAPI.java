@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
@@ -105,7 +106,7 @@ public class ProductAPI {
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		} else {
-			stream = stream.sorted((x1, x2) -> x1.getExpirationDate().compareTo(x2.getExpirationDate()));
+			stream = stream.sorted(Comparator.comparing(Product::getExpirationDate));
 		}
 
 		if (offset == null) {

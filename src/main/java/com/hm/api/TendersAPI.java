@@ -1,9 +1,13 @@
 package com.hm.api;
 
 import com.hm.AppLoader;
-import com.hm.entity.*;
+import com.hm.entity.Tender;
+import com.hm.entity.User;
+import com.hm.entity.Worker;
 import com.hm.model.AuthController;
-import com.hm.repo.*;
+import com.hm.repo.BidsRepository;
+import com.hm.repo.GenresHolder;
+import com.hm.repo.TenderRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
@@ -12,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequestMapping("/tenders")
@@ -52,10 +59,17 @@ public class TendersAPI {
 			ret = ret.filter(tender -> tender.getGroup().equals(group));
 		}
 
+		List<Tender> data = new ArrayList<>();
+		ret.forEach(data::add);
+
 		ret = ret.skip(offset);
 		ret = ret.limit(limit);
 
-		return ResponseEntity.ok(ret.toArray());
+		List<Object> a = new ArrayList<>();
+		a.add(data.size());
+		a.addAll(ret.collect(Collectors.toList()));
+
+		return ResponseEntity.ok(a);
 	}
 
 	@RequestMapping(value = "/create/tender", method = RequestMethod.POST)
