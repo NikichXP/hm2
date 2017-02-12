@@ -60,10 +60,10 @@ public class TendersAPI {
 		}
 
 		List<Tender> data = new ArrayList<>();
+
 		ret.forEach(data::add);
 
-		ret = ret.skip(offset);
-		ret = ret.limit(limit);
+		data = data.stream().skip(offset).limit(limit).collect(Collectors.toList());
 
 		List<Object> a = new ArrayList<>();
 		a.add(data.size());
