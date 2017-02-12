@@ -1,11 +1,11 @@
 package com.hm.entity;
 
-import com.hm.util.Generator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class Category { //like "popular"
 	private ArrayList<Group> groups;
 
 	public Category(String name) {
-		this.id = Generator.genSmallId();
+		this.id = UUID.randomUUID().toString().substring(0, 13);
 		this.name = name;
 		this.groups = new ArrayList<>();
 	}
