@@ -7,6 +7,10 @@ body {
     margin-top: 0px;
 }
 
+.search {
+    padding: 0;
+}
+
 #offers {
     color: #fff;
     background-color: #90b651;
@@ -286,14 +290,19 @@ a:hover {
 
 .page-navigation__list li{
     display: inline;
-    font-size: 16px;
-    margin-left: 5px;
-    margin-right: 5px;
+    font-size: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .page-navigation__page:hover {
     color: #90b651;
     cursor: pointer;
+}
+
+.page-navigation__current {
+    color: #90b651;
+    text-decoration: underline;
 }
 
 #search-open {
@@ -319,7 +328,7 @@ a:hover {
 .dropdown {
 /*    float: left;*/
 }
-
+ 
 .dropdown-menu {
     z-index: 2000;
     left: 47px;

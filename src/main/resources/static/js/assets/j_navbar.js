@@ -27,24 +27,35 @@ $(function(){
                                              + resData[i].name
                                              + "</li>");  	
                 for (var j = 0; j < resData[i].groups.length; j++) {
-                                    $('.categories-list').append("<li class='categories-list__item categories-list__group'>"
-                                                + resData[i].groups[j].name 
-                                                + " <span>("
-                                                + resData[i].groups[j].executors 
-                                                + ")</span></li>");  	    
+
+                    
+                    if (resData[i].groups[j].executors > 0) {
+                        $('.categories-list').append("<li class='categories-list__item categories-list__group'>"
+                                + resData[i].groups[j].name 
+                                + " <span>("
+                                + resData[i].groups[j].executors 
+                                + ")</span></li>");      
+                    }
+                    else {
+                        $('.categories-list').append("<li class='categories-list__item categories-list__group categories-list__disabled'>"
+                                + resData[i].groups[j].name 
+                                + " <span>("
+                                + resData[i].groups[j].executors 
+                                + ")</span></li>");      
+                    }
                 }
                 
                 $('.categories-list__mob').append("<option disabled class='categories-list__mob-item categories-list__mob-cat'>"
                                              + resData[i].name
                                              + "</option>");  	
                 for (var j = 0; j < resData[i].groups.length; j++) {
-                                    $('.categories-list__mob').append("<option class='categories-list__mob-item __mob-group'>"
-                                                + resData[i].groups[j].name 
-                                                + " <span>("
-                                                + resData[i].groups[j].executors 
-                                                + ")</span></option>");  	    
-                }
-            
+                    
+                    $('.categories-list__mob').append("<option class='categories-list__mob-item categories-list__mob-group'>"
+                            + resData[i].groups[j].name 
+                            + " <span>("
+                            + resData[i].groups[j].executors 
+                            + ")</span></option>"); 
+                } 	    
             };           
         },
     });

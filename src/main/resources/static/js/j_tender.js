@@ -12,169 +12,83 @@ $(function(){
     var url = window.location;
     url = decodeURIComponent(url);
     
-    var offerPage = parseInt(/page=(\d+)/.exec(url)[1]); //get number of the page from url
-        
-    var pageOffset = 0;
-    var itemsLimit = 10;
     
-    for (var i = 1; i < offerPage; i++) { 
-        pageOffset += itemsLimit;    
-    }
-    
-    var maxPages;  // get number of pages
-    
-    
-    
-    //Getting search params from url
-    
-    var sendData = { 
-        limit: itemsLimit, 
-        offset: pageOffset 
-    }
     
     url = '' + url;
     if (url.slice(-1) == '#') {
             url = url.substring(0, url.length - 1);      
         }
-    var urlArray = url.split('&');
-    var paramArray;
+    var urlArray = url.split('?');
     
-    if (urlArray[1] != null) {
-
-        for (var i = 0; i < urlArray.length; i++) { 
-            paramArray = urlArray[i].split('=');
-
-            switch (paramArray[0]) {
-                //case 'date': sendData.date = paramArray[1]; $('span#search-innertext__date').html(paramArray[1]); break;
-                case 'group': sendData.group = paramArray[1]; $('span#search-innertext__group').html(paramArray[1]); break;
-                //case 'genre': sendData.genre = paramArray[1]; $('span#search-innertext__genre').html(paramArray[1]); break;
-                case 'city': sendData.city = paramArray[1]; $('span#search-innertext__city').html(paramArray[1]); break;
-                case 'price': {
-                    sendData.price = paramArray[1]; 
-                    var priceStr = paramArray[1].split('-');
-                    $('#input-price__lower').val(priceStr[0]); 
-                    $('#input-price__upper').val(priceStr[1]); 
-                    break;
-                }
-            }
-        }
-    }
+    var arrID = urlArray[1].split('=');
+    var tenderId = arrID[1];
+    
+        
     //End of getting search params from url
     
     
-    //Filling dropdowns
+    
+    
+    //Loading tender from server
     
     $.ajax({
         type: 'GET',
-        url: currentSite + '/config/list/city',
-        success: function(resData) {
-            $('.dropdown-menu__city').html("");
-            
-            for (var i = 0; i < resData.length; i++)
-            {          
-                $('.dropdown-menu__city').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                            + resData[i]  
-                                            + "</a></li>");  	
-            };                
-                
-        },
-    });
-    
-    $.ajax({
-        type: 'GET',
-        url: currentSite + '/config/list/offer/group',
-        success: function(resData) {
-            $('.dropdown-menu__group').html("");
-            
-            for (var i = 0; i < resData.length; i++)
-            {          
-                $('.dropdown-menu__group').append("<li><a class='dropdown-menu__item' href='#'>" 
-                                            + resData[i]  
-                                            + "</a></li>");  	
-            };                
-                
-        },
-    });
-    
-       
-    //End of filling dropdowns
-    
-    
-    //Loading tenders from server
-    
-    $.ajax({
-        type: 'GET',
-        url: currentSite + '/tenders/list/all',
-        data: sendData,
+        url: currentSite + '/tenders/' + tenderId,
         success: function(resData) { 
             $('div.tenders').html("");
             
-            maxPages = Math.ceil(resData[0]/itemsLimit);
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'><<</li>");		
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'><</li>");
-            
-            var k = 0;
-            
-            for (var i = offerPage - 10; i < offerPage + 10; i++) {
-                if (i > 0 && i <= maxPages) {
-                    if (i == offerPage) 
-                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num page-navigation__current'>" 
-                                        + i
-                                        + "</li>");	
-                    else 
-                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
-                                        + i
-                                        + "</li>");	
-                    k++;
-                }
-            }
-            
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>></li>");
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>>></li>");
-            
-            for (var i = 1; i < resData.length; i++)
-            {     
-                var expDateArr = resData[i].deadlineString.split('-');
-                var expDateString = "" + expDateArr[2] + "." + expDateArr[1] - 1 + "." + expDateArr[0];
-                var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
-                var daysLeft = daysBetween(curDate, expDate);
-                $('div.tenders').append("<a class='tender-link' href='tender.html?id=" 
-                                        + resData[i].id 
-                                        + "'><div class='col-md-12 col-sm-12 tender-container' id='tender-" + i + "'></div></a>");
-                $('div#tender-' + i).append("<div class='user-pic'>" 
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/100?img=" + resData[i].creator.userImg + "'>"
+  
+            var expDateArr = resData.deadlineString.split('-');
+            var expDateString = "" + expDateArr[2] + "." + expDateArr[1] - 1 + "." + expDateArr[0];
+            var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
+            var daysLeft = daysBetween(curDate, expDate);
+            $('div.tenders').append("<div class='col-md-12 col-sm-12 tender-container'><div class='user-pic'>" 
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/100?img=" + resData.creator.userImg + "'>"
                                               + "</div>"
                                               + "<div class='tender-name'>"
-                                                + "<a href='profile.html?id=" + resData[i].creator.id + "'><div class='user-name'>" + resData[i].creator.name + "</div></a>"
+                                                + "<a href='profile.html?id=" + resData.creator.id + "'><div class='user-name'>" + resData.creator.name + "</div></a>"
                                                 + "<div class='tender-title'>Мне нужен: " 
-                                                + resData[i].group 
+                                                + resData.group 
                                                 + " (" 
-                                                + resData[i].genre 
+                                                + resData.genre 
                                                 + ")/ " 
-                                                + resData[i].city
+                                                + resData.city
                                                 + "</div>"
                                               + "</div>"
                                               + "<div class='tender-info'>"
-                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн</span></div>"
+                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData.price + " грн</span></div>"
                                                 + "<div class='tender-date'>" + expDateString + "</div>"
                                                 + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
-                                                + "<div class='tender-time'>Pабочих часов: " + resData[i].workingHours + "</div>"
+                                                + "<div class='tender-time'>Pабочих часов: " + resData.workingHours + "</div>"
                                               + "</div>"
-                                              + "<div class='tender-text'>" + resData[i].description + "</div>"
+                                              + "<div class='tender-text'>" + resData.description + "</div>"
                                               + "<div class='tender-bidders'>"
-                                                + "<div class='tender-bidders__count'>Oтветов:<p>" + resData[i].bidders.length + "</p></div>");
-                for (var j = 0; j < resData[i].bidders.length; j++) {
-                    $('div#tender-' + i + ' div.tender-bidders').append("<div class='tender-bidders__block'>"
-                                                    + "<a href='profile.html?id=" + resData[i].bidders[j].userId + "'><div class='tender-bidders__bidder'>"
-                                                    + "<img src='" + currentSite + "/file/getimg/80?img=" + resData[i].bidders[j].userImg + "'>"
+                                                + "<div class='tender-bidders__count'>Oтветов:<p>" + resData.bidders.length + "</p></div>");
+            for (var j = 0; j < resData.bidders.length; j++) {
+                $('div.tender-container div.tender-bidders').append("<div class='tender-bidders__block'>"
+                                                    + "<a href='profile.html?id=" + resData.bidders[j].userId + "'><div class='tender-bidders__bidder'>"
+                                                    + "<img src='" + currentSite + "/file/getimg/80?img=" + resData.bidders[j].userImg + "'>"
                                                     + "<p>pro</p>"
                                                     + "</div></a>" 
                                                   + "</div>");  
-                    if (j == 9) break;
-                }
+                if (j == 9) break;
+            }
                 
-                $('div#tender-' + i).append("</div>");  	
-            };                
+            $('div.tenders').append("</div></div>"); 
+            
+            for (var i = 0; i < resData.bidders.length; i++) {
+                $('div.participants').append("<div class='participant-user' id='user-" + i + "'></div>"); 
+                $('div#user-' + i).append("<div class='participant-user__pic'>" 
+                                          + "<img class='participant-pic__img thumb' src='" 
+                                          + currentSite 
+                                          + "/file/getimg/100?img=" 
+                                          + resData.bidders[i].userImg 
+                                          + "'>" 
+                                        + "</div>"); 
+                $('div#user-' + i).append("<div class='participant-user__name'>" 
+                                          + resData.bidders[i].userName.split(' ')[0] + ' id' + resData.bidders[i].userId
+                                        + "</div>"); 
+            }
                 
         },
     });
