@@ -36,7 +36,9 @@ public class UserAPI {
 		try {
 			return ResponseEntity.ok(productAPI
 					.getUserProducts(userId).getBody().stream()
+					.peek(System.out::println)
 					.filter(p -> genre == null || p.getGenreName().equals(genre))
+
 					.flatMap(prod -> prod.getPhotos().stream())
 					.sorted((a, b) -> -1) //to get last of 'em //TODO TEST this
 					.limit((count == null || count < 1) ? 0x7FFFFFFF : count)

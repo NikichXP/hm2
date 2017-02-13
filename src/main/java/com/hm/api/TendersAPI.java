@@ -48,7 +48,7 @@ public class TendersAPI {
 	                              @RequestParam(value = "limit", defaultValue = Integer.MAX_VALUE + "") int limit) {
 		String[] tmp = price.split("-");
 
-		Stream<Tender> ret = biddableRepo.findAll().stream()
+		Stream<Tender> ret = biddableRepo.findByDeadlineAfter(LocalDate.now()).stream()
 				.filter(tender -> tender.getPrice() > Integer.parseInt(tmp[0]))
 				.filter(tender -> tender.getPrice() < Integer.parseInt(tmp[1]));
 
