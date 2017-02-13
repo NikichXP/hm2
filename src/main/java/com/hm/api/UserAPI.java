@@ -1,10 +1,16 @@
 package com.hm.api;
 
-import com.hm.entity.*;
-import com.hm.repo.*;
-import org.springframework.beans.factory.annotation.*;
+import com.hm.entity.Moderator;
+import com.hm.entity.User;
+import com.hm.entity.Worker;
+import com.hm.repo.ModeratorRepository;
+import com.hm.repo.UserRepository;
+import com.hm.repo.WorkerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -12,11 +18,29 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
 
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
 	@Autowired
-	WorkerRepository workerRepo;
+	private WorkerRepository workerRepo;
 	@Autowired
-	ModeratorRepository moderatorRepo;
+	private ModeratorRepository moderatorRepo;
+	@Autowired
+	private ProductAPI productAPI;
+
+	@GetMapping("/portfolio/{id}")
+	public ResponseEntity portfolio(@PathVariable("id") String userId,
+	                                @RequestParam(value = "genre", required = false) String genre,
+	                                @RequestParam(value = "count", required = false) Integer count) {
+		try {
+			return ResponseEntity.ok(productAPI
+					.getUserProducts(userId).getBody().stream()
+					.filter(p -> genre == null || p.getGenreName().equals(genre))
+					.flatMap(prod -> prod.getPhotos().stream())
+					.limit((count == null || count < 1) ? 0x7FFFFFFF : count)
+					.collect(Collectors.toList()));
+		} catch (Exception e) {
+			return ResponseEntity.status(404).body("Wrong data");
+		}
+	}
 
 	@RequestMapping("/setEmployee")
 	public ResponseEntity promoteToEmployee(@RequestParam("mail") String s) {
@@ -29,7 +53,7 @@ public class UserAPI {
 	}
 
 	@RequestMapping("/setWorker/{userId}")
-	public ResponseEntity promoteToWorker (@PathVariable("userId") String userId) {
+	public ResponseEntity promoteToWorker(@PathVariable("userId") String userId) {
 		User user = userRepo.findOne(userId);
 		Worker worker = new Worker(user);
 		userRepo.delete(user);
@@ -38,7 +62,7 @@ public class UserAPI {
 	}
 
 	@RequestMapping("/getUser")
-	public ResponseEntity getUserById (@RequestParam("id") String id) {
+	public ResponseEntity getUserById(@RequestParam("id") String id) {
 		User user = userRepo.findOne(id);
 		if (user == null) {
 			return ResponseEntity.status(404).body("User not found");

@@ -67,7 +67,7 @@ public class TendersAPI {
 		a.add(data.size());
 
 		data = data.stream().skip(offset).limit(limit).collect(Collectors.toList());
-		
+
 		a.addAll(data);
 
 		return ResponseEntity.ok(a);

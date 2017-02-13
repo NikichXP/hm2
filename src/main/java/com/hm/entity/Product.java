@@ -99,7 +99,7 @@ public class Product {
 
 	public boolean addPhoto (String path) {
 		if (this.photos == null) {
-			photos = new ArrayList<>(); //TODO Check if it's cool
+			photos = new ArrayList<>();
 		}
 		return photos.add(path);
 	}

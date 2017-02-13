@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.*;
@@ -28,6 +29,7 @@ import static java.util.Arrays.stream;
 @RequestMapping("/test")
 public class TestAPI {
 
+	private static String[] piclib = new File(System.getProperty("user.dir") + "/src/main/resources/files/piclib").list();
 	@Autowired
 	ModeratorRepository moderatorRepo;
 	@Autowired
@@ -166,9 +168,6 @@ public class TestAPI {
 		gh.createGenre("Бармен шоу", "Бармен шоу", "Шоу");
 		gh.createGenre("Кукольный театр", "Кукольный театр", "Шоу");
 
-
-
-
 	}
 
 	private Set<Product> generateProducts(Set<User> workingusers, Genre[] genr) {
@@ -176,13 +175,18 @@ public class TestAPI {
 
 		workingusers.parallelStream().forEach(worker -> {
 			AuthToken authToken = (AuthToken) authapi.auth(worker.getMail(), worker.getPass()).getBody();
-			products.add(
-					productAPI.createProduct("Test work name, hello world!",
-							genr[(int) (Math.random() * 5)].getName(),
-							authToken.getSessionID(),
-							1000,
-							configAPI.listCities()[(int) (Math.random() * 3)],
-							"common/auth" + new Random().nextInt(13) + ".jpg").getBody());
+			Product product = productAPI.createProduct("Test work name, hello world!",
+					genr[(int) (Math.random() * 5)].getName(),
+					authToken.getSessionID(),
+					1000,
+					configAPI.listCities()[(int) (Math.random() * 3)],
+					"common/auth" + new Random().nextInt(13) + ".jpg").getBody();
+			//3 times
+			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
+			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
+			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
+
+			products.add(product);
 			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
 		});
 
@@ -235,6 +239,9 @@ public class TestAPI {
 							city,
 							"common/auth" + new Random().nextInt(13) + ".jpg"
 					).getBody();
+					for (int j = 0; j < 10; j++) {
+						p = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], p.getId(), "").getBody();
+					}
 					p.setDescription(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '.'));
 					if (Math.random() > 0.7) {
 						double disc = Math.random() * 90.0 + 5;

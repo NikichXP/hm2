@@ -142,7 +142,7 @@ public class ProductAPI {
 	}
 
 	@GetMapping("/getUserProducts/{userid}")
-	public ResponseEntity getUserProducts (@PathVariable("userid") String userid) {
+	public ResponseEntity<List<Product>> getUserProducts (@PathVariable("userid") String userid) {
 		return ResponseEntity.ok(prodRepo.listByWorkerId(userid));
 	}
 
@@ -191,5 +191,15 @@ public class ProductAPI {
 		prod.setLinkedPageId(page.getId());
 		prodRepo.save(prod);
 		return ResponseEntity.ok(prod);
+	}
+
+	@GetMapping("/addphoto/{id}")
+	public ResponseEntity<Product> addPhoto(@RequestParam("path") String path,
+	                               @PathVariable("id") String id,
+	                               @RequestParam("token") String token) {
+		Product p = prodRepo.findOne(id);
+		p.addPhoto(path);
+		prodRepo.save(p);
+		return ResponseEntity.ok(p);
 	}
 }
