@@ -36,9 +36,7 @@ public class UserAPI {
 		try {
 			return ResponseEntity.ok(productAPI
 					.getUserProducts(userId).getBody().stream()
-					.peek(System.out::println)
 					.filter(p -> genre == null || p.getGenreName().equals(genre))
-
 					.flatMap(prod -> prod.getPhotos().stream())
 					.sorted((a, b) -> -1) //to get last of 'em //TODO TEST this
 					.limit((count == null || count < 1) ? 0x7FFFFFFF : count)
@@ -50,6 +48,7 @@ public class UserAPI {
 
 	@GetMapping("/search")
 	public ResponseEntity search(@RequestParam(value = "group", required = false) String group,
+	                             @RequestParam(value = "name", required = false) String name,
 	                             @RequestParam(value = "limit", required = false) Integer limit,
 	                             @RequestParam(value = "offset", required = false) Integer offset) {
 		List<Worker> list;
@@ -61,6 +60,7 @@ public class UserAPI {
 		List<Object> ret = new ArrayList<>();
 		ret.add(list.size());
 		ret.add(list.stream()
+				.filter(u -> name == null || u.getName().contains(name))
 				.sorted(Comparator.comparingInt(u -> Integer.parseInt(u.getId())))
 				.skip((offset != null) ? offset : 0)
 				.limit((limit != null) ? limit : 0x7FFFFFFF)
