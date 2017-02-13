@@ -31,6 +31,7 @@ import static java.util.Arrays.stream;
 public class TestAPI {
 
 	private static String[] piclib = new File(System.getProperty("user.dir") + "/src/main/resources/files/piclib").list();
+
 	@Autowired
 	ModeratorRepository moderatorRepo;
 	@Autowired
@@ -38,7 +39,7 @@ public class TestAPI {
 	@Autowired
 	ClientRepository clientRepo;
 	@Autowired
-	GenresHolder gh;
+	private	GenresHolder gh;
 	@Autowired
 	private AuthAPI authapi;
 	@Autowired
@@ -332,8 +333,7 @@ public class TestAPI {
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())
 								.map(x -> x.annotationType().getSimpleName())
-								.filter(x -> x.equals("RequestMapping") || x.equals("GetMapping"))
-								.findAny().isPresent())
+								.anyMatch(x -> x.equals("RequestMapping") || x.equals("GetMapping")))
 						.map((Method meth) -> stream(meth.getDeclaringClass().getAnnotations())
 								.filter(x -> x.annotationType().getSimpleName().equals("RequestMapping"))
 								.map(x -> (RequestMapping) x)

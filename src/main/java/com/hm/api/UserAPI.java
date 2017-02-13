@@ -38,6 +38,7 @@ public class UserAPI {
 					.getUserProducts(userId).getBody().stream()
 					.filter(p -> genre == null || p.getGenreName().equals(genre))
 					.flatMap(prod -> prod.getPhotos().stream())
+					.sorted((a, b) -> -1) //to get last of 'em //TODO TEST this
 					.limit((count == null || count < 1) ? 0x7FFFFFFF : count)
 					.collect(Collectors.toList()));
 		} catch (Exception e) {
