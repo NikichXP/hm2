@@ -177,6 +177,14 @@
     color: #8ab04b; 
 }
 
+.categories-list__disabled {
+    color: #c7c7cd;    
+}
+
+.categories-list__disabled span{
+    color: #c7c7cd;    
+}
+
 .city-container {
 /*    position: absolute;*/
     background-color: #fff;
@@ -206,7 +214,7 @@
 
 .city-list__current {
     background: #e7f2c8;
-
+ 
 }
 
 .city-list__item:hover {

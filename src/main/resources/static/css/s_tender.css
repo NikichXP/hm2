@@ -21,17 +21,12 @@ a:hover {
     color: #fff;
     background-color: #90b651;
 }
-
+ 
 
 .tender-container {
     margin: 10px 0 10px 0;
     padding: 20px;
 /*    height: 150px;*/
-}
-
-.tender-container:hover {
-    background-color: #F5F5F5;
-    cursor: pointer;
 }
 
 .user-pic {
@@ -140,10 +135,6 @@ img.user-pic__img {
 /*    font-weight: bold;*/
 }
 
-.tender-link:hover {
-    color: black;    
-}
-
 .input-price {
 	display: inline-block;
     width: 100px;
@@ -210,32 +201,28 @@ img.user-pic__img {
     color: white;
 }
 
-.page-navigation {
-    float: right;
-}
-
-.page-navigation__list {
+.participant-user {
     width: 100%;
-    list-style-type: none;
-    margin: auto;
-    padding: 0;
+    padding: 10px;
+    float: left;
 }
 
-.page-navigation__list li{
-    display: inline;
-    font-size: 18px;
-    padding-left: 5px;
-    padding-right: 5px;
+.participant-user__pic {
+    float: left;
 }
 
-.page-navigation__page:hover {
-    color: #90b651;
-    cursor: pointer;
+.participant-pic__img {
+    height: 100px; 
+    width: 100px; 
+    float: left;
+    border-radius: 50px;
+    object-fit: cover;    
 }
 
-.page-navigation__current {
-    color: #90b651;
-    text-decoration: underline;
+.participant-user__name {
+    font-size: 16px;
+    float: left;
+    margin-left: 10px;
 }
 
 

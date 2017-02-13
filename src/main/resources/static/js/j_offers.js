@@ -11,10 +11,8 @@ $(function(){
     var url = window.location;
     url = decodeURIComponent(url);
     
-    var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
-    
-    offerPage = 0 + offerPage;
-    
+    var offerPage = parseInt(/page=(\d+)/.exec(url)[1]); //get number of the page from url
+        
     var pageOffset = 0;
     var itemsLimit = 10;
     
@@ -124,17 +122,28 @@ $(function(){
             $('.offers-container').html("");
             
             maxPages = Math.ceil(resData[0]/itemsLimit);
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'>Первая</li>");		
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'>Предыдущая</li>");
-                 
-            for (var i = 1; i < Math.ceil(resData[0]/itemsLimit) + 1; i++) { 
-                $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
-                                                + i
-                                             + "</li>");	    
-            }
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'><<</li>");		
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'><</li>");
             
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>Следующая</li>");
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>Последняя</li>");
+            var k = 0;
+            
+            for (var i = offerPage - 10; i < offerPage + 10; i++) {
+                if (i > 0 && i <= maxPages) {
+                    if (i == offerPage) 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num page-navigation__current'>" 
+                                        + i
+                                        + "</li>");	
+                    else 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
+                                        + i
+                                        + "</li>");	
+                    k++;
+                }
+            }
+        
+            
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>></li>");
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>>></li>");
             
             for (var i = 1; i < resData.length; i++)
             {          
