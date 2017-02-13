@@ -9,8 +9,11 @@ import java.util.stream.Stream;
 public interface WorkerRepository extends MongoRepository<Worker, String> {
 
 	@Query("{'isPro' : true}")
-	public Stream<Worker> getPro ();
+	Stream<Worker> getPro ();
 
 	@Query("{'isPro' : true, 'city':?0}")
-	public Stream<Worker> getPro (String city);
+	Stream<Worker> getPro (String city);
+
+	@Query("{'profession' : ?0}")
+	Stream<Worker> getByProfession (String profession);
 }

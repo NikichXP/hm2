@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +43,27 @@ public class UserAPI {
 		} catch (Exception e) {
 			return ResponseEntity.status(404).body("Wrong data");
 		}
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity search(@RequestParam(value = "group", required = false) String group,
+	                             @RequestParam(value = "limit", required = false) Integer limit,
+	                             @RequestParam(value = "offset", required = false) Integer offset) {
+		List<Worker> list;
+		if (group == null) {
+			list = workerRepo.findAll();
+		} else {
+			list = workerRepo.getByProfession(group).collect(Collectors.toList());
+		}
+		List<Object> ret = new ArrayList<>();
+		ret.add(list.size());
+		ret.add(list.stream()
+				.sorted(Comparator.comparingInt(u -> Integer.parseInt(u.getId())))
+				.skip((offset != null) ? offset : 0)
+				.limit((limit != null) ? limit : 0x7FFFFFFF)
+				.collect(Collectors.toList())
+		);
+		return ResponseEntity.ok(ret);
 	}
 
 	@RequestMapping("/setEmployee")
