@@ -10,6 +10,7 @@ import com.hm.repo.*;
 import com.mongodb.Block;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -304,14 +305,15 @@ public class TestAPI {
 	@RequestMapping("getAllObj")
 	public List<Object> getAllObj() {
 		List<Object> list = new ArrayList<>();
-		userRepo.findAll().forEach(list::add);
-		moderatorRepo.findAll().forEach(list::add);
-		clientRepo.findAll().forEach(list::add);
-		workerRepo.findAll().forEach(list::add);
-		authRepo.findAll().forEach(list::add);
-		prodRepo.findAll().forEach(list::add);
-		GenresHolder.getCategories().forEach(list::add);
-		AppLoader.ctx.getBean(TenderRepository.class).findAll().forEach(list::add);
+		Class cl[] = {UserRepository.class, ModeratorRepository.class, ClientRepository.class,
+				WorkerRepository.class, AuthRepository.class, ProductRepository.class,
+				TenderRepository.class, BidsRepository.class, CategoryRepository.class,
+				MessageRepository.class, NewsRepository.class, PagesRepository.class,
+				PhotosRepository.class
+		};
+		for (Class<? extends MongoRepository> c : cl) {
+			AppLoader.ctx.getBean(c).findAll().forEach(list::add);
+		}
 		return list;
 	}
 
@@ -323,8 +325,9 @@ public class TestAPI {
 	@RequestMapping("/getMappings")
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
-				Stream.of(AuthAPI.class, TendersAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class,
-						ProductAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, DevAdminAPI.class)
+				Stream.of(AuthAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class, LinkedPagesAPI.class,
+						MessageAPI.class, NewsAPI.class,
+						ProductAPI.class, TendersAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, DevAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())
