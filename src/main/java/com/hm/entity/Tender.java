@@ -54,10 +54,16 @@ public class Tender {
 		private int bid;
 		private String userName;
 		private LocalDateTime created;
+
+		public String getBidTimeString () {
+			return created.toString();
+		}
 	}
 
 	public String getDeadlineString () {
 		return deadline.toString();
 	}
+
+
 
 }
