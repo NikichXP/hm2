@@ -2,10 +2,12 @@ package com.hm.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -40,15 +42,18 @@ public class Tender {
 		node.setUserImg(worker.getUserImg());
 		node.setUserName(worker.getName());
 		node.setBid(bid);
+		node.setCreated(LocalDateTime.now());
 		bidders.add(node);
 	}
 
 	@Data
+	@NoArgsConstructor
 	public static class Node {
 		private String userId;
 		private String userImg;
 		private int bid;
 		private String userName;
+		private LocalDateTime created;
 	}
 
 	public String getDeadlineString () {
