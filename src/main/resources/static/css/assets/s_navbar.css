@@ -173,12 +173,30 @@
     margin-left: 5px; 
 }
 
+.categories-list__group:hover {
+    background: #e7f2c8;
+    cursor: pointer;
+}
+
+.categories-list__group a {
+    color: #272a33;
+}
+
+.categories-list__group a:hover {
+    text-decoration: none;
+}
+
 .categories-list__group span {
     color: #8ab04b; 
 }
 
 .categories-list__disabled {
     color: #c7c7cd;    
+}
+
+.categories-list__disabled:hover {
+    cursor: auto;
+    background: #fff;
 }
 
 .categories-list__disabled span{

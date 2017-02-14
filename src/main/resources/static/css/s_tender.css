@@ -13,6 +13,11 @@ a:hover {
     color: #90b651;
 }
 
+a:visited {
+    text-decoration: none;    
+}
+
+
 .container-img {
     margin-top: 0px;
 }
@@ -135,6 +140,7 @@ img.user-pic__img {
 /*    font-weight: bold;*/
 }
 
+
 .input-price {
 	display: inline-block;
     width: 100px;
@@ -201,10 +207,18 @@ img.user-pic__img {
     color: white;
 }
 
-.participant-user {
-    width: 100%;
-    padding: 10px;
+.participant-content {
     float: left;
+    margin-left: 20px;
+}
+
+.participant-user {
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    float: left;
+    border-bottom: 1px solid #dddedf;
 }
 
 .participant-user__pic {
@@ -220,9 +234,24 @@ img.user-pic__img {
 }
 
 .participant-user__name {
-    font-size: 16px;
+    font-size: 20px;
     float: left;
-    margin-left: 10px;
+    width: 100%;
+}
+
+.participant-portfolio {
+    float: left;
+}
+
+.portfolio-photo {
+    float: left;
+}
+
+.portfolio-photo img {
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+    margin-right: 10px;
 }
 
 

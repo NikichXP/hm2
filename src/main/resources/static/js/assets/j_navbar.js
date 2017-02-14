@@ -27,14 +27,14 @@ $(function(){
                                              + resData[i].name
                                              + "</li>");  	
                 for (var j = 0; j < resData[i].groups.length; j++) {
-
-                    
+    
                     if (resData[i].groups[j].executors > 0) {
-                        $('.categories-list').append("<li class='categories-list__item categories-list__group'>"
+                        $('.categories-list').append("<li class='categories-list__item categories-list__group'>" 
+                                + "<a href='services.html?page=1&group=" + resData[i].groups[j].name + "'>"
                                 + resData[i].groups[j].name 
                                 + " <span>("
                                 + resData[i].groups[j].executors 
-                                + ")</span></li>");      
+                                + ")</span></a></li>");      
                     }
                     else {
                         $('.categories-list').append("<li class='categories-list__item categories-list__group categories-list__disabled'>"
@@ -110,14 +110,13 @@ $(function(){
     
     
     
-     
     $('body').on('click', '#propositions', function() {	
-
+        if ($('.city-container').css('display') == 'block') $('.city-container').slideToggle(); 
         $('.categories-container').slideToggle();
     });   
     
     $('body').on('click', '#menu-button__city', function() {	
-
+        if ($('.categories-container').css('display') == 'block') $('.categories-container').slideToggle(); 
         $('.city-container').slideToggle();
     }); 
     

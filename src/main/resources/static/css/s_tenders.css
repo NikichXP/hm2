@@ -13,6 +13,10 @@ a:hover {
     color: #90b651;
 }
 
+a:visited {
+    text-decoration: none;    
+}
+
 .container-img {
     margin-top: 0px;
 }

@@ -1,11 +1,13 @@
+var currentSite = "https://hm2.herokuapp.com";
+    //var currentSite = "https://07962c19.eu.ngrok.io";
+
 $(function(){
     
     $('.main-navbar').load('assets/navbar.html');
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+    
     var curDate = new Date();
     
     
@@ -51,7 +53,7 @@ $(function(){
                                                 + resData.group 
                                                 + " (" 
                                                 + resData.genre 
-                                                + ")/ " 
+                                                + ") / " 
                                                 + resData.city
                                                 + "</div>"
                                               + "</div>"
@@ -85,9 +87,23 @@ $(function(){
                                           + resData.bidders[i].userImg 
                                           + "'>" 
                                         + "</div>"); 
-                $('div#user-' + i).append("<div class='participant-user__name'>" 
+                $('div#user-' + i).append("<div class='participant-content'>"); 
+                $('div#user-' + i + ' .participant-content').append("<a href='profile.html?id=" + resData.bidders[i].userId + "'><div class='participant-user__name'>" 
                                           + resData.bidders[i].userName.split(' ')[0] + ' id' + resData.bidders[i].userId
-                                        + "</div>"); 
+                                        + "</div></a>"); 
+                
+                $('div#user-' + i + ' .participant-content').append("<div class='participant-portfolio'></div>");
+                $('div#user-' + i).append("</div>"); 
+                
+                getPhotos(i, resData.bidders[i].userId);
+                
+//                $.ajax({
+//                    type: 'GET',
+//                    url: currentSite + '/user/portfolio/' + resData.bidders[i].userId,
+//                    success: function(resData2) { 
+//                        $('div#user-' + i + ' div.participant-portfolio').append("<div class='portfolio-photo'><img src='" + + "'></div>");        
+//                    } 
+//                });
             }
                 
         },
@@ -247,5 +263,16 @@ $(function(){
 });
 
 
-
+function getPhotos (i, id) {
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/user/portfolio/' + id,
+        success: function(resData) {
+            for (var j = 0; j < resData.length; j++) {
+                if (j == 8) break;
+                $('div#user-' + i + ' div.participant-portfolio').append("<div class='portfolio-photo'><img src='" + currentSite + "/file/getimg/250?img=" + resData[j] + "'></div>");
+            } 
+        }
+    });
+}
 

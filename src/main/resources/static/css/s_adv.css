@@ -3,6 +3,11 @@ body {
     font-family: 'B20 Sans', sans-serif;
 }
 
+a:visited {
+    text-decoration: none;    
+}
+
+
 .pic {
     padding: 0;
 }
