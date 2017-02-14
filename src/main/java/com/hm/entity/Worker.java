@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,7 +25,7 @@ public class Worker extends User {
 
 	private double minPrice; //on link "starts from 200 UAH"
 	private ArrayList<String> productIDs;
-
+	private Set<String> genres;
 
 	public Worker(User user) {
 		user.cloneTo(this);
@@ -31,6 +33,7 @@ public class Worker extends User {
 		user.setEntityClassName("Worker");
 		this.isPro = false;
 		productIDs = new ArrayList<>();
+		this.genres = new HashSet<>();
 	}
 
 	public void addProduct(Product product) {
@@ -43,6 +46,7 @@ public class Worker extends User {
 		}
 		this.productIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
+		this.genres.add(product.getGenreName());
 	}
 
 	public List<Product> listProducts () {

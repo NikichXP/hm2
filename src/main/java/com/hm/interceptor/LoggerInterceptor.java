@@ -11,13 +11,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoggerInterceptor implements HandlerInterceptor {
 
-	private static UserActionRepository repo;
+	private UserActionRepository repo;
+
+	public LoggerInterceptor() {
+		new Thread(() -> {
+			try {
+				while (AppLoader.ctx == null) {
+					Thread.sleep(10);
+				}
+				repo = AppLoader.ctx.getBean(UserActionRepository.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-		if (repo == null) {
-			repo = AppLoader.ctx.getBean(UserActionRepository.class);
-		}
 		System.out.println(" -------------------------------- ");
 		System.out.println(request.getRequestURL());
 		repo.insert(
