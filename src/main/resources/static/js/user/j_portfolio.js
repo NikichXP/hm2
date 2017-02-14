@@ -70,7 +70,7 @@ $(function(){
             url: currentSite + '/user/portfolio/' + ID + '?genre=' + genre,
             success: function(resData) {  
 
-                for (var i = 1; i < resData.length; i++) {
+                for (var i = 0; i < resData.length; i++) {
                     arr[i] = { img: currentSite + "/file/get?file=" + resData[i], thumb: currentSite + "/file/getimg/64?img=" + resData[i] };
                 } 
 
