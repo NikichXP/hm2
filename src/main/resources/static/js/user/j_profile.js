@@ -1,11 +1,13 @@
+var currentSite = "https://hm2.herokuapp.com";
+    //var currentSite = "https://07962c19.eu.ngrok.io";
+
 $(function(){
     
     $('.main-navbar').load('assets/navbar.html');
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+    
     var curDate = new Date();
     
     var url = window.location;
@@ -40,6 +42,14 @@ $(function(){
             
             $('.profile-desc__text').html(resData.description); 
             
+            $('.container-portfolio').html(""); 
+            
+            for (var i = 0; i < resData.genres.length; i++) {
+                
+                getPhotos(resData.id, resData.genres[i]);  
+                    
+            }
+ 
         },
     });
     
@@ -120,7 +130,7 @@ $(function(){
 //                                                                            + resData[i][j].description
 //                                                                            + "</div>"); 
     
-
+ 
                 
     
     $('body').on('click', '.table-props tr.table-props__option td.td-price', function() {
@@ -155,6 +165,27 @@ $(function(){
     
 });
 
+
+
+function getPhotos (id, genre) {
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/user/portfolio/' + id + '?genre=' + genre,
+        success: function(resData2) { 
+            $('.container-portfolio').append("<a href='portfolio.html?id=" + id + "&genre=" + genre + "'>"
+                                                    + "<div class='col-lg-4 col-xs-4 portfolio'>" 
+                                                + "<img class='portfolio-album' src='" 
+                                                    + currentSite 
+                                                    + "/file/getimg/350?img=" 
+                                                    + resData2[0] 
+                                                    + "'>" 
+                                                + "<div class='container-portfolio__desc'>" 
+                                                    + genre + "<span>" + resData2.length + "</span>"
+                                                + "</div>" 
+                                            + "</div></a>");     
+        },
+    });
+}
 
 
 
