@@ -11,7 +11,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/admin/dev")
+@RequestMapping("/admin/dev")
 public class DevAdminAPI {
 
 	@Autowired

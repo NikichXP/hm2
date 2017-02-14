@@ -18,7 +18,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/admin/user")
+@RequestMapping("/admin/user")
 public class UserAdminAPI { //TODO add auth to all methods
 
 	@Autowired
