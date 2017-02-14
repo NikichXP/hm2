@@ -27,7 +27,7 @@ import static java.util.Arrays.stream;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/test")
+@RequestMapping(value = {"/api/test", "test"})
 public class TestAPI {
 
 	private static String[] piclib = new File(System.getProperty("user.dir") + "/src/main/resources/files/piclib").list();

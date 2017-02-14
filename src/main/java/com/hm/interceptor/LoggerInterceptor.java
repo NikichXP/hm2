@@ -28,8 +28,6 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-		System.out.println(" -------------------------------- ");
-		System.out.println(request.getRequestURL());
 		repo.insert(
 				new UserAction(
 						request.getRemoteAddr(),

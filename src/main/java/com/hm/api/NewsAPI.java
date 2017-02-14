@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 public class NewsAPI {
 
 	@Autowired

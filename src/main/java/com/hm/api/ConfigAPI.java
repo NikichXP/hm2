@@ -20,7 +20,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/config")
+@RequestMapping("/api/config")
 public class ConfigAPI {
 
 	private static String[] cityCache;

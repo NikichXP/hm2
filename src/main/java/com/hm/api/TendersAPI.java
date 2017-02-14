@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@RequestMapping("/tenders")
+@RequestMapping("/api/tenders")
 @CrossOrigin
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)

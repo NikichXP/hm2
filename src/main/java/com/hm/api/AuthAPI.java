@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthAPI {
 
 	@Autowired

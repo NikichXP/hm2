@@ -27,7 +27,7 @@ import static java.util.Arrays.stream;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductAPI {
 
 	@Autowired

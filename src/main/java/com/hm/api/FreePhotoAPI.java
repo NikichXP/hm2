@@ -15,7 +15,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/freephoto")
+@RequestMapping("/api/freephoto")
 public class FreePhotoAPI {
 
 	@Autowired

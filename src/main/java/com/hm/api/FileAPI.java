@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 public class FileAPI {
 
 	@Autowired
