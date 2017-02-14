@@ -32,7 +32,7 @@ a:visited {
 input {
     margin-bottom: 10px;
 }
-
+ 
 h4 span {
     color: #90b651;
 }
@@ -229,6 +229,11 @@ td.td-price:hover {
     cursor: pointer;
 }
 
+.container-portfolio {
+    
+    margin-top: 10px;    
+}
+
 .portfolio {
     margin-bottom: 30px;
 }
@@ -262,6 +267,61 @@ td.td-price:hover {
     object-fit: cover;
 }
 
+.portfolio-album:hover {
+    cursor: pointer;
+}
+
+.portfolio-gallery {
+	height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    z-index: 23123;
+    display: none;
+}
+
+.portfolio-gallery__close { 
+    text-transform: uppercase;
+    font: 1.5em PT Sans Narrow, sans-serif;
+    font-weight: bold;
+    color: #585963;
+    margin: 20px auto; 
+    width: 100px;
+    text-align: center;
+}
+
+.portfolio-gallery__close:hover { 
+    color: #90b651;
+    cursor: pointer;
+}
+
+.user-link {
+    padding-left: 15px;
+    color: #90b651;
+    font-size: 21px;
+    font-family: B20 Sans, sans-serif;
+    font-weight: 700;
+}
+
+.user-link a{
+    color: #90b651;
+    font-size: 21px;
+    font-family: B20 Sans, sans-serif;
+    font-weight: 700;
+}
+
+.user-link a:hover {
+    text-decoration: none;
+}
+
+.user-link a:visited {
+    color: #90b651;
+}
+
+.user-link span {
+    color: #74767f;
+}
 
 @media (min-width: 1920px) {
 
