@@ -1,9 +1,5 @@
 $(function(){
-    
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
-    
-        
+   
     $.ajax({
         type: 'GET',
         url: currentSite + '/product/categories',
