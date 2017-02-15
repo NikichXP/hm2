@@ -64,63 +64,7 @@ a:hover {
 }
 
 .part-search {
-    background-color: #e5e7eb;  
-/*    display: none;*/
-}
-
-.part-search__item {
-	text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#search-open {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 20px;
-    background-color: #e5e7eb;
-    text-align: center;
-}
-
-#search-open:hover {
-    cursor: pointer;
-}
-
-.dropdown-menu__calendar {
-    width: 300px;
-}
-
-.calendar {
-    display: none;
-}
-
-.dropdown {
-/*    float: left;*/
-}
- 
-.dropdown-menu {
-    z-index: 2000;
-    left: 47px;
-    font-size: 18px;
-}
-
-.button-search {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 18px;  
-}
-
-.button-search__submit {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 18px;
-    background-color: #b0d350;
-    color: white;
-}
-
-.button-search__submit:hover {
-    background-color: #99c030;
-    color: white;
+    display: block;
 }
 
 
