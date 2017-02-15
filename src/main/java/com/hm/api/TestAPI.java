@@ -195,6 +195,7 @@ public class TestAPI {
 			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
 			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
 			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
+			product = productAPI.addPhoto("piclib/" + piclib[new Random().nextInt(piclib.length)], product.getId(), "").getBody();
 
 			products.add(product);
 			authapi.updateDescription(NameGen.genText(40), authToken.getSessionID());
