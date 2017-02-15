@@ -5,6 +5,7 @@ import com.hm.AppLoader;
 import com.hm.api.admin.DevAdminAPI;
 import com.hm.api.admin.UserAdminAPI;
 import com.hm.entity.*;
+import com.hm.interceptor.Auth;
 import com.hm.model.AuthController;
 import com.hm.repo.*;
 import com.mongodb.Block;
@@ -66,7 +67,8 @@ public class TestAPI {
 	@Autowired
 	private Gson gson;
 
-	@GetMapping("/getCookies")
+	@Auth("all")
+	@GetMapping("/ping")
 	public ResponseEntity getCookies(HttpServletRequest request) {
 		return ResponseEntity.ok(request.getCookies());
 	}
