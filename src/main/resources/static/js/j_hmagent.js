@@ -8,7 +8,15 @@ $(function(){
     var curDate = new Date();
     
     
-    
+//    $.ajax({
+//        type: 'GET',
+//        url: currentSite + '/test/getCookies',
+//        xhrFields: { withCredentials:true },
+//        success: function(resData) {
+//            console.log(resData);             
+//                
+//        },
+//    });
 
 });
 

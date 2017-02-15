@@ -13,7 +13,8 @@ a:visited {
 
 .search {
     padding: 0;
-}
+    background-color: #e5e7eb;
+} 
  
 #propositions {
     color: #fff;
@@ -63,63 +64,7 @@ a:hover {
 }
 
 .part-search {
-    background-color: #e5e7eb;  
-    display: none;
-}
-
-.part-search__item {
-	text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#search-open {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 20px;
-    background-color: #e5e7eb;
-    text-align: center;
-}
-
-#search-open:hover {
-    cursor: pointer;
-}
-
-.dropdown-menu__calendar {
-    width: 300px;
-}
-
-.calendar {
-    display: none;
-}
-
-.dropdown {
-/*    float: left;*/
-}
- 
-.dropdown-menu {
-    z-index: 2000;
-    left: 47px;
-    font-size: 18px;
-}
-
-.button-search {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 18px;  
-}
-
-.button-search__submit {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 18px;
-    background-color: #b0d350;
-    color: white;
-}
-
-.button-search__submit:hover {
-    background-color: #99c030;
-    color: white;
+    display: block;
 }
 
 
@@ -167,11 +112,12 @@ a:hover {
     color: #fff;
     font: 1.07143em PT Sans, sans-serif;
     font-weight: 700;
-    padding: 3px;
+    padding: 2px;
     border-radius: 2px;
-    margin-top: 10px;
     float: left;
     margin-left: 10px;
+    margin-top: 18px;
+    line-height: 14px;
 }
 
 .profile-container__city {
@@ -184,6 +130,7 @@ a:hover {
     margin-top: 17px;
     font-size: 18px;
     font-family: B20 Sans;
+    color: #90b651;
     float: right;
 }
 
