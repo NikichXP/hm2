@@ -1,5 +1,6 @@
 package com.hm.config;
 
+import com.hm.interceptor.AccessInterceptor;
 import com.hm.interceptor.LoggerInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

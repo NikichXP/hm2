@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
@@ -64,6 +65,11 @@ public class TestAPI {
 	private TendersAPI tendersAPI;
 	@Autowired
 	private Gson gson;
+
+	@GetMapping("/getCookies")
+	public ResponseEntity getCookies(HttpServletRequest request) {
+		return ResponseEntity.ok(request.getCookies());
+	}
 
 	@RequestMapping("/rebuild/db")
 	public ResponseEntity rebuildDB() {
