@@ -13,7 +13,8 @@ a:visited {
 
 .search {
     padding: 0;
-}
+    background-color: #e5e7eb;
+} 
  
 #propositions {
     color: #fff;
@@ -64,7 +65,7 @@ a:hover {
 
 .part-search {
     background-color: #e5e7eb;  
-    display: none;
+/*    display: none;*/
 }
 
 .part-search__item {
@@ -167,11 +168,12 @@ a:hover {
     color: #fff;
     font: 1.07143em PT Sans, sans-serif;
     font-weight: 700;
-    padding: 3px;
+    padding: 2px;
     border-radius: 2px;
-    margin-top: 10px;
     float: left;
     margin-left: 10px;
+    margin-top: 18px;
+    line-height: 14px;
 }
 
 .profile-container__city {
@@ -184,6 +186,7 @@ a:hover {
     margin-top: 17px;
     font-size: 18px;
     font-family: B20 Sans;
+    color: #90b651;
     float: right;
 }
 
