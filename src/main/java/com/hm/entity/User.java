@@ -17,12 +17,15 @@ public class User {
 	String id;
 	String mail;
 	private String pass; //this is encrypted
+	String phone;
 	String userImg;
 	String entityClassName;
 	String name;
 	String regDate;
 	String description;
+	boolean isPro;
 	String city;
+	boolean isBanned;
 
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
@@ -32,6 +35,7 @@ public class User {
 		}
 		this.pass = pass;
 		this.mail = mail;
+		this.isBanned = false;
 		this.description = "";
 	}
 

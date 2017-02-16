@@ -20,7 +20,6 @@ import java.util.Set;
 public class Worker extends User {
 
 	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
-	private boolean isPro;
 	private String profession;
 
 	private double minPrice; //on link "starts from 200 UAH"
