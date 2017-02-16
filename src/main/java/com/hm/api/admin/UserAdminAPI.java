@@ -38,6 +38,12 @@ public class UserAdminAPI { //TODO add auth to all methods
 		return ResponseEntity.ok(workerRepo.findOne(id));
 	}
 
+	@GetMapping("/loginasother")
+	public ResponseEntity loginasother(@RequestParam("token") String token, @RequestParam("target") String target) {
+		User user = userRepo.findOne(target);
+		return ResponseEntity.ok(authController.auth(user.getMail(), user.getPass()));
+	}
+
 	@GetMapping("/users")
 	public ResponseEntity users(@RequestParam(value = "args", required = false) String[] args) {
 		List<User> ret = new ArrayList<>();
