@@ -56,13 +56,13 @@ public class ProductAPI {
 	 * @param offset - objects to skip
 	 */
 	@RequestMapping("/offer")
-	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
-	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
-	                                   @RequestParam(value = "genre", required = false) String genre,
-	                                   @RequestParam(value = "group", required = false) String group,
-	                                   @RequestParam(value = "limit", required = false) Integer limit,
-	                                   @RequestParam(value = "date", required = false) String date,
-	                                   @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
+	public ResponseEntity listProductsWithOffer (@RequestParam(value = "city", required = false) String city,
+	                                            @RequestParam(value = "shuffle", required = false) Boolean shuffle,
+	                                            @RequestParam(value = "genre", required = false) String genre,
+	                                            @RequestParam(value = "group", required = false) String group,
+	                                            @RequestParam(value = "limit", required = false) Integer limit,
+	                                            @RequestParam(value = "date", required = false) String date,
+	                                            @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
 		if (date == null) {
@@ -115,7 +115,7 @@ public class ProductAPI {
 
 		List<Object> ret = new ArrayList<>();
 		List<Product> data = new ArrayList<>();
-		stream.forEach(data::add); //cause somehow it's throwing exception here
+		stream.forEach(x -> data.add(x)); //cause somehow it's throwing exception here
 
 		ret.add(data.size());
 		if (limit == null) {
