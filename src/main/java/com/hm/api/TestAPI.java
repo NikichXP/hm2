@@ -68,6 +68,8 @@ public class TestAPI {
 	private TendersAPI tendersAPI;
 	@Autowired
 	private Gson gson;
+	@Autowired
+	private CRMAdminAPI crmAdmin;
 
 	@Auth("all")
 	@GetMapping("/ping")
@@ -140,6 +142,7 @@ public class TestAPI {
 					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
 					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
 			Tender t = resp.getBody();
+			crmAdmin.validateTender(t.getId(), true);
 			workers.stream()
 					.filter(x -> (i < 5) || Math.random() > 0.9)
 					.forEach(w -> {
@@ -209,10 +212,12 @@ public class TestAPI {
 			product.setDiscount(disc / 100);
 			product.setExpirationDate(LocalDate.of(2017, 2, (int) (Math.random() * 28 + 1)));
 			product.setCondition(Arrays.toString(NameGen.genNames(5)).substring(1).replace(']', '.'));
+			product.setOfferValid(true);
 		});
 
 		products.parallelStream().forEach(prod -> {
 			prod.setDescription(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '!'));
+			prod.setValidated(true);
 			prodRepo.save(prod);
 		});
 		return products;
@@ -262,7 +267,9 @@ public class TestAPI {
 						p.setDiscount(disc / 100);
 						p.setExpirationDate(LocalDate.of(2017, 3, (int) (Math.random() * 30 + 1)));
 						p.setCondition(Arrays.toString(NameGen.genNames(50)).toLowerCase().substring(1).replace(']', '!'));
+						p.setOfferValid(true);
 					}
+					p.setValidated(true);
 					prodRepo.save(p);
 				}
 			}

@@ -33,7 +33,6 @@ public class Product {
 	private String groupName;
 
 	private boolean isValidated;
-	private boolean isActive;
 	private int price;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 

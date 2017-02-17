@@ -38,6 +38,8 @@ public class ProductAPI {
 	private AuthController authController;
 	@Autowired
 	private WorkerRepository workerRepo;
+	@Autowired
+	private ConfigAPI configAPI;
 
 	@GetMapping("/{id}")
 	public Product getProduct (@PathVariable("id") String id) {
@@ -79,6 +81,8 @@ public class ProductAPI {
 		} else if (genre != null) {
 			args.put("genreName", genre);
 		}
+
+		args.put("isOfferValid", true);
 
 		Method method = stream(prodRepo.getClass().getDeclaredMethods())
 				.filter(meth -> meth.getName().equals("listCustom" + args.size() + "ArgQuery"))
@@ -169,6 +173,7 @@ public class ProductAPI {
 	                                             @RequestParam(value = "img", required = false) String img) {
 		val worker = authController.getLoggedToken(cookie, Worker.class);
 		val product = new Product(title, gh.getGenre(genre), price, worker, city, img);
+		product.setId(ConfigAPI.getNextProdId() + "");
 		if (img != null) {
 			product.setImage(img);
 		}

@@ -25,21 +25,31 @@ public class ConfigAPI {
 
 	private static String[] cityCache;
 	private static Integer nextUserId;
+	private static Integer nextTenderId;
+	private static Integer nextProductId;
 
 	static {
-		updateNextUserId();
+		updateNexts();
 	}
 
 	@Autowired
 	Gson gson;
 
-	public static void updateNextUserId() {
-		Object val = db().getCollection("config")
+	public static void updateNexts() {
+		Object userVal = db().getCollection("config")
 				.find(Document.parse("{'key' : 'nextUserId'}")).first().get("value");
-		if (val instanceof Integer) {
-			nextUserId = (Integer) val;
-		} else if (val instanceof Double) {
-			nextUserId = Math.toIntExact(Math.round((Double) val));
+		Object tendVal = db().getCollection("config")
+				.find(Document.parse("{'key' : 'nextTenderId'}")).first().get("value");
+		Object prodVal = db().getCollection("config")
+				.find(Document.parse("{'key' : 'nextProductId'}")).first().get("value");
+		if (userVal instanceof Integer) {
+			nextUserId = (Integer) userVal;
+			nextTenderId = (Integer) tendVal;
+			nextProductId = (Integer) prodVal;
+		} else if (userVal instanceof Double) {
+			nextUserId = Math.toIntExact(Math.round((Double) userVal));
+			nextTenderId = Math.toIntExact(Math.round((Double) tendVal));
+			nextProductId = Math.toIntExact(Math.round((Double) prodVal));
 		} else {
 			throw new UnsupportedClassVersionError("Expected double or int");
 		}
@@ -81,13 +91,35 @@ public class ConfigAPI {
 					Document.parse("{$inc : {'value' : 1}}"));
 		}).start();
 		return nextUserId++;
- 	}
+	}
+
+	@GetMapping("/getNextProdId")
+	public static synchronized int getNextProdId() {
+		new Thread(() -> {
+			db().getCollection("config").updateOne(Document.parse("{'key' : 'nextProductId'}"),
+					Document.parse("{$inc : {'value' : 1}}"));
+		}).start();
+		return nextProductId++;
+	}
+
+	@GetMapping("/getNextTenderId")
+	public static synchronized int getNextTenderId() {
+		new Thread(() -> {
+			db().getCollection("config").updateOne(Document.parse("{'key' : 'nextTenderId'}"),
+					Document.parse("{$inc : {'value' : 1}}"));
+		}).start();
+		return nextTenderId++;
+	}
 
 	public String[] defaults() { //TODO Delete this!
 		cityCache = null; //will be un-nulled in listCities
 		db().getCollection("config").drop();
 		nextUserId = 0;
+		nextTenderId = 0;
+		nextProductId = 0;
 		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextUserId', 'value': 0}"));
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextTenderId', 'value': 0}"));
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextProductId', 'value': 0}"));
 		db().getCollection("config").insertOne(Document.parse("{'key':'cities', 'value':['Киев', 'Одесса', 'Львов']}"));
 		return listCities();
 	}

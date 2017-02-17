@@ -86,6 +86,7 @@ public class TendersAPI {
 		}
 
 		Tender product = new Tender();
+		product.setId(ConfigAPI.getNextTenderId() + "");
 		if (text != null) {
 			product.setDescription(text);
 		}

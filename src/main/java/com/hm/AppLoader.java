@@ -18,7 +18,7 @@ public class AppLoader {
 
 	public static void main(String[] args) {
 		while (ctx == null) {}
-		ConfigAPI.updateNextUserId();
+		ConfigAPI.updateNexts();
 		System.out.println("Seems like all running normal");
 	}
 

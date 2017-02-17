@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public interface ProductRepository extends MongoRepository <Product, String> {
 
-	@Query("{ 'city' : ?0, 'groupName' : ?1 }")
+	@Query("{ 'city' : ?0, 'groupName' : ?1, 'isValidated' : true }")
 	public List<Product> listProductsInCity (String city, String group);
 
 	@Query("{ 'workerId' : ?0 }")
@@ -29,8 +29,15 @@ public interface ProductRepository extends MongoRepository <Product, String> {
 
 	@Query("{?0 : ?1, ?2 : ?3, ?4 : ?5, ?6 : ?7}")
 	public Stream<Product> listCustom4ArgQuery(String key0, Object value0,
-	                                         String key1, Object value1,
-	                                         String key2, Object value2,
-	                                         String key3, Object value3);
+	                                           String key1, Object value1,
+	                                           String key2, Object value2,
+	                                           String key3, Object value3);
+
+	@Query("{?0 : ?1, ?2 : ?3, ?4 : ?5, ?6 : ?7, ?8 : ?9}")
+	public Stream<Product> listCustom5ArgQuery(String key0, Object value0,
+	                                           String key1, Object value1,
+	                                           String key2, Object value2,
+	                                           String key4, Object value4,
+	                                           String key3, Object value3);
 
 }
