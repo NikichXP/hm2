@@ -5,6 +5,7 @@ import com.hm.entity.Tender;
 import com.hm.interceptor.Auth;
 import com.hm.interceptor.LogAction;
 import com.hm.repo.GenresHolder;
+import com.hm.repo.OrderRepository;
 import com.hm.repo.ProductRepository;
 import com.hm.repo.TenderRepository;
 import org.bson.Document;
@@ -22,11 +23,13 @@ import static com.hm.manualdb.ConnectionHandler.db;
 public class CRMAdminAPI {
 
 	@Autowired
-	GenresHolder gh;
+	private	GenresHolder gh;
 	@Autowired
-	ProductRepository prodRepo;
+	private	ProductRepository prodRepo;
 	@Autowired
-	TenderRepository tenderRepo;
+	private	TenderRepository tenderRepo;
+	@Autowired
+	private	OrderRepository orderRepo;
 
 	@GetMapping("/products")
 	public ResponseEntity products() {
@@ -46,8 +49,20 @@ public class CRMAdminAPI {
 			db().getCollection("config").updateOne(Document.parse("{'key':'freePhotoAuthors'}"),
 					Document.parse("{$push : {'value' : '" + userid + "'}}"));
 		}
-
 		return ResponseEntity.ok(db().getCollection("config").find(Document.parse("{'key':'freePhotoAuthors'}")).first().toJson());
+	}
+
+	@GetMapping("/orders")
+	public ResponseEntity orders() {
+		return ResponseEntity.ok(orderRepo.findAll());
+	}
+
+	@GetMapping("/comment/tender")
+	public ResponseEntity commentTender(@RequestParam("id") String id, @RequestParam("comment") String comment) {
+		Tender t = tenderRepo.findOne(id);
+		t.setComment(comment);
+		tenderRepo.save(t);
+		return ResponseEntity.ok(t);
 	}
 
 	@GetMapping("/validate/product")

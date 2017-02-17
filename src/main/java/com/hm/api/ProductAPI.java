@@ -1,14 +1,9 @@
 package com.hm.api;
 
 import com.hm.AppLoader;
-import com.hm.entity.LinkedPage;
-import com.hm.entity.Product;
-import com.hm.entity.Worker;
+import com.hm.entity.*;
 import com.hm.model.AuthController;
-import com.hm.repo.GenresHolder;
-import com.hm.repo.PagesRepository;
-import com.hm.repo.ProductRepository;
-import com.hm.repo.WorkerRepository;
+import com.hm.repo.*;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +33,8 @@ public class ProductAPI {
 	private AuthController authController;
 	@Autowired
 	private WorkerRepository workerRepo;
+	@Autowired
+	private OrderRepository orderRepo;
 	@Autowired
 	private ConfigAPI configAPI;
 
@@ -163,6 +160,22 @@ public class ProductAPI {
 	@RequestMapping("/list/{group}/{city}")
 	public ResponseEntity listInCity(@PathVariable("city") @NotNull String cityName, @PathVariable("group") String group) {
 		return ResponseEntity.ok(prodRepo.listProductsInCity(cityName, group));
+	}
+
+	@GetMapping("/buy/{productId}")
+	public ResponseEntity buy(@PathVariable("productId") String productid, @RequestParam("token") String token,
+	                          @RequestParam(value = "hours", required = false) Integer hours) {
+		Product product = prodRepo.findOne(productid);
+		User user = authController.getUser(token);
+		if (product == null || user == null) {
+			return ResponseEntity.status(403).body("Wrong data input");
+		}
+		if (hours == null) {
+			hours = 1;
+		}
+		Order order = new Order(user, product, hours);
+		orderRepo.save(order);
+		return ResponseEntity.ok(null);
 	}
 
 

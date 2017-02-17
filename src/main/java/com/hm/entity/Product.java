@@ -36,6 +36,8 @@ public class Product {
 	private int price;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
 
+	private String comment;
+
 	//offer section
 	private boolean offeredPrice;
 	private double discount;
