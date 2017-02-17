@@ -1,6 +1,7 @@
 package com.hm.api.admin;
 
 import com.hm.entity.User;
+import com.hm.interceptor.Auth;
 import com.hm.model.AuthController;
 import com.hm.repo.ClientRepository;
 import com.hm.repo.ModeratorRepository;
@@ -19,6 +20,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/admin/user")
+@Auth("admin")
 public class UserAdminAPI { //TODO add auth to all methods
 
 	@Autowired
