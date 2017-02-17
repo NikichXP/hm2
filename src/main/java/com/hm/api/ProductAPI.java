@@ -174,8 +174,8 @@ public class ProductAPI {
 	                                  @RequestParam("pageid") String pageid) {
 		Product prod = prodRepo.findOne(prodid);
 		LinkedPage page = AppLoader.ctx.getBean(PagesRepository.class).findOne(pageid);
-		if (prod == null || page == null) {
-			return ResponseEntity.status(403).body("Wrong ID's");
+		if (prod == null) {
+			return ResponseEntity.status(403).body("Wrong ID");
 		}
 		prod.setLinkedPageId(page.getId());
 		prodRepo.save(prod);
