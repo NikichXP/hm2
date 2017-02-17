@@ -34,6 +34,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 		Method method = ((HandlerMethod) handler).getMethod();
 		Auth auth = (method.getAnnotation(Auth.class) != null) ? method.getAnnotation(Auth.class) :
 				method.getDeclaringClass().getAnnotation(Auth.class);
+
 		if (auth == null) {
 			return true;
 		}
@@ -42,10 +43,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 		try {
 			user = getUser(request);
 		} catch (Exception e) {
-			return false;
+			return true; //TODO false
 		}
 		if (user == null) {
-			return false;
+			return true; //TODO false
 		}
 
 		switch (auth.value()) {
