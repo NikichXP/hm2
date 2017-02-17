@@ -17,7 +17,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @RequestMapping("/api/admin/crm")
 @Auth("admin")
 @LogAction("devadmin")
-public class DevAdminAPI {
+public class CRMAdminAPI {
 
 	@Autowired
 	GenresHolder gh;

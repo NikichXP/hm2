@@ -1,5 +1,7 @@
 package com.hm.api.admin;
 
+import com.hm.AppLoader;
+import com.hm.api.AuthAPI;
 import com.hm.entity.User;
 import com.hm.interceptor.Auth;
 import com.hm.interceptor.LogAction;
@@ -35,6 +37,13 @@ public class UserAdminAPI { //TODO add auth to all methods
 	private WorkerRepository workerRepo;
 	@Autowired
 	private AuthController authController;
+
+	@GetMapping("/updateUser")
+	public ResponseEntity updateUser(@RequestParam("userid") String userid, @RequestParam("data") String[] data) {
+		User user = userRepo.findOne(userid);
+		AppLoader.ctx.getBean(AuthAPI.class).updateUserInfo(user, data);
+		return ResponseEntity.ok(user);
+	}
 
 	@GetMapping("/worker/promote")
 	@LogAction("userpromote")

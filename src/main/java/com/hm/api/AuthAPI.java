@@ -74,9 +74,7 @@ public class AuthAPI {
 		return u;
 	}
 
-	@GetMapping("/updateInfo")
-	public ResponseEntity updateInfo(@RequestParam("token") String token, @RequestParam("data") String[] data) {
-		User user = userRepo.findOne(authController.get(token).getUser().getId());
+	public void updateUserInfo (User user, String[] data) {
 		for (String datapair : data) {
 			String[] pair = datapair.split("=");
 			switch(pair[0].toLowerCase()) {
@@ -113,6 +111,21 @@ public class AuthAPI {
 				break;
 			default:
 				throw new IllegalArgumentException("This arg is impossible: " + user.getEntityClassName()); //WHAT?
+		}
+	}
+
+	@GetMapping("/updateInfo")
+	public ResponseEntity updateInfo(@RequestParam("token") String token, @RequestParam("data") String[] data) {
+		User user = userRepo.findOne(authController.get(token).getUser().getId());
+		if (user == null) {
+			return ResponseEntity.status(403).body("Wrong data");
+		}
+		try {
+			updateUserInfo(user, data);
+		} catch (IllegalArgumentException e1) {
+			return ResponseEntity.status(401).body("Wrong argument");
+		} catch (Exception e) {
+			return ResponseEntity.status(401).body("Error parsing data");
 		}
 		return ResponseEntity.ok(user);
 	}
