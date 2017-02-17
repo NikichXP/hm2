@@ -14,7 +14,7 @@ import java.io.IOException;
 @RestController //just for mainpage
 public class AppLoader {
 
-	public static final ApplicationContext ctx = SpringApplication.run(AppLoader.class, new String[] {});
+	public static final ApplicationContext ctx = SpringApplication.run(AppLoader.class);
 
 	public static void main(String[] args) {
 		while (ctx == null) {}
