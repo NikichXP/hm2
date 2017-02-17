@@ -66,6 +66,14 @@ public class CRMAdminAPI {
 		return ResponseEntity.ok(t);
 	}
 
+	@GetMapping("/activate/tender")
+	public ResponseEntity activateTender(@RequestParam("tenderid") String tenderid, @RequestParam("status") boolean status) {
+		Tender t = tenderRepo.findOne(tenderid);
+		t.setActive(status);
+		tenderRepo.save(t);
+		return ResponseEntity.ok(t);
+	}
+
 	@GetMapping("/validate/offer")
 	public ResponseEntity validateOffer(@RequestParam("prodid") String prodid, @RequestParam("status") boolean status) {
 		Product p = prodRepo.findOne(prodid);

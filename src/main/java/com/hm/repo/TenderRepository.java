@@ -9,4 +9,5 @@ import java.util.List;
 public interface TenderRepository extends MongoRepository<Tender, String> {
 
 	List<Tender> findByDeadlineAfter(LocalDate date);
+
 }

@@ -137,12 +137,26 @@ public class TestAPI {
 
 		//TENDERS HERE
 
+		generateTenders(clientsTokens, workers);
+
+
+		//TESTING PHOTOGRAPHERS HERE
+
+		generatePhotographers(genr);
+
+		moarGenres();
+
+		return getAll();
+	}
+
+	private void generateTenders(List<AuthToken> clientsTokens, ArrayList<Worker> workers) {
 		IntStream.range(0, 40).parallel().forEach(i -> {
 			ResponseEntity<Tender> resp = tendersAPI.createTender(new String[]{"genre=Фотосессия", "title=test" + i, "city=" + configAPI.listCities()[(int) (Math.random() * 3)],
 					"deadline=2017-02-" + (i % 18 + 10), "price=" + (500 + new Random().nextInt(1000)),
 					"workingHours=" + new Random().nextInt(12), "token=" + clientsTokens.get(i).getSessionID()}, "TEST ZAKAZ");
 			Tender t = resp.getBody();
 			crmAdmin.validateTender(t.getId(), true);
+			crmAdmin.activateTender(t.getId(), true);
 			workers.stream()
 					.filter(x -> (i < 5) || Math.random() > 0.9)
 					.forEach(w -> {
@@ -154,15 +168,6 @@ public class TestAPI {
 					});
 
 		});
-
-
-		//TESTING PHOTOGRAPHERS HERE
-
-		generatePhotographers(genr);
-
-		moarGenres();
-
-		return getAll();
 	}
 
 	private void moarGenres() {
