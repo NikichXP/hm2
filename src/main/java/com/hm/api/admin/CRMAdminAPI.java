@@ -65,6 +65,14 @@ public class CRMAdminAPI {
 		return ResponseEntity.ok(t);
 	}
 
+	@GetMapping("/comment/tender")
+	public ResponseEntity commentProduct(@RequestParam("id") String id, @RequestParam("comment") String comment) {
+		Product t = prodRepo.findOne(id);
+		t.setComment(comment);
+		prodRepo.save(t);
+		return ResponseEntity.ok(t);
+	}
+
 	@GetMapping("/validate/product")
 	public ResponseEntity validateProduct(@RequestParam("prodid") String prodid, @RequestParam("status") boolean status) {
 		Product p = prodRepo.findOne(prodid);
