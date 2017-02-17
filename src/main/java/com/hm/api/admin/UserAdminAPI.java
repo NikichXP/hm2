@@ -45,6 +45,13 @@ public class UserAdminAPI { //TODO add auth to all methods
 		return ResponseEntity.ok(user);
 	}
 
+	@GetMapping("/setComment")
+	public ResponseEntity setComment(@RequestParam("userid") String userid, @RequestParam("comment") String comment) {
+		User user = userRepo.findOne(userid);
+		user.setComment(comment);
+		userRepo.save(user);
+		return ResponseEntity.ok("OK");
+	}
 	@GetMapping("/worker/promote")
 	@LogAction("userpromote")
 	public ResponseEntity workerPromoteToPro(@RequestParam("id") String id, @RequestParam("token") String token) {

@@ -26,6 +26,7 @@ public class User {
 	boolean isPro;
 	String city;
 	boolean isBanned;
+	String comment;
 
 	public User (String mail, String pass) {
 		if (mail.equals("admin@corp.com")) {
