@@ -1,0 +1,281 @@
+body {
+/*    padding-top: 70px;  Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    font-family: 'B20 Sans', sans-serif;
+}
+
+a:visited {
+    text-decoration: none;    
+}
+
+
+.container-offer__content {
+    position: relative;
+    width: 720px;
+    float: left;
+}
+
+.offer-pic {
+    height: 480px;
+    width: 720px;
+    object-fit: cover;
+}
+
+.offer-disc__bg {
+    background-image: url('../img/discount.png');
+    width: 140px;
+    height: 139px;
+    position: absolute;
+    top: -1px;
+    left: 50px;
+}
+
+.offer-disc__price {
+    position: absolute;
+    top: 30px;
+    left: 75px;
+    color: #fff;
+    font: 3.42857em PT Sans Narrow, sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+.offer-desc {
+    margin-top: 50px;
+    font-size: 15px;
+
+}
+
+.offer-desc h3 {
+    color: #90b651;
+    font: 2em PT Sans, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #90b651;
+    width: 300px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.container-offer__user {
+    float: right;
+}
+
+.offer-user {
+    background-color: #e5e7eb;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.offer-user__order {
+    text-align: center;
+    color: #90b651;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+    display: inline-block;
+    padding: 10px;
+    margin-top: 23px;
+    margin-right: 20px;
+    float: right;
+}
+
+.offer-user__info {
+    display: inline-block;
+    padding: 10px;
+}
+
+.offer-user__info img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    border: 3px solid white;
+    border-radius: 35px;
+}
+
+.offer-info {
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.offer-info div{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.offer-info__price span{
+    color: #fb5353;
+    font: 3em B20 Sans, sans-serif;
+    padding-left: 10px;       
+}
+
+.offer-info__old span{
+    font: 1.14286em PT Sans, sans-serif;
+    text-decoration: line-through;
+    padding-left: 10px; 
+}
+
+.offer-info__date span {
+    color: #272a33;
+    font: 1.14286em PT Sans, sans-serif;
+    font-weight: bold;
+}
+
+.offer-similar {
+    margin-top: 50px;
+}
+
+.offer-similar__header {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.offers-container__offer {
+    margin-bottom: 30px;
+    padding: 0px;
+    position: relative;
+}
+
+.offers-container__offer img {
+    width: 100%;
+    height: 320px;
+}
+
+.offer-image {
+    height: 180px;
+}
+
+.prob-block-user {
+	width: 150px;
+    float: left;
+/*    height: 88px;*/
+    padding-top: 5px;
+    padding-left: 0px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+img.user-pic__img {
+    max-height: 50px; 
+    max-width: 50px; 
+    border-radius: 25px;
+    object-fit: cover;
+/*    clip: rect(0px, 83px, 83px, 0px);*/
+}
+
+.user-name {
+    display: block;
+    padding-left: 0;
+    color: #717171;
+}
+
+.prob-block-desc {
+    position: absolute;
+    text-align: left;
+/*    background-color: #272a33;*/
+    color: #fff;
+/*    opacity: 0.7;*/
+    top: 120px;
+    width: 100%;
+    height: 60px;
+    padding-left: 20px;
+}
+
+.prob-block-price {
+    height: 88px;
+    padding-left: 20px;
+/*    width: 50%;*/
+/*    float: left;*/
+    padding-top: 5px;
+}
+
+.prop-block {
+    border:  none;
+/*    padding: 0;*/
+}
+
+.prob-block-bg {
+    position: absolute;
+    text-align: left;
+    background-color: #272a33;
+    opacity: 0.7;
+    top: 120px;
+    width: 100%;
+    height: 60px;
+}
+
+.price-new {
+    color: #fb5353;
+/*    width: 130px;*/
+    font-size: 2.14286em;
+    float: left;
+    text-align: left;
+}
+
+.price-old {
+    font-size: 1.07143em;
+/*    width: 65px;*/
+    text-decoration: line-through;
+    float: right;
+    text-align: right;
+    padding-top: 15px;
+    margin-left: 5px;
+    color: #717171;
+}
+
+.price-to {
+    font-size: 1em;
+    float: right;
+    text-align: right;
+/*    padding-right: 25px;*/
+}
+
+.prob-block-dis {
+    position: absolute;
+    top: 15px;
+    left: 0px;
+    width: 86px;
+    padding: 4px 0 0 10px;
+    font: 1.92857em 'PT Sans Narrow', sans-serif;
+    font-weight: bold;
+    color: #fff;
+    background: url(../img/sprite-86px.png) 0 0 no-repeat;
+}
+
+
+@media (min-width: 1920px) {
+
+}
+
+
+@media (min-width: 1300px) {
+
+}
+
+
+@media (max-width: 1200px) {
+
+
+}
+
+@media (max-width: 992px) {
+     
+    
+}
+
+@media (max-width: 767px) {
+    
+  
+
+}
+
+@media (max-width: 450px) {
+  
+}
+
+@font-face {
+    font-family: B20 Sans;
+    src: url(http://webfonts.ru/import/b20sans.css), 
+}  
+
+

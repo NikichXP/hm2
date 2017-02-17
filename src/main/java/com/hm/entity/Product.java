@@ -39,6 +39,7 @@ public class Product {
 	//offer section
 	private boolean offeredPrice;
 	private double discount;
+	private String condition;
 	private int finalPrice;
 	private LocalDate expirationDate;
 	private String linkedPageId;
@@ -76,6 +77,10 @@ public class Product {
 		this.image = img;
 	}
 
+	/**
+	 * Does all alone, no additional methods required
+	 * @param discount
+	 */
 	public void setDiscount(double discount) {
 		if (discount == 0.0) {
 			offeredPrice = false;
@@ -94,7 +99,7 @@ public class Product {
 
 	public boolean addPhoto (String path) {
 		if (this.photos == null) {
-			photos = new ArrayList<>(); //TODO Check if it's cool
+			photos = new ArrayList<>();
 		}
 		return photos.add(path);
 	}

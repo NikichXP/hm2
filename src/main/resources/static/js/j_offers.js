@@ -4,17 +4,14 @@ $(function(){
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+
     var curDate = new Date();
     
     var url = window.location;
     url = decodeURIComponent(url);
     
-    var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
-    
-    offerPage = 0 + offerPage;
-    
+    var offerPage = parseInt(/page=(\d+)/.exec(url)[1]); //get number of the page from url
+        
     var pageOffset = 0;
     var itemsLimit = 10;
     
@@ -124,26 +121,37 @@ $(function(){
             $('.offers-container').html("");
             
             maxPages = Math.ceil(resData[0]/itemsLimit);
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'>Первая</li>");		
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'>Предыдущая</li>");
-                    
-            for (var i = 1; i < Math.ceil(resData[0]/itemsLimit) + 1; i++) { 
-                $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
-                                                + i
-                                             + "</li>");	    
-            }
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'><<</li>");		
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'><</li>");
             
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>Следующая</li>");
-            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>Последняя</li>");
+            var k = 0;
+            
+            for (var i = offerPage - 10; i < offerPage + 10; i++) {
+                if (i > 0 && i <= maxPages) {
+                    if (i == offerPage) 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num page-navigation__current'>" 
+                                        + i
+                                        + "</li>");	
+                    else 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
+                                        + i
+                                        + "</li>");	
+                    k++;
+                }
+            }
+        
+            
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>></li>");
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>>></li>");
             
             for (var i = 1; i < resData.length; i++)
             {          
                 var expDateArr = resData[i].expirationDateString.split('-');
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('.offers-container').append("<div class='col-md-6 col-sm-12 offers-container__offer'>" 
+                $('.offers-container').append("<a href='offer.html?id=" + resData[i].id + "'><div class='col-md-6 col-sm-12 offers-container__offer'>" 
                                             //+ "<img src='" + currentSite + "/file/get/" + resData[i].validImage + "' alt=''>" 
-                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/get?file=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
+                                            + "<div class='offer-image' style='background: url(" + currentSite + "/file/getimg/570?img=" + resData[i].image + ") 0px 0px no-repeat; background-size: cover; background-position: center;'></div>" 
                                             + "<div class='prob-block-bg'>"
                                             + "</div>"
                                             + "<div class='prob-block-desc'>"
@@ -152,16 +160,16 @@ $(function(){
                                             + "</div>"
                                             + "<a href='profile.html?id=" + resData[i].workerEntity.id + "'>"
                                             + "<div class='prob-block-user'>"
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].workerEntity.userImg + "'>"
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/90?img=" + resData[i].workerEntity.userImg + "'>"
                                                 + "<div class='user-name'>" + resData[i].workerEntity.name + "</div>"
-                                            + "</div>"
+                                            + "</div></a>"
                                             + "<div class='prob-block-price'> "
                                                 + "<div class='price-new'>" + resData[i].finalPrice + " грн</div>"
                                                 + "<div class='price-old'>" + resData[i].price + " грн</div>"
                                                 + "<div class='price-to'>" + Math.floor(daysLeft) + " дней</div>"
                                             + "</div>"
                                             + "<div class='prob-block-dis'>-" + resData[i].discount + "%</div>"
-                                        + "</div>");  	
+                                        + "</div></a>");  	
             };                
                 
         },
@@ -254,6 +262,11 @@ $(function(){
         
         window.location.replace(url);
         
+    });
+    
+    $('body').on('click', '#search-open', function() {	   
+              
+        $('.part-search').slideToggle();   
     });
     
     $('body').on('click', '#offer-search-cancel', function() {	   

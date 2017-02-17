@@ -1,0 +1,16 @@
+.table-users tr.tr-user td {
+	padding: 4px;
+}
+
+.td-desc {
+    word-break: break-all;    
+}
+
+td {
+    max-width: 100px;
+    font-size: 14px;
+}
+
+td:hover {
+    cursor: pointer;
+}

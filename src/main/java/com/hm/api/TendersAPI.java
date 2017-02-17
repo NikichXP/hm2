@@ -1,9 +1,13 @@
 package com.hm.api;
 
 import com.hm.AppLoader;
-import com.hm.entity.*;
+import com.hm.entity.Tender;
+import com.hm.entity.User;
+import com.hm.entity.Worker;
 import com.hm.model.AuthController;
-import com.hm.repo.*;
+import com.hm.repo.BidsRepository;
+import com.hm.repo.GenresHolder;
+import com.hm.repo.TenderRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
@@ -12,12 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@RequestMapping("/tenders")
-@RestController
+@RequestMapping("/api/tenders")
 @CrossOrigin
+@RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TendersAPI {
 
@@ -41,7 +48,7 @@ public class TendersAPI {
 	                              @RequestParam(value = "limit", defaultValue = Integer.MAX_VALUE + "") int limit) {
 		String[] tmp = price.split("-");
 
-		Stream<Tender> ret = biddableRepo.findAll().stream()
+		Stream<Tender> ret = biddableRepo.findByDeadlineAfter(LocalDate.now()).stream()
 				.filter(tender -> tender.getPrice() > Integer.parseInt(tmp[0]))
 				.filter(tender -> tender.getPrice() < Integer.parseInt(tmp[1]));
 
@@ -52,14 +59,22 @@ public class TendersAPI {
 			ret = ret.filter(tender -> tender.getGroup().equals(group));
 		}
 
-		ret = ret.skip(offset);
-		ret = ret.limit(limit);
+		List<Tender> data = new ArrayList<>();
 
-		return ResponseEntity.ok(ret.toArray());
+		ret.forEach(data::add);
+
+		List<Object> a = new ArrayList<>();
+		a.add(data.size());
+
+		data = data.stream().skip(offset).limit(limit).collect(Collectors.toList());
+
+		a.addAll(data);
+
+		return ResponseEntity.ok(a);
 	}
 
 	@RequestMapping(value = "/create/tender", method = RequestMethod.POST)
-	public ResponseEntity createTender(@RequestParam("args") String[] args, @RequestParam("text") String text) {
+	public ResponseEntity<Tender> createTender(@RequestParam("args") String[] args, @RequestParam("text") String text) {
 		val data = Arrays.stream(args);
 		User user = AppLoader.ctx.getBean(AuthController.class)
 				.getUser(data.filter(arg -> arg.startsWith("token"))
@@ -67,7 +82,7 @@ public class TendersAPI {
 						.findAny()
 						.orElse(null));
 		if (user == null) {
-			return ResponseEntity.status(403).body("Need authorize");
+			return ResponseEntity.status(403).body(null);
 		}
 
 		Tender product = new Tender();
@@ -119,14 +134,9 @@ public class TendersAPI {
 		if (worker == null || prod == null) {
 			return ResponseEntity.status(403).body("Need to validate input data: " + token);
 		}
-		val node = new Tender.Node();
-		node.setBid(price);
-		node.setUserId(worker.getId());
-		node.setUserName(worker.getName());
-		node.setUserImg(worker.getUserImg());
-		prod.getBidders().add(node);
+		prod.bid(worker, price);
 		biddableRepo.save(prod);
-		return ResponseEntity.ok(new Object[]{prod, node});
+		return ResponseEntity.ok(prod);
 	}
 
 }

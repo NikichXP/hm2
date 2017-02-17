@@ -1,9 +1,5 @@
 $(function(){
-    
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
-    
-        
+   
     $.ajax({
         type: 'GET',
         url: currentSite + '/product/categories',
@@ -12,30 +8,50 @@ $(function(){
             $('.categories-list').html("");
             $('.categories-list__mob').html('<option selected disabled>Услуги</option>');
             
+            var k = 0;
+            
+            for (var i = 0; i < resData.length; i++) 
+                for (var j = 0; j < resData[i].groups.length; j++) 
+                    k++; 
+            
+            k = k / 15;
+            $('.categories-list').css('column-count', Math.round(k+1));
+            
             for (var i = 0; i < resData.length; i++)
             {  
                 $('.categories-list').append("<li class='categories-list__item categories-list__cat'>"
                                              + resData[i].name
                                              + "</li>");  	
                 for (var j = 0; j < resData[i].groups.length; j++) {
-                                    $('.categories-list').append("<li class='categories-list__item categories-list__group'>"
-                                                + resData[i].groups[j].name 
-                                                + " <span>("
-                                                + resData[i].groups[j].executors 
-                                                + ")</span></li>");  	    
+    
+                    if (resData[i].groups[j].executors > 0) {
+                        $('.categories-list').append("<li class='categories-list__item categories-list__group'>" 
+                                + "<a href='services.html?page=1&group=" + resData[i].groups[j].name + "'>"
+                                + resData[i].groups[j].name 
+                                + " <span>("
+                                + resData[i].groups[j].executors 
+                                + ")</span></a></li>");      
+                    }
+                    else {
+                        $('.categories-list').append("<li class='categories-list__item categories-list__group categories-list__disabled'>"
+                                + resData[i].groups[j].name 
+                                + " <span>("
+                                + resData[i].groups[j].executors 
+                                + ")</span></li>");      
+                    }
                 }
                 
                 $('.categories-list__mob').append("<option disabled class='categories-list__mob-item categories-list__mob-cat'>"
                                              + resData[i].name
                                              + "</option>");  	
                 for (var j = 0; j < resData[i].groups.length; j++) {
-                                    $('.categories-list__mob').append("<option class='categories-list__mob-item __mob-group'>"
-                                                + resData[i].groups[j].name 
-                                                + " <span>("
-                                                + resData[i].groups[j].executors 
-                                                + ")</span></option>");  	    
-                }
-            
+                    
+                    $('.categories-list__mob').append("<option class='categories-list__mob-item categories-list__mob-group'>"
+                            + resData[i].groups[j].name 
+                            + " <span>("
+                            + resData[i].groups[j].executors 
+                            + ")</span></option>"); 
+                } 	    
             };           
         },
     });
@@ -90,14 +106,13 @@ $(function(){
     
     
     
-     
     $('body').on('click', '#propositions', function() {	
-
+        if ($('.city-container').css('display') == 'block') $('.city-container').slideToggle(); 
         $('.categories-container').slideToggle();
     });   
     
     $('body').on('click', '#menu-button__city', function() {	
-
+        if ($('.categories-container').css('display') == 'block') $('.categories-container').slideToggle(); 
         $('.city-container').slideToggle();
     }); 
     

@@ -3,20 +3,15 @@ $(function(){
     $('.main-navbar').load('assets/navbar.html');
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
-    
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+
     var curDate = new Date();
     
     
     var url = window.location;
     url = decodeURIComponent(url);
     
-    /*
-    var offerPage = /page=(\d+)/.exec(url)[1]; //get number of the page from url
-    
-    offerPage = 0 + offerPage;
-    
+    var offerPage = parseInt(/page=(\d+)/.exec(url)[1]); //get number of the page from url
+        
     var pageOffset = 0;
     var itemsLimit = 10;
     
@@ -24,16 +19,15 @@ $(function(){
         pageOffset += itemsLimit;    
     }
     
-
     var maxPages;  // get number of pages
     
-    */
+    
     
     //Getting search params from url
     
     var sendData = { 
-        //limit: itemsLimit, 
-       // offset: pageOffset 
+        limit: itemsLimit, 
+        offset: pageOffset 
     }
     
     url = '' + url;
@@ -112,28 +106,72 @@ $(function(){
         data: sendData,
         success: function(resData) { 
             $('div.tenders').html("");
-            for (var i = 0; i < resData.length; i++)
+            
+            maxPages = Math.ceil(resData[0]/itemsLimit);
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-first'><<</li>");		
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-prev'><</li>");
+            
+            var k = 0;
+            
+            for (var i = offerPage - 10; i < offerPage + 10; i++) {
+                if (i > 0 && i <= maxPages) {
+                    if (i == offerPage) 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num page-navigation__current'>" 
+                                        + i
+                                        + "</li>");	
+                    else 
+                        $('.page-navigation__list').append("<li class='page-navigation__page page-navigation__page-num'>" 
+                                        + i
+                                        + "</li>");	
+                    k++;
+                }
+            }
+            
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-next'>></li>");
+            $('.page-navigation__list').append("<li class='page-navigation__page' id='page-navigation__page-last'>>></li>");
+            
+            for (var i = 1; i < resData.length; i++)
             {     
-                
                 var expDateArr = resData[i].deadlineString.split('-');
                 var expDateString = "" + expDateArr[2] + "." + expDateArr[1] - 1 + "." + expDateArr[0];
                 var expDate = new Date(expDateArr[0], expDateArr[1] - 1, expDateArr[2]);
                 var daysLeft = daysBetween(curDate, expDate);
-                $('div.tenders').append("<div class='col-md-12 col-sm-12 tender-container'><div class='user-pic'>" 
-                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/get?file=" + resData[i].creator.userImg + "'>"
+                $('div.tenders').append("<a class='tender-link' href='tender.html?id=" 
+                                        + resData[i].id 
+                                        + "'><div class='col-md-12 col-sm-12 tender-container' id='tender-" + i + "'></div></a>");
+                $('div#tender-' + i).append("<div class='user-pic'>" 
+                                                + "<img class='user-pic__img thumb' src='" + currentSite + "/file/getimg/100?img=" + resData[i].creator.userImg + "'>"
                                               + "</div>"
                                               + "<div class='tender-name'>"
-                                                + "<div class='user-name'>" + resData[i].creator.name + "</div>"
-                                                + "<div class='tender-title'>" + resData[i].title + "</div>"
-                                                + "<div class='tender-text'>" + resData[i].description + "</div>"
+                                                + "<a href='profile.html?id=" + resData[i].creator.id + "'><div class='user-name'>" + resData[i].creator.name + "</div></a>"
+                                                + "<div class='tender-title'>Мне нужен: " 
+                                                + resData[i].group 
+                                                + " (" 
+                                                + resData[i].genre 
+                                                + ")/ " 
+                                                + resData[i].city
+                                                + "</div>"
                                               + "</div>"
                                               + "<div class='tender-info'>"
-                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн.</span></div>"
+                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн</span></div>"
                                                 + "<div class='tender-date'>" + expDateString + "</div>"
-                                                + "<div class='tender-days-left'>" + Math.floor(daysLeft) + " дней осталось</div>"
-                                                + "<div class='tender-time'>" + resData[i].workingHours + " рабочих часов</div>"
+                                                + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
+                                                + "<div class='tender-time'>Pабочих часов: " + resData[i].workingHours + "</div>"
                                               + "</div>"
-                                            + "</div>");  	
+                                              + "<div class='tender-text'>" + resData[i].description + "</div>"
+                                              + "<div class='tender-bidders'>"
+                                                + "<div class='tender-bidders__count'>Oтветов:<p>" + resData[i].bidders.length + "</p></div>");
+                for (var j = 0; j < resData[i].bidders.length; j++) {
+                    $('div#tender-' + i + ' div.tender-bidders').append("<div class='tender-bidders__block'>"
+                                                    + "<a href='profile.html?id=" + resData[i].bidders[j].userId + "'><div class='tender-bidders__bidder'>"
+                                                    + "<img src='" + currentSite + "/file/getimg/80?img=" + resData[i].bidders[j].userImg + "'>"
+                                                    + "<p>pro</p>"
+                                                    + "</div></a>" 
+                                                  + "</div>");  
+                    if (j == 9) break;
+                }
+                
+                $('div#tender-' + i).append("</div>");  	
             };                
                 
         },
@@ -144,7 +182,7 @@ $(function(){
  
     
     //Navigation buttons onclicks  
-   /*         
+           
     $('body').on('click', 'li#page-navigation__page-next', function() {	   
         
         if (offerPage < maxPages) {
@@ -185,7 +223,7 @@ $(function(){
             
         }
     });
-    */
+    
     //End of navigation buttons onclicks 
     
     
@@ -200,17 +238,17 @@ $(function(){
         $('span#search-innertext__group').html($(this).html());
     });
     
-//    $('body').on('click', 'ul.dropdown-menu__genre li a.dropdown-menu__item', function() {	   
-//        $('span#search-innertext__genre').html($(this).html());
-//    });
-    
-    
+    $('body').on('click', '#search-open', function() {	   
+              
+        $('.part-search').slideToggle();   
+    });
+     
     
     $('body').on('click', '#offer-search', function() {	   
         
         
         //var url = 'offers.html?page=1';
-        var url = 'tenders.html?';
+        var url = 'tenders.html?page=1';
         
         if ($('#search-innertext__city').html() != 'Город') {
             url += '&city=' + $('#search-innertext__city').html();

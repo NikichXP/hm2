@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthAPI {
 
 	@Autowired
@@ -48,6 +48,7 @@ public class AuthAPI {
 		if (img != null) {
 			u.setUserImg(img);
 		}
+		u.setId(ConfigAPI.getNextUserId()+"");
 		u.setName(name);
 		u.setCity(city);
 		u.setRegDate(LocalDate.now().toString());
@@ -87,6 +88,9 @@ public class AuthAPI {
 					break;
 				case "city":
 					user.setCity(pair[1]);
+					break;
+				case "phone":
+					user.setPhone(pair[1]);
 					break;
 			}
 		}

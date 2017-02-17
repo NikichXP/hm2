@@ -4,11 +4,10 @@ import com.hm.entity.LinkedPage;
 import com.hm.repo.PagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pages")
+@RequestMapping("/api/pages")
 @CrossOrigin
 public class LinkedPagesAPI {
 

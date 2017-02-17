@@ -4,12 +4,19 @@ $(function(){
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+
     var curDate = new Date();
     
     
-    
+//    $.ajax({
+//        type: 'GET',
+//        url: currentSite + '/test/getCookies',
+//        xhrFields: { withCredentials:true },
+//        success: function(resData) {
+//            console.log(resData);             
+//                
+//        },
+//    });
 
 });
 

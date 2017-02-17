@@ -4,8 +4,7 @@ $(function(){
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+
     var curDate = new Date();
     
     var url = window.location;
@@ -29,7 +28,7 @@ $(function(){
                 data: {id: paramArray[1]},
                 success: function(resData) {
                     $('.title-container h1').html(resData.title);
-                    $('.container-news__img').css('background', "url(" + currentSite + "/file/get?file=" + resData.img + ") no-repeat center");
+                    $('.container-news__img').css('background', "url(" + currentSite + "/file/getimg/300?img=" + resData.img + ") no-repeat center");
                     $('.container-news__text').html("<h5>" + resData.text + "</h5>" );           
                 },
             }); 

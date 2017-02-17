@@ -1,3 +1,8 @@
+//api path 
+var currentSite = "https://hm2.herokuapp.com/api";
+//var currentSite = "https://hm2.herokuapp.com";
+//var currentSite = "https://07962c19.eu.ngrok.io";
+
 //Change page number or city without losing search params in url
 
 function urlChangePage(pageNum, city) {

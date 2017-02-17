@@ -3,6 +3,20 @@ body {
     font-family: 'B20 Sans', sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #90b651;
+}
+
+a:visited {
+    text-decoration: none;    
+}
+
 .container-img {
     margin-top: 0px;
 }
@@ -15,8 +29,13 @@ body {
 
 .tender-container {
     margin: 10px 0 10px 0;
-    padding: 0px;
-    height: 150px;
+    padding: 20px;
+/*    height: 150px;*/
+}
+
+.tender-container:hover {
+    background-color: #F5F5F5;
+    cursor: pointer;
 }
 
 .user-pic {
@@ -38,28 +57,40 @@ img.user-pic__img {
     float: left;
     margin-top: 25px;
     margin-left: 10px;
-    width: 40%;
+    width: 60%;
 }
 
 .tender-info {
-    font: 1em PTSansCaption, Sans-serif;
+    font: 1em PT Sans Caption, Sans-serif;
     margin-right: 5px;
 }
  
 .tender-price {
-    font: 1.2em PTSansCaption, Sans-serif;
+    font: 1.2em PT Sans Caption, Sans-serif;
 }
 
 .tender-price__red {
-    color: #ff0000;
+    color: #fb5353;
+    font: 25px PT Sans Narrow, sans-serif;
+    font-weight: bold;
 }
 
 .user-name {
-    font: 1.2em PTSansCaptionBold, Sans-serif;
+    font: 1.2em PT Sans Narrow, Sans-serif;
+    color: #585963;
 }
 
 .tender-title {
-    font: 1.5em PTSansCaptionBold, Sans-serif;
+    color: #585963;
+    font: 23px PT Sans Narrow, Sans-serif;
+    margin-top: 10px;
+}
+
+.tender-text {
+    margin-top: 20px;  
+    padding-left: 110px;
+    float: left;
+    width: 100%;
 }
 
 .tender-info {
@@ -67,15 +98,84 @@ img.user-pic__img {
     margin-top: 25px;
 }
 
-.input-price {
-	display: inline-block;
-    width: 100px;
+.tender-bidders {
+    float: left;
+    width: 100%;
+    margin-top: 20px;
 }
 
-.input-price:hover {
-	cursor: text;
-    color: black;
+.tender-bidders__count {
+    float: left;
+    width: 100px;
+    text-align: center;
+    font-family: PT Sans, sans-serif;
+    font-size: 16px;
 }
+
+.tender-bidders__count p {
+    font-size: 27px;
+}
+
+.tender-bidders__block {
+    float: left;    
+}
+
+.tender-bidders__bidder {
+    float: left; 
+    height: 80px;
+    width: 80px;
+    margin-left: 5px;
+}
+
+.tender-bidders__bidder img {
+    height: 80px; 
+    width: 80px; 
+/*    border-radius: 50px;*/
+    object-fit: cover;    
+}
+
+.tender-bidders__bidder p {
+    height: 17px;
+    width: 80px;
+    text-align: center;
+    background: #272a33;
+    color: #fff;
+    font: 0.90714em PT Sans, sans-serif;
+/*    font-weight: bold;*/
+}
+
+.tender-link:hover {
+    color: black;    
+}
+
+.page-navigation {
+    float: right;
+}
+
+.page-navigation__list {
+    width: 100%;
+    list-style-type: none;
+    margin: auto;
+    padding: 0;
+}
+
+.page-navigation__list li{
+    display: inline;
+    font-size: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.page-navigation__page:hover {
+    color: #90b651;
+    cursor: pointer;
+}
+
+.page-navigation__current {
+    color: #90b651;
+    text-decoration: underline;
+}
+
 
 @media (min-width: 1920px) {
 

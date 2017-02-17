@@ -1,7 +1,10 @@
 package com.hm.api.admin;
 
+import com.hm.interceptor.Auth;
+import com.hm.interceptor.LogAction;
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
+import com.hm.repo.TenderRepository;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +15,26 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/admin/dev")
+@Auth("admin")
+@LogAction("devadmin")
 public class DevAdminAPI {
 
 	@Autowired
 	GenresHolder gh;
 	@Autowired
 	ProductRepository prodRepo;
+	@Autowired
+	TenderRepository tenderRepo;
+
+	@GetMapping("/products")
+	public ResponseEntity products() {
+		return ResponseEntity.ok(prodRepo.findAll());
+	}
+
+	@GetMapping("/tenders")
+	public ResponseEntity tenders() {
+		return ResponseEntity.ok(tenderRepo.findAll());
+	}
 
 	@GetMapping("/addFreePhotoUser")
 	public ResponseEntity addFreePhotoUser(@RequestParam("userid") String userid, @RequestParam("token") String token) {

@@ -1,3 +1,7 @@
+a:active {
+    text-decoration: none;
+}
+
 footer {
     margin: 50px 0;
 }
@@ -12,7 +16,7 @@ footer {
     font-family: 'B20 Sans';
     font-size: 16px;
     line-height: 24px;
-    text-align: center;
+    text-align: left;
     padding: 0;
 }
 

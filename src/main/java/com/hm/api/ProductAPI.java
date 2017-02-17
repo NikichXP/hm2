@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,7 +27,7 @@ import static java.util.Arrays.stream;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductAPI {
 
 	@Autowired
@@ -55,13 +56,13 @@ public class ProductAPI {
 	 * @param offset - objects to skip
 	 */
 	@RequestMapping("/offer")
-	public ResponseEntity listProducts(@RequestParam(value = "city", required = false) String city,
-	                                   @RequestParam(value = "shuffle", required = false) Boolean shuffle,
-	                                   @RequestParam(value = "genre", required = false) String genre,
-	                                   @RequestParam(value = "group", required = false) String group,
-	                                   @RequestParam(value = "limit", required = false) Integer limit,
-	                                   @RequestParam(value = "date", required = false) String date,
-	                                   @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
+	public ResponseEntity listProductsWithOffer (@RequestParam(value = "city", required = false) String city,
+	                                            @RequestParam(value = "shuffle", required = false) Boolean shuffle,
+	                                            @RequestParam(value = "genre", required = false) String genre,
+	                                            @RequestParam(value = "group", required = false) String group,
+	                                            @RequestParam(value = "limit", required = false) Integer limit,
+	                                            @RequestParam(value = "date", required = false) String date,
+	                                            @RequestParam(value = "offset", required = false) Integer offset) throws Exception {
 		HashMap<String, Object> args = new HashMap<>();
 
 		if (date == null) {
@@ -105,7 +106,7 @@ public class ProductAPI {
 		if (shuffle != null && shuffle) {
 			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
 		} else {
-			stream = stream.sorted((x1, x2) -> x1.getExpirationDate().compareTo(x2.getExpirationDate()));
+			stream = stream.sorted(Comparator.comparing(Product::getExpirationDate));
 		}
 
 		if (offset == null) {
@@ -114,7 +115,7 @@ public class ProductAPI {
 
 		List<Object> ret = new ArrayList<>();
 		List<Product> data = new ArrayList<>();
-		stream.forEach(data::add); //cause somehow it's throwing exception here
+		stream.forEach(x -> data.add(x)); //cause somehow it's throwing exception here
 
 		ret.add(data.size());
 		if (limit == null) {
@@ -141,8 +142,18 @@ public class ProductAPI {
 	}
 
 	@GetMapping("/getUserProducts/{userid}")
-	public ResponseEntity getUserProducts (@PathVariable("userid") String userid) {
+	public ResponseEntity<List<Product>> getUserProducts (@PathVariable("userid") String userid) {
 		return ResponseEntity.ok(prodRepo.listByWorkerId(userid));
+	}
+
+	@GetMapping("/getUserProducts/arr/{userid}")
+	public ResponseEntity getUserProductsArrays (@PathVariable("userid") String userid) {
+		HashMap<String, List<Product>> ret = new HashMap<>();
+		prodRepo.listByWorkerId(userid).stream().forEach(prod -> {
+			ret.putIfAbsent(prod.getGenreName(), new ArrayList<>());
+			ret.get(prod.getGenreName()).add(prod);
+		});
+		return ResponseEntity.ok(ret.values());
 	}
 
 	@RequestMapping("/list/{group}/{city}")
@@ -180,5 +191,15 @@ public class ProductAPI {
 		prod.setLinkedPageId(page.getId());
 		prodRepo.save(prod);
 		return ResponseEntity.ok(prod);
+	}
+
+	@GetMapping("/addphoto/{id}")
+	public ResponseEntity<Product> addPhoto(@RequestParam("path") String path,
+	                               @PathVariable("id") String id,
+	                               @RequestParam("token") String token) {
+		Product p = prodRepo.findOne(id);
+		p.addPhoto(path);
+		prodRepo.save(p);
+		return ResponseEntity.ok(p);
 	}
 }

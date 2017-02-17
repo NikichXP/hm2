@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,30 +20,20 @@ import java.util.List;
 public class Worker extends User {
 
 	private static ProductRepository prodRepo = (ProductRepository) AppLoader.ctx.getBean("productRepository");
-	private boolean isPro;
 	private String profession;
 
 	private double minPrice; //on link "starts from 200 UAH"
-	private ArrayList<String> productsIDs;
-
+	private ArrayList<String> productIDs;
+	private Set<String> genres;
 
 	public Worker(User user) {
 		user.cloneTo(this);
 		this.setEntityClassName("Worker");
 		user.setEntityClassName("Worker");
 		this.isPro = false;
-		productsIDs = new ArrayList<>();
+		productIDs = new ArrayList<>();
+		this.genres = new HashSet<>();
 	}
-
-//	public void cloneOf (User user) {
-//		this.id = user.getId();
-//		this.mail = user.getMail();
-//		this.userImg = user.getUserImg();
-//		this.name = user.getName();
-//		this.regDate = user.getRegDate();
-//		this.description = user.getDescription();
-//		this.city = user.getCity();
-//	}
 
 	public void addProduct(Product product) {
 		if (this.profession == null) {
@@ -51,11 +43,13 @@ public class Worker extends User {
 		if (this.city == null) {
 			this.city = product.getCity();
 		}
-		this.productsIDs.add(product.getId());
+		this.productIDs.add(product.getId());
 		this.minPrice = ((minPrice == 0) ? product.getPrice() : Math.min(minPrice, product.getPrice()));
+		this.genres.add(product.getGenreName());
 	}
 
 	public List<Product> listProducts () {
 		return prodRepo.listByWorkerId(this.id);
 	}
+
 }

@@ -4,8 +4,7 @@ $(function(){
     $('.upper-bar').load('assets/upperbar.html');
     $('.container-footer').load('assets/footer.html');
     
-    var currentSite = "https://hm2.herokuapp.com";
-    //var currentSite = "https://07962c19.eu.ngrok.io";
+    
     var curDate = new Date();
     
     var url = window.location;
@@ -24,11 +23,11 @@ $(function(){
         url: currentSite + '/user/getUser',
         data: {id: userId},
         success: function(resData) {   
-            $('.profile-pic').attr("src", currentSite + "/file/get?file=" + resData.userImg);  
+            $('.profile-pic').attr("src", currentSite + "/file/getimg/200?img=" + resData.userImg);  
             var name = resData.name.split(' ');   
             
             $('.profile-info__name').html(name[0] + " / " + resData.city); 
-            if (resData.pro == 'true') $('.profile-info__pro').css('display', 'block');
+            if (resData.pro == true) $('.profile-info__pro').css('display', 'inline-block');
             
             $('.profile-info__group').html(resData.profession); 
             
@@ -40,6 +39,14 @@ $(function(){
             
             $('.profile-desc__text').html(resData.description); 
             
+            $('.container-portfolio').html(""); 
+            
+            for (var i = 0; i < resData.genres.length; i++) {
+                
+                getPhotos(resData.id, resData.genres[i]);  
+                    
+            }
+ 
         },
     });
     
@@ -82,9 +89,68 @@ $(function(){
     
     
     
+    
+    
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/product/getUserProducts/arr/' + userId,
+        success: function(resData) {  
+            $('.table-props tbody').html(""); 
+            for (var i = 0; i < resData.length; i++) {
+                $('.table-props tbody').append("<tr class='table-props__option' id='prop-option__" + i + "'></tr>");
+                
+                $('.table-props tr#prop-option__' + i).append("<td class='td-name'>" + resData[i][0].genreName + "</td>");  
+                
+                for (var j = 0; j < 5; j++) {
+                    if (j < resData[i].length)
+                        $('.table-props tr#prop-option__' + i).append("<td class='td-price' id='" + resData[i][j].id + "'>" 
+                                                        + resData[i][j].finalPrice
+                                                        + "</td>");  
+                    else $('.table-props tr#prop-option__' + i).append("<td class='td-price'>...</td>"); 
+                }
+                
+                $('.table-props tbody').append("<tr class='table-props__desc' id='prop__desc__" + i + "'></tr>");
+                $('.table-props tr#prop__desc__' + i).append("<td colspan='6' class='td-desc'></td>"); 
+                $('.table-props tr#prop__desc__' + i + ' td.td-desc').append("<div class='td-desc__title'>Описание услуги:</div>"); 
+                $('.table-props tr#prop__desc__' + i + ' td.td-desc').append("<div class='td-desc__text'></div>"); 
+                $('.table-props tr#prop__desc__' + i + ' td.td-desc').append("<span class='td-desc__close'>Закрыть</span>"); 
+                $('.table-props tr#prop__desc__' + i + ' td.td-desc').append("<button class='btn btn-default btn-send' type='submit'>Заказать</button>"); 
+            }  
+        },
+    });
+    
+    
+    
+    
+    
+//    $('.table-props tr#prop__desc__' + i + 'td.td-desc').append("<div class='td-desc__text'>" 
+//                                                                            + resData[i][j].description
+//                                                                            + "</div>"); 
+    
+ 
+                
+    
     $('body').on('click', '.table-props tr.table-props__option td.td-price', function() {
         
-        $(this).parent('tr').next().css('display', 'table-row');            
+        $('.table-props tr.table-props__desc').css('display', 'none'); 
+        var curId = $(this).parent('tr').attr('id').split('__'); 
+        
+        if ($(this).attr('id') != null) {
+            $.ajax({
+                type: 'GET',
+                url: currentSite + '/product/' + $(this).attr('id'),
+                success: function(resData) {  
+                    //$(this).parent('tr').next('tr td.td-desc div.td-desc__text').html(""); 
+                    $('.table-props tr#prop__desc__' + curId[1] + ' td.td-desc div.td-desc__text').html("");   
+                    $('.table-props tr#prop__desc__' + curId[1] + ' td.td-desc div.td-desc__text').append(resData.description); 
+                    $('.table-props tr#prop__desc__' + curId[1]).css('display', 'table-row'); 
+                    //$(this).parent('tr').next('tr').css('display', 'table-row'); 
+                },
+            });
+            
+            
+              
+        }
 
     });
     
@@ -96,6 +162,27 @@ $(function(){
     
 });
 
+
+
+function getPhotos (id, genre) {
+    $.ajax({
+        type: 'GET',
+        url: currentSite + '/user/portfolio/' + id + '?genre=' + genre,
+        success: function(resData2) { 
+            $('.container-portfolio').append("<a href='portfolio.html?id=" + id + "&genre=" + genre + "'>"
+                                                    + "<div class='col-lg-4 col-xs-4 portfolio'>" 
+                                                + "<img class='portfolio-album' src='" 
+                                                    + currentSite 
+                                                    + "/file/getimg/350?img=" 
+                                                    + resData2[0] 
+                                                    + "'>" 
+                                                + "<div class='container-portfolio__desc'>" 
+                                                    + genre + "<span>" + resData2.length + "</span>"
+                                                + "</div>" 
+                                            + "</div></a>");     
+        },
+    });
+}
 
 
 

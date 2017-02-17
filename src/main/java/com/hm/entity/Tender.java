@@ -2,10 +2,12 @@ package com.hm.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,22 +29,41 @@ public class Tender {
 	private int workingHours;
 	private int price;
 
-	private Set<Node> bidders = new HashSet<>();
+	private Set<Node> bidders;// = new HashSet<>();
 
 	public Tender() {
+		bidders = new HashSet<>();
 		this.id = UUID.randomUUID().toString();
 	}
 
+	public void bid (Worker worker, int bid) {
+		Node node = new Node();
+		node.setUserId(worker.getId());
+		node.setUserImg(worker.getUserImg());
+		node.setUserName(worker.getName());
+		node.setBid(bid);
+		node.setCreated(LocalDateTime.now());
+		bidders.add(node);
+	}
+
 	@Data
+	@NoArgsConstructor
 	public static class Node {
 		private String userId;
 		private String userImg;
 		private int bid;
 		private String userName;
+		private LocalDateTime created;
+
+		public String getBidTimeString () {
+			return created.toString();
+		}
 	}
 
 	public String getDeadlineString () {
 		return deadline.toString();
 	}
+
+
 
 }

@@ -2,11 +2,12 @@ package com.hm.entity;
 
 import com.hm.AppLoader;
 import com.hm.repo.GenresHolder;
-import com.hm.util.Generator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class Genre {
 	private static GenresHolder holder = (GenresHolder) AppLoader.ctx.getBean("genresHolder");
 
 	public Genre (String name, Group group) {
-		this.id = Generator.genId();
+		this.id = UUID.randomUUID().toString().substring(0, 13);
 		this.name = name;
 		this.groupId = group.getId();
 		this.groupName = group.getName();

@@ -1,6 +1,8 @@
 package com.hm.api.admin;
 
 import com.hm.entity.User;
+import com.hm.interceptor.Auth;
+import com.hm.interceptor.LogAction;
 import com.hm.model.AuthController;
 import com.hm.repo.ClientRepository;
 import com.hm.repo.ModeratorRepository;
@@ -19,6 +21,8 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/admin/user")
+@Auth("admin")
+@LogAction("useradmin")
 public class UserAdminAPI { //TODO add auth to all methods
 
 	@Autowired
@@ -33,12 +37,21 @@ public class UserAdminAPI { //TODO add auth to all methods
 	private AuthController authController;
 
 	@GetMapping("/worker/promote")
+	@LogAction("userpromote")
 	public ResponseEntity workerPromoteToPro(@RequestParam("id") String id, @RequestParam("token") String token) {
 		db().getCollection("worker").updateOne(Document.parse("{'_id' : '" + id + "'}"), Document.parse("{'$set': {'isPro' : true}}"));
 		return ResponseEntity.ok(workerRepo.findOne(id));
 	}
 
+	@GetMapping("/loginasother")
+	@LogAction("logasother")
+	public ResponseEntity loginasother(@RequestParam("token") String token, @RequestParam("target") String target) {
+		User user = userRepo.findOne(target);
+		return ResponseEntity.ok(authController.auth(user.getMail(), user.getPass()));
+	}
+
 	@GetMapping("/users")
+	@LogAction("useradmin")
 	public ResponseEntity users(@RequestParam(value = "args", required = false) String[] args) {
 		List<User> ret = new ArrayList<>();
 		ret.addAll(workerRepo.findAll());
