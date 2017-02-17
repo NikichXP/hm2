@@ -12,8 +12,10 @@ public class UserAction {
 	@Id
 	private String id;
 	private String userId;
+	private String userIP;
 	private LocalDateTime performed;
 	private String path;
+	private String action;
 
 	public UserAction () {
 		this.id = UUID.randomUUID().toString();
@@ -24,6 +26,12 @@ public class UserAction {
 		this();
 		this.userId = userId;
 		this.path = path;
+	}
+
+	public UserAction (String userIP, String userId, String path, String action) {
+		this(userId, path);
+		this.action = action;
+		this.userIP = userIP;
 	}
 
 }

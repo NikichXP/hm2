@@ -89,6 +89,9 @@ public class AuthAPI {
 				case "city":
 					user.setCity(pair[1]);
 					break;
+				case "phone":
+					user.setPhone(pair[1]);
+					break;
 			}
 		}
 		userRepo.save(user);

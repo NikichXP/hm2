@@ -29,26 +29,22 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 		}).start();
 	}
 
-
-	/*
-	TODO An interceptor
-
-	1. Create annotation "AccessGroup".
-	Values may be 'all', 'user', 'admin' etc
-	2. Create a conveyor-pipeline of identifying the request. return false if forbidden
-
-	cookie - sessionId
-	 */
-
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		Method method = ((HandlerMethod) handler).getMethod();
-		Auth auth = (method.getAnnotation(Auth.class) != null) ? method.getAnnotation(Auth.class) : method.getClass().getAnnotation(Auth.class);
+		Auth auth = (method.getAnnotation(Auth.class) != null) ? method.getAnnotation(Auth.class) :
+				method.getDeclaringClass().getAnnotation(Auth.class);
 		if (auth == null) {
+			System.out.println("auth == null");
 			return true;
 		}
 
-		User user = getUser(request);
+		User user = null;
+		try {
+			user = getUser(request);
+		} catch (Exception e) {
+			return false;
+		}
 		if (user == null) {
 			return false;
 		}
@@ -61,13 +57,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 				}
 				break;
 		}
-
-//		System.out.println(((HandlerMethod)handler).getBean().toString());
-//		System.out.println(((HandlerMethod)handler).getBeanType().toString());
-		System.out.println(((HandlerMethod) handler).getMethod().getAnnotation(Auth.class).value());
-//		System.out.println(((HandlerMethod)handler).getResolvedFromHandlerMethod().toString());
-//		System.out.println("slm: " + ((HandlerMethod)handler).getShortLogMessage());
-//		System.out.println(Arrays.toString(((HandlerMethod) handler).getMethodParameters()));
+		System.out.println("Check auth: " + ((HandlerMethod) handler).getMethod().getAnnotation(Auth.class).value());
 		return true;
 	}
 

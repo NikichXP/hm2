@@ -1,6 +1,7 @@
 package com.hm.api.admin;
 
 import com.hm.interceptor.Auth;
+import com.hm.interceptor.LogAction;
 import com.hm.repo.GenresHolder;
 import com.hm.repo.ProductRepository;
 import com.hm.repo.TenderRepository;
@@ -15,6 +16,7 @@ import static com.hm.manualdb.ConnectionHandler.db;
 @CrossOrigin
 @RequestMapping("/api/admin/dev")
 @Auth("admin")
+@LogAction("devadmin")
 public class DevAdminAPI {
 
 	@Autowired

@@ -6,6 +6,7 @@ import com.hm.api.admin.DevAdminAPI;
 import com.hm.api.admin.UserAdminAPI;
 import com.hm.entity.*;
 import com.hm.interceptor.Auth;
+import com.hm.interceptor.LogAction;
 import com.hm.model.AuthController;
 import com.hm.repo.*;
 import com.mongodb.Block;
@@ -30,6 +31,7 @@ import static java.util.Arrays.stream;
 @RestController
 @CrossOrigin
 @RequestMapping(value = {"/api/test", "test"})
+@LogAction("testAPI")
 public class TestAPI {
 
 	private static String[] piclib = new File(System.getProperty("user.dir") + "/src/main/resources/files/piclib").list();
