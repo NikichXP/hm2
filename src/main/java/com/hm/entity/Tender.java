@@ -28,13 +28,13 @@ public class Tender {
 	private LocalDate deadline;
 	private int workingHours;
 	private int price;
-	private boolean isModerated;
+	private boolean isValidated;
 
 	private Set<Node> bidders;// = new HashSet<>();
 
 	public Tender() {
 		bidders = new HashSet<>();
-		this.isModerated = false;
+		this.isValidated = false;
 		this.id = UUID.randomUUID().toString();
 	}
 

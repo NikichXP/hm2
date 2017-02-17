@@ -32,6 +32,7 @@ public class Product {
 	private String groupId;
 	private String groupName;
 
+	private boolean isValidated;
 	private boolean isActive;
 	private int price;
 	private boolean fixedPrice; //if false == can be ordered for 5 hours
@@ -43,6 +44,7 @@ public class Product {
 	private int finalPrice;
 	private LocalDate expirationDate;
 	private String linkedPageId;
+	private boolean isOfferValid;
 
 	@Transient
 	private static WorkerRepository workers = (WorkerRepository) AppLoader.ctx.getBean("workerRepository");
@@ -92,9 +94,14 @@ public class Product {
 		}
 		discount *= 100;
 		discount = Math.round(discount);
+		this.isOfferValid = false;
 		this.offeredPrice = true;
 		this.discount = discount;
 		this.finalPrice = (int) Math.round(price * (1 - discount/100.0));
+	}
+
+	public int getFinalPrice () {
+		return (isOfferValid) ? finalPrice : price;
 	}
 
 	public boolean addPhoto (String path) {

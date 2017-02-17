@@ -2,7 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.AppLoader;
-import com.hm.api.admin.DevAdminAPI;
+import com.hm.api.admin.CRMAdminAPI;
 import com.hm.api.admin.UserAdminAPI;
 import com.hm.entity.*;
 import com.hm.interceptor.Auth;
@@ -339,7 +339,7 @@ public class TestAPI {
 		return ResponseEntity.ok(
 				Stream.of(AuthAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class, LinkedPagesAPI.class,
 						MessageAPI.class, NewsAPI.class,
-						ProductAPI.class, TendersAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, DevAdminAPI.class)
+						ProductAPI.class, TendersAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, CRMAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())

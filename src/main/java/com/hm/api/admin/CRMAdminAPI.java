@@ -1,5 +1,7 @@
 package com.hm.api.admin;
 
+import com.hm.entity.Product;
+import com.hm.entity.Tender;
 import com.hm.interceptor.Auth;
 import com.hm.interceptor.LogAction;
 import com.hm.repo.GenresHolder;
@@ -46,6 +48,30 @@ public class CRMAdminAPI {
 		}
 
 		return ResponseEntity.ok(db().getCollection("config").find(Document.parse("{'key':'freePhotoAuthors'}")).first().toJson());
+	}
+
+	@GetMapping("/validate/product")
+	public ResponseEntity validateProduct(@RequestParam("prodid") String prodid, @RequestParam("status") boolean status) {
+		Product p = prodRepo.findOne(prodid);
+		p.setValidated(status);
+		prodRepo.save(p);
+		return ResponseEntity.ok(p);
+	}
+
+	@GetMapping("/validate/tender")
+	public ResponseEntity validateTender(@RequestParam("tenderid") String tenderid, @RequestParam("status") boolean status) {
+		Tender t = tenderRepo.findOne(tenderid);
+		t.setValidated(status);
+		tenderRepo.save(t);
+		return ResponseEntity.ok(t);
+	}
+
+	@GetMapping("/validate/offer")
+	public ResponseEntity validateOffer(@RequestParam("prodid") String prodid, @RequestParam("status") boolean status) {
+		Product p = prodRepo.findOne(prodid);
+		p.setOfferValid(status);
+		prodRepo.save(p);
+		return ResponseEntity.ok(p);
 	}
 
 	@GetMapping("/genre/create")
