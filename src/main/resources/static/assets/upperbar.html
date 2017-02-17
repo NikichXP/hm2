@@ -28,19 +28,6 @@
     </div>
     
 <!--
-    <div class="dropdown" id='dropdown-upper'>
-        <button class="btn btn-default dropdown-toggle button-auth" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span id='upper-innertext__city'></span>
-            <span class="caret"></span>
-        </button>
-        
-        <ul class="dropdown-menu dropdown-upper-menu__city" aria-labelledby="dropdownMenu4">
-                            
-        </ul>
-    </div>
--->
-    
-<!--
     <button type="button" class="button-auth" id='auth-button_search'>    
         <span>Поиск</span>       
     </button>
@@ -84,7 +71,18 @@
     </ul>
 </div>
 
+<div class='admin-panel'>
+    
+</div>
+
 <script>
+    
+    if (getCookie('sessionIdAdm') != null) {   
+        $('.admin-panel').show();
+        $('.admin-panel').html("ВЫ СЕЙЧАС В РЕЖИМЕ РЕДАКТИРОВАНИЯ ПОЛЬЗОВАТЕЛЕЙ!" 
+                               + "<br><span class='back'>вернуться</span> в режим администратора или <span class='logout'>выйти</span>");
+    }
+    
     if (getCookie('sessionId') == null) {
         $('#auth-button__auth-text').html("Вход");     
     }
@@ -94,6 +92,6 @@
     
     if (getCookie('accessLevel') != null)
         if (getCookie('accessLevel') == 'Moderator') 
-            $('.profile-menu ul').append("<li id='profile-menu__admin'><a href='admin/admin.html'>Администрирование</a></li>");   
+            $('.profile-menu ul').append("<li id='profile-menu__admin'><a href='admin/users.html'>Администрирование</a></li>");   
 
 </script>
