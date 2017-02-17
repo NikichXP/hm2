@@ -30,6 +30,12 @@ public class Tender {
 	private int price;
 	private boolean isValidated;
 
+	private boolean isActive;
+	private boolean isPaid;
+
+	private String assignedUser;
+	private String comment;
+
 	private Set<Node> bidders;// = new HashSet<>();
 
 	public Tender() {
