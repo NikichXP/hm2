@@ -88,10 +88,10 @@ $(function(){
     
     $('body').on('click', '.back', function() {
             
-        setCookie('sessionId', 'sessionIdAdm');  
-        setCookie('userId', 'userIdAdm');
-        setCookie('username', 'usernameAdm'); 
-        setCookie('accessLevel', 'accessLevelAdm'); 
+        setCookie('sessionId', getCookie('sessionIdAdm'));  
+        setCookie('userId', getCookie('userIdAdm'));
+        setCookie('username', getCookie('usernameAdm')); 
+        setCookie('accessLevel', getCookie('accessLevelAdm')); 
         
         deleteCookie('sessionIdAdm');
         deleteCookie('userIdAdm');

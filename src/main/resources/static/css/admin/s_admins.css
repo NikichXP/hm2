@@ -11,6 +11,6 @@ td {
     font-size: 14px;
 }
 
-.td-id:hover {
+td:hover {
     cursor: pointer;
 }

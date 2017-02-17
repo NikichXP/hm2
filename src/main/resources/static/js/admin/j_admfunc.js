@@ -9,7 +9,7 @@ function getData(m) {
     
     d.sort((e1, e2) => e1.id - e2.id);
     
-    tableGen(d, tableType);
+    tableGen(d, m);
     
     return d;
 }
@@ -34,9 +34,7 @@ function tableGen(d, type) {
                 if (d[i].banned) $("tr#user-" + i).append("<td>Заблокирован</td>");
                 else $("tr#user-" + i).append("<td>Активен</td>");
 
-                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");
-
-                $("tr#user-" + i).append("<td>кнопко</td>");         
+                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");     
             } 
             break;
         }
@@ -55,9 +53,7 @@ function tableGen(d, type) {
                 if (d[i].banned) $("tr#user-" + i).append("<td>Заблокирован</td>");
                 else $("tr#user-" + i).append("<td>Активен</td>");
 
-                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");
-
-                $("tr#user-" + i).append("<td>кнопко</td>");         
+                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");       
             }
             break;
         }
@@ -82,9 +78,7 @@ function tableGen(d, type) {
                 if (d[i].banned) $("tr#user-" + i).append("<td>Заблокирован</td>");
                 else $("tr#user-" + i).append("<td>Активен</td>");
 
-                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");
-
-                $("tr#user-" + i).append("<td>кнопко</td>");         
+                $("tr#user-" + i).append("<td class='td-desc'>" + d[i].description + "</td>");       
             }
             break;
         }
