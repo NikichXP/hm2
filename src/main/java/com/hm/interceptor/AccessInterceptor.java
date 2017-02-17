@@ -35,7 +35,6 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 		Auth auth = (method.getAnnotation(Auth.class) != null) ? method.getAnnotation(Auth.class) :
 				method.getDeclaringClass().getAnnotation(Auth.class);
 		if (auth == null) {
-			System.out.println("auth == null");
 			return true;
 		}
 

@@ -36,12 +36,9 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		Method method = ((HandlerMethod) handler).getMethod();
-		System.out.println(Arrays.toString(method.getAnnotations()));
-		System.out.println(Arrays.toString(method.getDeclaringClass().getAnnotations()));
 		LogAction log = (method.getAnnotation(LogAction.class) != null) ? method.getAnnotation(LogAction.class)
 				: method.getDeclaringClass().getAnnotation(LogAction.class);
 		if (log == null) {
-			System.out.println("log == null");
 			return true;
 		}
 
