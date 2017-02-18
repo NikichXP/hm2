@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.stream;
@@ -39,7 +36,7 @@ public class ProductAPI {
 	private ConfigAPI configAPI;
 
 	@GetMapping("/{id}")
-	public Product getProduct (@PathVariable("id") String id) {
+	public Product getProduct(@PathVariable("id") String id) {
 		return prodRepo.findOne(id);
 	}
 
@@ -55,7 +52,7 @@ public class ProductAPI {
 	 * @param offset - objects to skip
 	 */
 	@RequestMapping("/offer")
-	public ResponseEntity listProductsWithOffer (@RequestParam(value = "city", required = false) String city,
+	public ResponseEntity listProductsWithOffer(@RequestParam(value = "city", required = false) String city,
 	                                            @RequestParam(value = "shuffle", required = false) Boolean shuffle,
 	                                            @RequestParam(value = "genre", required = false) String genre,
 	                                            @RequestParam(value = "group", required = false) String group,
@@ -104,19 +101,25 @@ public class ProductAPI {
 				.filter(prod -> prod.getExpirationDate().isAfter(LocalDate.now()))
 				.filter(prod -> prod.getExpirationDate().isBefore(expiration.plusDays(1)));
 
-		if (shuffle != null && shuffle) {
-			stream = stream.sorted((x1, x2) -> (int) (Math.random() * 10 - 5));
-		} else {
-			stream = stream.sorted(Comparator.comparing(Product::getExpirationDate));
-		}
-
 		if (offset == null) {
 			offset = 0;
 		}
 
+		stream = stream.sorted(Comparator.comparing(Product::getExpirationDate))
+				.skip(offset);
+
 		List<Object> ret = new ArrayList<>();
 		List<Product> data = new ArrayList<>();
-		stream.forEach(x -> data.add(x)); //cause somehow it's throwing exception here
+
+		stream.forEach(data::add);
+
+		if (shuffle != null && shuffle && limit != null) {
+			ret.add(limit);
+			for (int i = 0; i < limit; i++) {
+				ret.add(data.get(new Random().nextInt(data.size())));
+			}
+			return ResponseEntity.ok(ret);
+		}
 
 		ret.add(data.size());
 		if (limit == null) {
@@ -143,12 +146,12 @@ public class ProductAPI {
 	}
 
 	@GetMapping("/getUserProducts/{userid}")
-	public ResponseEntity<List<Product>> getUserProducts (@PathVariable("userid") String userid) {
+	public ResponseEntity<List<Product>> getUserProducts(@PathVariable("userid") String userid) {
 		return ResponseEntity.ok(prodRepo.listByWorkerId(userid));
 	}
 
 	@GetMapping("/getUserProducts/arr/{userid}")
-	public ResponseEntity getUserProductsArrays (@PathVariable("userid") String userid) {
+	public ResponseEntity getUserProductsArrays(@PathVariable("userid") String userid) {
 		HashMap<String, List<Product>> ret = new HashMap<>();
 		prodRepo.listByWorkerId(userid).stream().forEach(prod -> {
 			ret.putIfAbsent(prod.getGenreName(), new ArrayList<>());
@@ -199,8 +202,8 @@ public class ProductAPI {
 
 
 	@GetMapping("/attachPage")
-	public ResponseEntity attachPage (@RequestParam("productid") String prodid,
-	                                  @RequestParam("pageid") String pageid) {
+	public ResponseEntity attachPage(@RequestParam("productid") String prodid,
+	                                 @RequestParam("pageid") String pageid) {
 		Product prod = prodRepo.findOne(prodid);
 		LinkedPage page = AppLoader.ctx.getBean(PagesRepository.class).findOne(pageid);
 		if (prod == null) {
@@ -213,8 +216,8 @@ public class ProductAPI {
 
 	@GetMapping("/addphoto/{id}")
 	public ResponseEntity<Product> addPhoto(@RequestParam("path") String path,
-	                               @PathVariable("id") String id,
-	                               @RequestParam("token") String token) {
+	                                        @PathVariable("id") String id,
+	                                        @RequestParam("token") String token) {
 		Product p = prodRepo.findOne(id);
 		p.addPhoto(path);
 		prodRepo.save(p);
