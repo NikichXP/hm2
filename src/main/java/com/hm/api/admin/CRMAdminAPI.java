@@ -65,7 +65,7 @@ public class CRMAdminAPI {
 		return ResponseEntity.ok(t);
 	}
 
-	@GetMapping("/comment/tender")
+	@GetMapping("/comment/product")
 	public ResponseEntity commentProduct(@RequestParam("id") String id, @RequestParam("comment") String comment) {
 		Product t = prodRepo.findOne(id);
 		t.setComment(comment);
