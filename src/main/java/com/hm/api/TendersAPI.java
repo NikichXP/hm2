@@ -51,7 +51,7 @@ public class TendersAPI {
 		Stream<Tender> ret = biddableRepo.findByDeadlineAfter(LocalDate.now()).stream()
 				.filter(tender -> tender.getPrice() > Integer.parseInt(tmp[0]))
 				.filter(tender -> tender.getPrice() < Integer.parseInt(tmp[1]))
-				.filter(Tender::isActive)
+//				.filter(Tender::isActive)
 				.filter(Tender::isValidated);
 
 		if (city != null) {
