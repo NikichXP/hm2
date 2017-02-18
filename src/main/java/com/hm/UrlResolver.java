@@ -1,6 +1,8 @@
 package com.hm;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -8,10 +10,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-//@RestController
+@RestController
 public class UrlResolver {
 
 	private static final String ROOT = System.getProperty("user.dir") + "/src/main/resources/static/";
+
+	@GetMapping("/")
+	public void home(HttpServletResponse response) throws IOException {
+		response.sendRedirect("/index.html");
+	}
 
 //	@GetMapping("/{file}")
 	public void home(HttpServletResponse response, @PathVariable("file") String file) throws IOException {

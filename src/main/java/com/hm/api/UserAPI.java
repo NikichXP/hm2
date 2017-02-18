@@ -1,18 +1,12 @@
 package com.hm.api;
 
-import com.hm.entity.Moderator;
-import com.hm.entity.User;
-import com.hm.entity.Worker;
-import com.hm.repo.ModeratorRepository;
-import com.hm.repo.UserRepository;
-import com.hm.repo.WorkerRepository;
+import com.hm.entity.*;
+import com.hm.model.AuthController;
+import com.hm.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,11 +15,15 @@ import java.util.stream.Collectors;
 public class UserAPI {
 
 	@Autowired
+	private AuthController authController;
+	@Autowired
 	private UserRepository userRepo;
 	@Autowired
 	private WorkerRepository workerRepo;
 	@Autowired
 	private ModeratorRepository moderatorRepo;
+	@Autowired
+	private ClientRepository clientRepo;
 	@Autowired
 	private ProductAPI productAPI;
 
@@ -67,6 +65,37 @@ public class UserAPI {
 				.collect(Collectors.toList())
 		);
 		return ResponseEntity.ok(ret);
+	}
+
+	@GetMapping("/changeAvatar")
+	public ResponseEntity changeAvatar(@RequestParam("token") String token, @RequestParam("img") String img) {
+		User user = authController.getUser(token);
+		if (user == null) {
+			return ResponseEntity.ok("No user found");
+		}
+		user = userRepo.findOne(user.getId());
+		user.setUserImg(img);
+		userRepo.save(user);
+		switch (user.getEntityClassName().toLowerCase()) {
+			case "moderator":
+				Moderator m = moderatorRepo.findOne(user.getId());
+				m.setUserImg(img);
+				moderatorRepo.save(m);
+				break;
+			case "client":
+				Client c = clientRepo.findOne(user.getId());
+				c.setUserImg(img);
+				clientRepo.save(c);
+				break;
+			case "worker":
+				Worker w = workerRepo.findOne(user.getId());
+				w.setUserImg(img);
+				workerRepo.save(w);
+				break;
+			default:
+				throw new IllegalArgumentException("This arg is impossible: " + user.getEntityClassName()); //WHAT?
+		}
+		return ResponseEntity.ok("Done");
 	}
 
 	@RequestMapping("/setEmployee")
