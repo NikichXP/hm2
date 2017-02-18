@@ -144,10 +144,18 @@ public class UserAPI {
 	 */
 	@GetMapping("/getProUsers")
 	public ResponseEntity getProUsers(@RequestParam(value = "city", required = false) String city) {
+		List<Worker> list;
 		if (city == null) {
-			return ResponseEntity.ok(workerRepo.getPro().sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
+			list = workerRepo.getPro();
+		} else {
+			list = workerRepo.getPro(city);
 		}
-		return ResponseEntity.ok(workerRepo.getPro(city).sorted((x1, x2) -> (Math.random() > 0.5) ? 1 : -1).limit(4).toArray());
+		Random rand = new Random();
+		Worker[] ret = new Worker[4];
+		for (int i = 0; i < 4; i++) {
+			ret[i] = list.get(rand.nextInt(list.size()));
+		}
+		return ResponseEntity.ok(ret);
 	}
 
 }
