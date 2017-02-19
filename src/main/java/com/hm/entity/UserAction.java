@@ -19,6 +19,7 @@ public class UserAction {
 	private LocalDateTime performed;
 	private String path;
 	private String action;
+	private String method;
 	private Map<String, String> params;
 
 	public UserAction() {
@@ -45,6 +46,11 @@ public class UserAction {
 				params.put(key, Arrays.toString(vals));
 			}
 		});
+	}
+
+	public UserAction(String userIP, String userId, String path, String action, String method, Map<String, String[]> parameterMap) {
+		this(userIP, userId, action, path, parameterMap);
+		this.method = method;
 	}
 
 }

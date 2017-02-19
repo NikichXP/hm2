@@ -4,6 +4,7 @@ import com.hm.AppLoader;
 import com.hm.entity.Tender;
 import com.hm.entity.User;
 import com.hm.entity.Worker;
+import com.hm.interceptor.LogAction;
 import com.hm.model.AuthController;
 import com.hm.repo.BidsRepository;
 import com.hm.repo.GenresHolder;
@@ -130,6 +131,7 @@ public class TendersAPI {
 		return ResponseEntity.ok(product);
 	}
 
+	@LogAction("tender.bid")
 	@RequestMapping("/bid/{id}")
 	public ResponseEntity bid(@RequestParam("token") String token, @RequestParam("price") int price, @PathVariable("id") String id) {
 		Tender prod = biddableRepo.findOne(id);

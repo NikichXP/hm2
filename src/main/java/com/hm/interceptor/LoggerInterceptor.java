@@ -61,6 +61,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 						userid,
 						request.getRequestURL().toString(),
 						log.value(),
+						method.getName(),
 						request.getParameterMap()
 				)
 		);
