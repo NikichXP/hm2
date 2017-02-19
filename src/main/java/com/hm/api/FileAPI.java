@@ -61,7 +61,6 @@ public class FileAPI {
 
 		String newFilePath = filePath.substring(0, filePath.lastIndexOf("/") + 1) +
 				size + "-" + filePath.substring(filePath.lastIndexOf("/") + 1);
-		System.out.println(newFilePath);
 		val newFile = new File(System.getProperty("user.dir") + "/src/main/resources/files/" + newFilePath);
 		if (!newFile.exists()) {
 			BufferedImage originalImage = ImageIO.read(file);

@@ -55,6 +55,19 @@ public class ConfigAPI {
 		}
 	}
 
+	public String[] defaults() { //TODO Delete this!
+		cityCache = null; //will be un-nulled in listCities
+		db().getCollection("config").drop();
+		nextUserId = 0;
+		nextTenderId = 0;
+		nextProductId = 0;
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextUserId', 'value': 0}"));
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextTenderId', 'value': 0}"));
+		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextProductId', 'value': 0}"));
+		db().getCollection("config").insertOne(Document.parse("{'key':'cities', 'value':['Киев', 'Одесса', 'Львов']}"));
+		return listCities();
+	}
+
 	/**
 	 * Lists cities to APIs and inner methods.
 	 * @return Cities in db/app
@@ -109,19 +122,6 @@ public class ConfigAPI {
 					Document.parse("{$inc : {'value' : 1}}"));
 		}).start();
 		return nextTenderId++;
-	}
-
-	public String[] defaults() { //TODO Delete this!
-		cityCache = null; //will be un-nulled in listCities
-		db().getCollection("config").drop();
-		nextUserId = 0;
-		nextTenderId = 0;
-		nextProductId = 0;
-		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextUserId', 'value': 0}"));
-		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextTenderId', 'value': 0}"));
-		db().getCollection("config").insertOne(Document.parse("{'key' : 'nextProductId', 'value': 0}"));
-		db().getCollection("config").insertOne(Document.parse("{'key':'cities', 'value':['Киев', 'Одесса', 'Львов']}"));
-		return listCities();
 	}
 
 	@GetMapping("/list/city/add/{name}")
