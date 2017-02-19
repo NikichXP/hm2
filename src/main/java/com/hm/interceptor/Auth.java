@@ -9,4 +9,8 @@ public @interface Auth {
 
 	String value() default "";
 
+	public static enum Types {
+		moderator, admin, worker, any, client
+	}
+
 }

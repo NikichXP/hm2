@@ -23,7 +23,7 @@ public class MessageAPI {
 	@Autowired
 	private MessageRepository messageRepo;
 
-	@PostMapping("/send")
+	@RequestMapping(value = "/send")
 	public ResponseEntity sendMessage (@RequestParam("token") String token,
 	                                   @RequestParam("targetid") String targetid,
 	                                   @RequestParam("theme") String theme,

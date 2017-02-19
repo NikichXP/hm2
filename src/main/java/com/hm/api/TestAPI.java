@@ -2,8 +2,7 @@ package com.hm.api;
 
 import com.google.gson.Gson;
 import com.hm.AppLoader;
-import com.hm.api.admin.CRMAdminAPI;
-import com.hm.api.admin.UserAdminAPI;
+import com.hm.api.admin.*;
 import com.hm.entity.*;
 import com.hm.interceptor.Auth;
 import com.hm.interceptor.LogAction;
@@ -21,9 +20,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import static com.hm.manualdb.ConnectionHandler.db;
 import static java.util.Arrays.stream;
@@ -350,8 +347,8 @@ public class TestAPI {
 	public ResponseEntity getMappings() {
 		return ResponseEntity.ok(
 				Stream.of(AuthAPI.class, ConfigAPI.class, FileAPI.class, FreePhotoAPI.class, LinkedPagesAPI.class,
-						MessageAPI.class, NewsAPI.class,
-						ProductAPI.class, TendersAPI.class, TestAPI.class, UserAPI.class, UserAdminAPI.class, CRMAdminAPI.class)
+						MessageAPI.class, NewsAPI.class, ProductAPI.class, TendersAPI.class, TestAPI.class,
+						UserAPI.class, UserAdminAPI.class, LogAPI.class, CRMAdminAPI.class)
 						.flatMap(clz -> stream(clz.getMethods()))
 						.filter(e -> e.getAnnotations().length > 0)
 						.filter((Method e) -> stream(e.getAnnotations())

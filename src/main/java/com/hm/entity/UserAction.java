@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,14 +19,14 @@ public class UserAction {
 	private LocalDateTime performed;
 	private String path;
 	private String action;
-	private Map<String, String[]> params;
+	private Map<String, String> params;
 
-	public UserAction () {
+	public UserAction() {
 		this.id = UUID.randomUUID().toString();
 		this.performed = LocalDateTime.now();
 	}
 
-	public UserAction (String userId, String path) {
+	public UserAction(String userId, String path) {
 		this();
 		this.userId = userId;
 		this.path = path;
@@ -34,7 +36,15 @@ public class UserAction {
 		this(userId, path);
 		this.action = action;
 		this.userIP = userIP;
-		this.params = parameterMap;
+		this.params = new HashMap<>();
+		parameterMap.keySet().forEach(key -> {
+			String[] vals = parameterMap.get(key);
+			if (vals.length == 1) {
+				params.put(key, vals[0]);
+			} else {
+				params.put(key, Arrays.toString(vals));
+			}
+		});
 	}
 
 }

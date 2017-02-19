@@ -2,6 +2,7 @@ package com.hm.api;
 
 import com.hm.AppLoader;
 import com.hm.entity.*;
+import com.hm.interceptor.Auth;
 import com.hm.model.AuthController;
 import com.hm.repo.*;
 import lombok.val;
@@ -182,12 +183,16 @@ public class ProductAPI {
 	}
 
 
+	@Auth("worker")
 	@RequestMapping("/create")
 	public ResponseEntity<Product> createProduct(@RequestParam("title") String title, @RequestParam("genre") String genre,
 	                                             @RequestParam("cookie") String cookie, @RequestParam("price") int price,
 	                                             @RequestParam("city") String city,
 	                                             @RequestParam(value = "img", required = false) String img) {
 		val worker = authController.getLoggedToken(cookie, Worker.class);
+		if (worker == null) {
+			return ResponseEntity.status(403).build();
+		}
 		val product = new Product(title, gh.getGenre(genre), price, worker, city, img);
 		product.setId(ConfigAPI.getNextProdId() + "");
 		if (img != null) {

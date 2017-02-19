@@ -56,6 +56,12 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 					return true;
 				}
 				break;
+			case "worker":
+				if (user.getEntityClassName().compareToIgnoreCase("worker") == 0) {
+					return true;
+				}
+				break;
+
 		}
 		System.out.println("Check auth: " + ((HandlerMethod) handler).getMethod().getAnnotation(Auth.class).value());
 		return true;

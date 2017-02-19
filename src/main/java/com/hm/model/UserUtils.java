@@ -21,7 +21,7 @@ public class UserUtils {
 			pass = "";
 			System.err.println("Pass null on login " + login);
 		}
-		if (pass.length() == 128) {
+		if (pass.length() == CRYPTOLENGTH) {
 			return pass;
 		}
 		byte[] bytes = new byte[pass.getBytes().length + login.getBytes().length];
