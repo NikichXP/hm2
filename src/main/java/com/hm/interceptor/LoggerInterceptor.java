@@ -50,6 +50,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 		} catch (Exception e) {
 
 		}
+
+
 		if (user != null) {
 			userid = user.getId();
 		}
@@ -59,7 +61,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 						request.getRemoteAddr(),
 						userid,
 						request.getRequestURL().toString(),
-						log.value()
+						log.value(),
+						request.getParameterMap()
 				)
 		);
 		return true;

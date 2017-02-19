@@ -65,6 +65,10 @@ public class FileAPI {
 		if (!newFile.exists()) {
 			BufferedImage originalImage = ImageIO.read(file);
 			int h, w;
+			if (Math.max(originalImage.getHeight(), originalImage.getWidth()) <= size) {
+				getFile(response, request, filePath);
+				return;
+			}
 			if (originalImage.getHeight() > originalImage.getWidth()) {
 				w = size;
 				h = (int) (originalImage.getHeight() * ((w * 1.0) / originalImage.getWidth()));
