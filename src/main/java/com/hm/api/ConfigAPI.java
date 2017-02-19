@@ -36,26 +36,30 @@ public class ConfigAPI {
 	Gson gson;
 
 	public static void updateNexts() {
-		Object userVal = db().getCollection("config")
-				.find(Document.parse("{'key' : 'nextUserId'}")).first().get("value");
-		Object tendVal = db().getCollection("config")
-				.find(Document.parse("{'key' : 'nextTenderId'}")).first().get("value");
-		Object prodVal = db().getCollection("config")
-				.find(Document.parse("{'key' : 'nextProductId'}")).first().get("value");
-		if (userVal instanceof Integer) {
-			nextUserId = (Integer) userVal;
-			nextTenderId = (Integer) tendVal;
-			nextProductId = (Integer) prodVal;
-		} else if (userVal instanceof Double) {
-			nextUserId = Math.toIntExact(Math.round((Double) userVal));
-			nextTenderId = Math.toIntExact(Math.round((Double) tendVal));
-			nextProductId = Math.toIntExact(Math.round((Double) prodVal));
-		} else {
-			throw new UnsupportedClassVersionError("Expected double or int");
+		try {
+			Object userVal = db().getCollection("config")
+					.find(Document.parse("{'key' : 'nextUserId'}")).first().get("value");
+			Object tendVal = db().getCollection("config")
+					.find(Document.parse("{'key' : 'nextTenderId'}")).first().get("value");
+			Object prodVal = db().getCollection("config")
+					.find(Document.parse("{'key' : 'nextProductId'}")).first().get("value");
+			if (userVal instanceof Integer) {
+				nextUserId = (Integer) userVal;
+				nextTenderId = (Integer) tendVal;
+				nextProductId = (Integer) prodVal;
+			} else if (userVal instanceof Double) {
+				nextUserId = Math.toIntExact(Math.round((Double) userVal));
+				nextTenderId = Math.toIntExact(Math.round((Double) tendVal));
+				nextProductId = Math.toIntExact(Math.round((Double) prodVal));
+			} else {
+				throw new UnsupportedClassVersionError("Expected double or int");
+			}
+		} catch (Exception e) {
+			defaults();
 		}
 	}
 
-	public String[] defaults() { //TODO Delete this!
+	public static String[] defaults() { //TODO Delete this!
 		cityCache = null; //will be un-nulled in listCities
 		db().getCollection("config").drop();
 		nextUserId = 0;

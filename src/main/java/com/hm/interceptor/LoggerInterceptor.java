@@ -51,7 +51,6 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
 		}
 
-
 		if (user != null) {
 			userid = user.getId();
 		}

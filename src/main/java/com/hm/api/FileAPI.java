@@ -1,6 +1,7 @@
 package com.hm.api;
 
 import com.hm.entity.User;
+import com.hm.interceptor.LogAction;
 import com.hm.model.AuthController;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,7 @@ public class FileAPI {
 		getFile(response, request, userId + "/" + fileId + "." + ext);
 	}
 
+	@LogAction("upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public ResponseEntity upload(HttpServletRequest request) throws Exception {
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
