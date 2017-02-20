@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import static java.util.Arrays.stream;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/api/product")
 public class ProductAPI {
 
