@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -183,12 +182,8 @@ public class AuthAPI {
 
 	@RequestMapping("/clean")
 	public ResponseEntity cleanup() {
-		List<AuthToken> list = authController.cleanup();
-		if (list.isEmpty()) {
-			return ResponseEntity.ok("None deleted");
-		} else {
-			return ResponseEntity.ok(list);
-		}
+		authController.cleanup();
+		return ResponseEntity.ok("Cleaned up");
 	}
 
 	@RequestMapping("/check/{token}")
@@ -230,5 +225,7 @@ public class AuthAPI {
 	public String test() {
 		return "Hi!";
 	}
+
+
 
 }

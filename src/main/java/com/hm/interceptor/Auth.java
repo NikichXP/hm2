@@ -10,7 +10,11 @@ public @interface Auth {
 	String value() default "";
 
 	public static enum Types {
-		moderator, admin, worker, any, client
+		moderator("moderator"), admin("admin"), worker("worker"), any("any"), client("client");
+
+		final String id;
+		Types(String id) { this.id = id; }
+		public String getValue() { return id; }
 	}
 
 }

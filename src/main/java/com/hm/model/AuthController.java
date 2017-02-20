@@ -6,15 +6,16 @@ import com.hm.entity.User;
 import com.hm.repo.*;
 import com.mongodb.DuplicateKeyException;
 import lombok.val;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import static com.hm.manualdb.ConnectionHandler.db;
 
 @Repository
 public class AuthController {
@@ -119,13 +120,14 @@ public class AuthController {
 		}
 	}
 
-	public List<AuthToken> cleanup () {
-		List<AuthToken> list = new ArrayList<>();
-		authRepo.findByTimeoutLessThan(System.currentTimeMillis()).forEach(e -> {
-			delete(e.getSessionID());
-			list.add(e);
+	public void cleanup () {
+		db().getCollection("authToken")
+				.deleteMany(Document.parse("{'timeout': {$lt : "+System.currentTimeMillis()+"}}"));
+		cachedTokens.keySet().forEach(key -> {
+			if (cachedTokens.get(key).getTimeout() < System.currentTimeMillis()) {
+				cachedTokens.remove(key);
+			}
 		});
-		return list;
 	}
 
 	private void startEntityLookUp(User user, AuthToken ret) {
