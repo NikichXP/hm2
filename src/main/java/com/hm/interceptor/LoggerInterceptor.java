@@ -6,6 +6,7 @@ import com.hm.entity.UserAction;
 import com.hm.model.AuthController;
 import com.hm.repo.UserActionRepository;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.Cookie;
@@ -69,7 +70,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		response.addHeader("Access-Control-Allow-Origin", "*");
 	}
 
