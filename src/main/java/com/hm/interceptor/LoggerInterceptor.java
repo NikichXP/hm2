@@ -68,6 +68,11 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 		return true;
 	}
 
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
+
 	private User getUser(HttpServletRequest request) {
 		String token = Arrays.stream(request.getCookies())
 				.filter(cookie -> cookie.getName().equals("sessionId"))
