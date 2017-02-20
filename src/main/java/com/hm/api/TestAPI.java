@@ -134,14 +134,21 @@ public class TestAPI {
 
 		//TENDERS HERE
 
+		System.out.println("Generate tenders");
+
 		generateTenders(clientsTokens, workers);
 
+		System.out.println("Generate photographers");
 
 		//TESTING PHOTOGRAPHERS HERE
 
 		generatePhotographers(genr);
 
+		System.out.println("More genres");
+
 		moarGenres();
+
+		System.out.println("GetAll");
 
 		return getAll();
 	}
