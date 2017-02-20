@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-
+ 
         <title>hm-test</title>
 
- 
+
         <link href="../css/bootstrap.css" rel="stylesheet">
 
         <link href="../css/dcalendar.picker.css" rel="stylesheet">
@@ -26,15 +26,16 @@
      
         <div class='container-fluid navigation-main'>
             <ul class="nav nav-tabs">
-                <li role="navigation" class="active" id='nav-clients'><a href='users.html'>Пользователи</a></li>
+                <li role="navigation" id='nav-clients'><a href='users.html'>Пользователи</a></li>
                 <li role="navigation" id='nav-workers'><a href='products.html'>Акции</a></li>
-                <li role="navigation" id='nav-admin'><a href='tenders.html'>Продукты</a></li>
-                <li role="navigation" id='nav-city'><a href='city.html'>Города</a></li>
+                <li role="navigation" id='nav-products'><a href='tenders.html'>Продукты</a></li>
+                <li role="navigation" class="active" id='nav-city'><a href='city.html'>Города</a></li>
                 <li role="navigation" id='nav-cats'><a href='categories.html'>Категории</a></li>
                 <li role="navigation" id='nav-genres'><a href='genres.html'>Жанры</a></li>
             </ul>        
         </div>
       
+<!--
         <div class='container-fluid'>
             <ul class="nav nav-tabs">
                 <li role="navigation" id='nav-clients'><a href='users.html'>Клиенты</a></li>
@@ -42,25 +43,23 @@
                 <li role="navigation" id='nav-admin'><a href='admins.html'>Администрация</a></li>
             </ul>    
         </div>
+-->
        
         <div class='container-fluid'>
+           <button type="button" class="btn btn-default button-city">Добавить город</button>
+
             <table class="table table-bordered table-striped table-hover table-users">
                 <thead>
-                    <th class='th-id'>ID</th>
-                    <th class='th-name'>Имя/Название</th>
-                    <th class='th-city'>Город</th>
-                    <th class='th-mail'>Email</th>
-                    <th class='th-prop'>Услуга</th>
-                    <th class='th-type'>Тип</th>
-                    <th class='th-tel'>Телефон</th>
-                    <th class='th-acc'>Доступ</th>
-                    <th class='th-comm'>Комментарий</th>
+                    <th class='th-id'>#</th>
+                    <th class='th-creator'>Название</th>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
 
         </div>   
+        
+        
 
 
 
@@ -75,7 +74,9 @@
 
 
         <script src="../js/cookie_func.js"></script>
-        <script src="../js/admin/j_workers.js"></script>
+        
+        
+        <script src="../js/admin/j_city.js"></script>
         
     </body>
 

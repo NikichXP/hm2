@@ -10,6 +10,11 @@ $(function(){
     
     var curDate = new Date();
     
+    
+    if (getCookie('sessionId') == null) {
+        $('.button-add-prop').css("display", 'none');   
+    }
+    
 
     
     

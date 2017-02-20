@@ -109,7 +109,7 @@ a:visited {
     color: #585963;
     text-transform: uppercase;
     text-align: center;
-    margin-top: 37px;
+    margin-top: 70px;
 }
 .prob-block-dis {
     position: absolute;
@@ -150,7 +150,8 @@ a:visited {
 .button-add-prop {
     display: block;
     text-decoration: none;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
+    margin-top: 40px;
 }
 
 .button-add-prop:hover {

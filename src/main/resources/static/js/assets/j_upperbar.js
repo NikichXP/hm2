@@ -1,9 +1,6 @@
 $(function(){
     
-    
-    
-     
-    
+
     if (getCookie('sessionId') != null) {
         $.ajax({
             type: 'GET',
@@ -17,7 +14,14 @@ $(function(){
         });   
     }
     
+    
     //Authbutton
+    
+    
+    
+    $('body').on('click', '#form-button__reg', function() {
+        window.location.href = 'register.html';
+    }); 
     
     $('body').on('click', '#auth-button__auth', function() {
         if ($('#auth-button__auth span').html() == 'Вход') $('.auth-menu').fadeToggle();

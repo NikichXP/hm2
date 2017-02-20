@@ -2,7 +2,7 @@ body {
 /*    padding-top: 70px;  Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     font-family: 'B20 Sans', sans-serif;
 }
-
+ 
 a {
     text-decoration: none;
     color: #000;
@@ -51,18 +51,14 @@ img.user-pic__img {
     float: left;
     border-radius: 50px;
     object-fit: cover;
+/*    margin-top: 20px;*/
 }
 
 .tender-name {
     float: left;
     margin-top: 25px;
-    margin-left: 10px;
+    margin-left: 20px;
     width: 60%;
-}
-
-.tender-info {
-    font: 1em PT Sans Caption, Sans-serif;
-    margin-right: 5px;
 }
  
 .tender-price {
@@ -86,16 +82,26 @@ img.user-pic__img {
     margin-top: 10px;
 }
 
-.tender-text {
-    margin-top: 20px;  
-    padding-left: 110px;
+.tender-desc {
+/*    margin-top: 20px;  */
+    padding-left: 120px;
     float: left;
     width: 100%;
 }
 
+.tender-text {
+/*
+    margin-top: 20px;  
+    padding-left: 110px;
+*/
+    float: left;
+/*    width: 100%;*/
+}
+
 .tender-info {
     float: right;
-    margin-top: 25px;
+    font: 1em PT Sans Caption, Sans-serif;
+    margin-right: 5px;
 }
 
 .tender-bidders {
@@ -110,6 +116,7 @@ img.user-pic__img {
     text-align: center;
     font-family: PT Sans, sans-serif;
     font-size: 16px;
+    margin-right: 10px;
 }
 
 .tender-bidders__count p {

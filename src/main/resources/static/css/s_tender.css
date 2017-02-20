@@ -12,7 +12,7 @@ a:hover {
     text-decoration: none;
     color: #90b651;
 }
-
+ 
 a:visited {
     text-decoration: none;    
 }
@@ -47,18 +47,14 @@ img.user-pic__img {
     float: left;
     border-radius: 50px;
     object-fit: cover;
+/*    margin-top: 20px;*/
 }
 
 .tender-name {
     float: left;
     margin-top: 25px;
-    margin-left: 10px;
+    margin-left: 20px;
     width: 60%;
-}
-
-.tender-info {
-    font: 1em PT Sans Caption, Sans-serif;
-    margin-right: 5px;
 }
  
 .tender-price {
@@ -82,16 +78,49 @@ img.user-pic__img {
     margin-top: 10px;
 }
 
-.tender-text {
-    margin-top: 20px;  
-    padding-left: 110px;
+.button-part {
+    background: #b3d655;
+    border-bottom: 3px solid #84a820;
+    border-radius: 3px;
+    width: 200px;
+    height: 56px;
+    border-top: 3px solid transparent;
+    font: 1.07143em PT Sans, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+    line-height: 56px;
+    float: right;
+    text-align: center;
+    margin-top: 25px;
+    display: none;
+}
+
+.button-part:hover {
+    background: #9fc830;
+    cursor: pointer;
+}
+
+.tender-desc {
+/*    margin-top: 20px;  */
+    padding-left: 120px;
     float: left;
     width: 100%;
 }
 
+.tender-text {
+/*
+    margin-top: 20px;  
+    padding-left: 110px;
+*/
+    float: left;
+/*    width: 100%;*/
+}
+
 .tender-info {
     float: right;
-    margin-top: 25px;
+    font: 1em PT Sans Caption, Sans-serif;
+    margin-right: 5px;
 }
 
 .tender-bidders {
@@ -106,6 +135,7 @@ img.user-pic__img {
     text-align: center;
     font-family: PT Sans, sans-serif;
     font-size: 16px;
+    margin-right: 10px;
 }
 
 .tender-bidders__count p {

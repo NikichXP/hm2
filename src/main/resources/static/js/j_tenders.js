@@ -22,7 +22,7 @@ $(function(){
     var maxPages;  // get number of pages
     
     
-    
+     
     //Getting search params from url
     
     var sendData = { 
@@ -148,17 +148,19 @@ $(function(){
                                                 + resData[i].group 
                                                 + " (" 
                                                 + resData[i].genre 
-                                                + ")/ " 
+                                                + ") / " 
                                                 + resData[i].city
                                                 + "</div>"
                                               + "</div>"
-                                              + "<div class='tender-info'>"
-                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн</span></div>"
-                                                + "<div class='tender-date'>" + expDateString + "</div>"
-                                                + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
-                                                + "<div class='tender-time'>Pабочих часов: " + resData[i].workingHours + "</div>"
+                                              + "<div class='tender-desc'>"    
+                                                + "<div class='tender-info'>"
+                                                    + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData[i].price + " грн</span></div>"
+                                                    + "<div class='tender-date'>" + expDateString + "</div>"
+                                                    + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
+                                                    + "<div class='tender-time'>Pабочих часов: " + resData[i].workingHours + "</div>"
+                                                + "</div>"
+                                                + "<div class='tender-text'>" + resData[i].description + "</div>"
                                               + "</div>"
-                                              + "<div class='tender-text'>" + resData[i].description + "</div>"
                                               + "<div class='tender-bidders'>"
                                                 + "<div class='tender-bidders__count'>Oтветов:<p>" + resData[i].bidders.length + "</p></div>");
                 for (var j = 0; j < resData[i].bidders.length; j++) {
@@ -325,6 +327,9 @@ $(function(){
 
 
     //End of Calendar*/
+    
+    
+    
     
     
 

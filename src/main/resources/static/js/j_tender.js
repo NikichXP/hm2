@@ -23,9 +23,11 @@ $(function(){
     
     var arrID = urlArray[1].split('=');
     var tenderId = arrID[1];
-    
+     
         
     //End of getting search params from url
+    
+    
     
     
     
@@ -56,13 +58,16 @@ $(function(){
                                                 + resData.city
                                                 + "</div>"
                                               + "</div>"
-                                              + "<div class='tender-info'>"
-                                                + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData.price + " грн</span></div>"
-                                                + "<div class='tender-date'>" + expDateString + "</div>"
-                                                + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
-                                                + "<div class='tender-time'>Pабочих часов: " + resData.workingHours + "</div>"
+                                              + "<div class='button-part'>Участвовать в тендере</div>"
+                                              + "<div class='tender-desc'>"
+                                                  + "<div class='tender-info'>"
+                                                    + "<div class='tender-price'>Цена: <span class='tender-price__red'>" + resData.price + " грн</span></div>"
+                                                    + "<div class='tender-date'>" + expDateString + "</div>"
+                                                    + "<div class='tender-days-left'>Дней осталось: " + Math.floor(daysLeft) + "</div>"
+                                                    + "<div class='tender-time'>Pабочих часов: " + resData.workingHours + "</div>"
+                                                  + "</div>"
+                                                  + "<div class='tender-text'>" + resData.description + "</div>"
                                               + "</div>"
-                                              + "<div class='tender-text'>" + resData.description + "</div>"
                                               + "<div class='tender-bidders'>"
                                                 + "<div class='tender-bidders__count'>Oтветов:<p>" + resData.bidders.length + "</p></div>");
             for (var j = 0; j < resData.bidders.length; j++) {
@@ -104,7 +109,9 @@ $(function(){
 //                    } 
 //                });
             }
-                
+            if (getCookie('sessionId') != null) {
+                $('.button-part').css('display', 'block');           
+            }   
         },
     });
                            
@@ -225,6 +232,26 @@ $(function(){
     
     //End of search buttons
     
+    //place bid
+    
+    $('body').on('click', '.button-part', function() {	   
+              
+        $.ajax({
+            type: 'GET',
+            url: currentSite + '/tenders/bid/' + tenderId,
+            data: { token: getCookie('sessionId'), price: $('.tender-price__red').html().split(' ')[0] },
+            success: function(resData2) { 
+                alert('Вы подписались на этот тендер');        
+            },
+            error: function(resData2) { 
+                alert('Вы не можете участвовать в данном тендере');        
+            } 
+        });
+        
+        //window.location.reload();
+        
+    });
+    
     
     
     /*Calendar
@@ -256,6 +283,9 @@ $(function(){
 
 
     //End of Calendar*/
+    
+    
+    
     
     
 

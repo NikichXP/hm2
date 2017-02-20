@@ -9,21 +9,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>hm-test-photos</title>
+    <title>hm-test-ADV</title>
 
 
     <link href="css/bootstrap.css" rel="stylesheet">
 
     <link href="css/dcalendar.picker.css" rel="stylesheet">
-    <link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
-     
+    
     <link href="css/assets/s_upperbar.css" rel="stylesheet">
     <link href="css/assets/s_navbar.css" rel="stylesheet">
     <link href="css/assets/s_footer.css" rel="stylesheet">
-    <link href="css/user/s_portfolio.css" rel="stylesheet">
     
-    
-
     
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700&amp;subset=cyrillic" rel="stylesheet">
@@ -31,6 +27,9 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400i,700i&amp;subset=cyrillic" rel="stylesheet">
 
     <link href="css/fonts/b20sans.css" rel="stylesheet">
+<!--    <link href="css/fonts/2218.ttf" rel="stylesheet">-->
+    
+    <link href="css/s_register.css" rel="stylesheet">
 
 
 </head>
@@ -43,21 +42,31 @@
          
     </nav>
     
-    
-    <div class='container'> 
-        <h2 class='user-link'></h2>   
-        <div class='container-portfolio'>
-
+    <div class='container container-reg'>
+        <div class='container-reg__text'>Регистрация</div>
+        <div class='radio-reg'>
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="optionsRadios" class='optionsRadios' id="optionsRadios1" value="worker">
+                     Я ПРЕДОСТАВЛЯЮ УСЛУГУ 
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="optionsRadios" class='optionsRadios' id="optionsRadios2" value="client">
+                     Я ИЩУ УСЛУГУ
+                </label>
+            </div>
+        </div>
+        
+        <div class='register-alert'>
+            <div class='alert-title'><span>ВНИМАНИЕ</span></div>
+            <div class='alert-text'><span>В случае указания Вами своих контактных данных (номеров телефонов, ссылок на посторонние ресурсы) в любом из разделов, доступных для просмотра посетителям сайта, Ваш профиль не пройдет модерацию</span>
+            <button class='btn-send'>Текст</button>
+            </div>
+            
         </div>
     </div>
-    
-    <div class="portfolio-gallery">
-       <div class="fotorama" data-auto="false" data-nav="thumbs" data-width="100%" data-height="80%"> <!-- data-nav="thumbs"-->
-
-        </div>
-        <div class='portfolio-gallery__close'>Закрыть</div>
-    </div>
-    
     
     <div class="container container-footer">
         
@@ -70,7 +79,6 @@
 <!--    <script src="js/jquery-thumbnail-cut.js"></script>-->
 
     <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
     
     <script src="js/j_func.js"></script>
     <script src="js/assets/j_navbar.js"></script>
@@ -78,7 +86,7 @@
     
     <script src="js/cookie_func.js"></script>
      
-    <script src="js/user/j_portfolio.js"></script>
+    <script src="js/j_register.js"></script>
 
 </body>
 
