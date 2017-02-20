@@ -135,6 +135,9 @@ public class TendersAPI {
 	@RequestMapping("/bid/{id}")
 	public ResponseEntity bid(@RequestParam("token") String token, @RequestParam("price") int price, @PathVariable("id") String id) {
 		Tender prod = biddableRepo.findOne(id);
+		if (prod == null) {
+			return ResponseEntity.status(404).body("Tender not exist: " + id);
+		}
 		Worker worker = authController.getLoggedToken(token, Worker.class);
 		if (worker == null || prod == null) {
 			return ResponseEntity.status(403).body("Need to validate input data: " + token);
