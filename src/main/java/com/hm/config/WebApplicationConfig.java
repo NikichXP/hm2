@@ -4,10 +4,7 @@ import com.hm.interceptor.AccessInterceptor;
 import com.hm.interceptor.LoggerInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
@@ -26,6 +23,15 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
 			registry.addResourceHandler("/**").addResourceLocations(
 					RESOURCE_LOCATIONS);
 		}
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+				.allowedHeaders("*")
+				.allowedMethods("*")
+				.allowedOrigins("*")
+				.maxAge(Long.MAX_VALUE);
 	}
 
 	@Override

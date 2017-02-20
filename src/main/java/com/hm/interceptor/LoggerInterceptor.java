@@ -36,6 +36,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		Method method = ((HandlerMethod) handler).getMethod();
 		LogAction log = (method.getAnnotation(LogAction.class) != null) ? method.getAnnotation(LogAction.class)
 				: method.getDeclaringClass().getAnnotation(LogAction.class);
